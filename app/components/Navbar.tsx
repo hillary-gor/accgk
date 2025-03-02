@@ -16,7 +16,7 @@ export function Navbar() {
             <div className="flex items-center">
                 <Image src={Logo} alt="Logo" />
 
-                <div className="hidden lg:flex pl-[74px] gap-x-[56]">
+                <div className="hidden lg:flex pl-[74px] gap-x-[56px]">
                     {navLinks.map((item, index) =>(
                         <p className="text-[red] font-medium" key={index}>{item.name}</p>
                     ))}
@@ -24,6 +24,7 @@ export function Navbar() {
             </div>
 
             <div className="flex gap-x-5">
+                <p className="hidden lg:block text-[#240449] font-medium pr-[56px]" >Register</p>
                 <div className="flex items-center gap-x-2">
                     <Image src={User} alt="User Profile" />
                     <span className="hidden font-medium text-[red] lg:block">Sign in</span>
