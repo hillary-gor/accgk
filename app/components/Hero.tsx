@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import Arrow from '../../public/assets/arrow.png';
+
 export function Hero() {
   return (
     <div className="pt-4">
@@ -10,13 +13,14 @@ export function Hero() {
           professional network. Join us in raising caregiving standards across
           Kenya.
         </p>
-        <div className="flex w-full pt-6">
+        <div className="flex w-full pt-8">
           <button className="bg-[#AB056A] w-1/2 py-4 px-8 text-white font-normal rounded-[10px]">
             Learn More
           </button>
-          
-          <button className="w-1/2 text-[#AB056A] py-4 px-8 font-normal rounded-[10px]">
+
+          <button className="w-1/2 text-[#AB056A] justify-center gap-x-2 font-normal flex items-center rounded-[10px]">
             Membership
+            <span><Image src={Arrow} alt='membership'/> </span>
           </button>
         </div>
       </div>
