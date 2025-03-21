@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@radix-ui/react-toast": "^1.2.6",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.1",
-    "next": "15.2.0",
+    "ajv": "^8.17.1",
+    "next": "^15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -23,7 +24,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.2.0",
+    "eslint-config-next": "^15.2.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

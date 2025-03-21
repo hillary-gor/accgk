@@ -1,5 +1,5 @@
 import { supabaseServer } from "@/lib/supabaseServer";
-import { logoutAction } from "@/app/auth/actions";
+import { logoutAction } from "@/app/login/actions";
 
 export default async function Dashboard() {
   const supabase = supabaseServer();
