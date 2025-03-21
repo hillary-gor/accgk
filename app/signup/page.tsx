@@ -5,7 +5,7 @@ export default function Signup() {
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl font-bold">Sign Up</h2>
 
-      <form action={signup} className="flex flex-col gap-4" method="post">
+      <form action={signup} className="flex flex-col gap-4" method="POST">
         <input
           type="email"
           name="email"
