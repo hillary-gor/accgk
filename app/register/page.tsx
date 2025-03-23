@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
 import { uploadFile } from "../api/uploads/uploadFile";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Select, SelectItem } from "@/components/ui/select";
 
 export default function RegisterPage() {
   const [role, setRole] = useState<"caregiver" | "institution">("caregiver");
@@ -50,59 +56,85 @@ export default function RegisterPage() {
   }
 
   return (
-    <div>
-      <h1>Register</h1>
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value as "caregiver" | "institution")}
-      >
-        <option value="caregiver">Caregiver</option>
-        <option value="institution">Institution</option>
-      </select>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+      <Card className="w-full max-w-lg p-6 bg-white shadow-md rounded-xl">
+        <CardContent>
+          <h1 className="text-2xl font-semibold text-center text-gray-800">
+            Register
+          </h1>
+          <div className="space-y-4 mt-4">
+            <Label>Role</Label>
+            <Select
+              value={role}
+              onChange={(e) => setRole(e.target.value as "caregiver" | "institution")}
+            >
+              <SelectItem value="caregiver">Caregiver</SelectItem>
+              <SelectItem value="institution">Institution</SelectItem>
+            </Select>
 
-      <input
-        type="text"
-        placeholder="Full Name"
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Phone"
-        value={phone}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-      <textarea
-        placeholder="Additional Information"
-        value={additionalInfo}
-        onChange={(e) => setAdditionalInfo(e.target.value)}
-      />
-      <input
-        type="file"
-        onChange={(e) => setDocument(e.target.files?.[0] || null)}
-      />
+            <Label>Full Name</Label>
+            <Input
+              type="text"
+              placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
 
-      <button onClick={handleRegister} disabled={loading}>
-        {loading ? "Registering..." : "Sign Up"}
-      </button>
+            <Label>Email</Label>
+            <Input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <Label>Password</Label>
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <Label>Phone</Label>
+            <Input
+              type="text"
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+
+            <Label>Address</Label>
+            <Input
+              type="text"
+              placeholder="Address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+
+            <Label>Additional Information</Label>
+            <Textarea
+              placeholder="Additional Information"
+              value={additionalInfo}
+              onChange={(e) => setAdditionalInfo(e.target.value)}
+            />
+
+            <Label>Upload Document</Label>
+            <Input
+              type="file"
+              onChange={(e) => setDocument(e.target.files?.[0] || null)}
+            />
+          </div>
+
+          <Button
+            onClick={handleRegister}
+            disabled={loading}
+            className="w-full mt-6"
+          >
+            {loading ? "Registering..." : "Sign Up"}
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }
