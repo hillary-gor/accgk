@@ -52,18 +52,53 @@ export default function RegisterPage() {
   return (
     <div>
       <h1>Register</h1>
-      <select value={role} onChange={(e) => setRole(e.target.value as "caregiver" | "institution")}>
+      <select
+        value={role}
+        onChange={(e) => setRole(e.target.value as "caregiver" | "institution")}
+      >
         <option value="caregiver">Caregiver</option>
         <option value="institution">Institution</option>
       </select>
 
-      <input type="text" placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <input type="text" placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
-      <input type="text" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} />
-      <textarea placeholder="Additional Information" value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} />
-      <input type="file" onChange={(e) => setDocument(e.target.files?.[0] || null)} />
+      <input
+        type="text"
+        placeholder="Full Name"
+        value={fullName}
+        onChange={(e) => setFullName(e.target.value)}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Phone"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+      />
+      <textarea
+        placeholder="Additional Information"
+        value={additionalInfo}
+        onChange={(e) => setAdditionalInfo(e.target.value)}
+      />
+      <input
+        type="file"
+        onChange={(e) => setDocument(e.target.files?.[0] || null)}
+      />
 
       <button onClick={handleRegister} disabled={loading}>
         {loading ? "Registering..." : "Sign Up"}
