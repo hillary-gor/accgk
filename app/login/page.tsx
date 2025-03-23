@@ -1,60 +1,65 @@
-import { login, signup } from "./actions";
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { getSupabaseClient } from "@/lib/supabaseClient";
 
 export default function LoginPage() {
+  const supabase = getSupabaseClient();
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      router.push("/dashboard");
+    }
+
+    setLoading(false);
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
-      <form className="w-full max-w-md space-y-6 bg-white p-8 rounded-2xl shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-700 text-center">
-          Welcome Back
-        </h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-2xl font-semibold text-gray-700 mb-4">Login</h1>
 
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Email
-          </label>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+
+        <form onSubmit={handleLogin} className="space-y-4">
           <input
-            id="email"
-            name="email"
             type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full px-3 py-2 border rounded-lg"
           />
-        </div>
-
-        <div>
-          <label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-600"
-          >
-            Password
-          </label>
           <input
-            id="password"
-            name="password"
             type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+            className="w-full px-3 py-2 border rounded-lg"
           />
-        </div>
-
-        <div className="space-y-4">
           <button
-            formAction={login}
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 text-white font-medium transition hover:bg-blue-700"
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
           >
-            Log in
+            {loading ? "Logging in..." : "Login"}
           </button>
-          <button
-            formAction={signup}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 font-medium transition hover:bg-gray-200"
-          >
-            Sign up
-          </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

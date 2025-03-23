@@ -66,8 +66,12 @@ export default function AdminDashboard() {
         <ul>
           {applications.map((app) => (
             <li key={app.id}>
-              <p><strong>Name:</strong> {app.full_name} ({app.role})</p>
-              <p><strong>Email:</strong> {app.email}</p>
+              <p>
+                <strong>Name:</strong> {app.full_name} ({app.role})
+              </p>
+              <p>
+                <strong>Email:</strong> {app.email}
+              </p>
               <button onClick={() => handleApprove(app.id)}>Approve</button>
               <button onClick={() => handleReject(app.id)}>Reject</button>
             </li>

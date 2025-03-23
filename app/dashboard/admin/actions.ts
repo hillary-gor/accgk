@@ -18,7 +18,8 @@ export async function fetchPendingApplications() {
     .eq("id", userId)
     .single();
 
-  if (adminError || !admin) throw new Error("Unauthorized: Only admins can view applications.");
+  if (adminError || !admin)
+    throw new Error("Unauthorized: Only admins can view applications.");
 
   // Fetch pending applications
   const { data: applications, error } = await supabase
@@ -48,7 +49,8 @@ export async function approveUser(id: string) {
     .eq("id", userId)
     .single();
 
-  if (adminError || !admin) throw new Error("Unauthorized: Only admins can approve users.");
+  if (adminError || !admin)
+    throw new Error("Unauthorized: Only admins can approve users.");
 
   // Approve the user and store the admin’s ID
   const { error } = await supabase
@@ -78,7 +80,8 @@ export async function rejectUser(id: string) {
     .eq("id", userId)
     .single();
 
-  if (adminError || !admin) throw new Error("Unauthorized: Only admins can reject users.");
+  if (adminError || !admin)
+    throw new Error("Unauthorized: Only admins can reject users.");
 
   // Reject the user and store the admin’s ID
   const { error } = await supabase
