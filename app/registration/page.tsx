@@ -1,92 +1,126 @@
 "use client";
-import { useState } from "react";
-import { sendMagicLink } from "@/app/registration/auth/sendMagicLink";
-import { registerUser } from "@/app/registration/process/registerUser";
-import { Button, Input, Select, SelectItem, Textarea } from "@/components/ui";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui";
 
-export default function RegistrationPage() {
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState<"caregiver" | "institution">("caregiver");
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [additionalInfo, setAdditionalInfo] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function handleRegister() {
-    setLoading(true);
-
-    try {
-      const res = await registerUser({
-        email,
-        role,
-        fullName,
-        phone,
-        address,
-        additionalInfo,
-      });
-
-      if (!res.success) throw new Error(res.message);
-
-      await sendMagicLink(email);
-      alert("Check your email for the Magic Link. Your application is pending approval.");
-    } catch (error) {
-      alert(`Error: ${(error as Error).message}`);
-    } finally {
-      setLoading(false);
-    }
-  }
+export default function RegistrationSelectionPage() {
+  const router = useRouter();
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="text-xl font-bold mb-4">Register</h1>
+    <div className="p-6 bg-white shadow-lg rounded-lg max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Choose Your Registration Type
+      </h1>
+      <p className="text-gray-600 text-center mb-6">
+        Select the category that best describes you to proceed with
+        registration.
+      </p>
 
-      <div className="space-y-4">
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Caregiver Registration */}
+        <div className="p-4 border rounded-lg shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Caregiver</h2>
+          <p className="text-gray-500 mb-4 text-sm">
+            For individuals offering professional caregiving services, such as
+            home nurses, elderly caregivers, and disability care providers.
+          </p>
+          <ul className="text-sm text-gray-600 mb-4 list-disc pl-4">
+            <li>Must have a valid caregiving certification.</li>
+            <li>Minimum 18 years old.</li>
+            <li>Experience in caregiving (preferred).</li>
+          </ul>
+          <Button
+            className="w-full"
+            onClick={() => router.push("/registration/caregiver")}
+          >
+            Register as a Caregiver
+          </Button>
+        </div>
 
-        <Select
-          value={role}
-          onChange={(e) => setRole(e.target.value as "caregiver" | "institution")}
-        >
-          <SelectItem value="caregiver">Caregiver</SelectItem>
-          <SelectItem value="institution">Institution</SelectItem>
-        </Select>
+        {/* Institution Registration */}
+        <div className="p-4 border rounded-lg shadow-sm">
+          <h2 className="text-xl font-semibold mb-2">Institution</h2>
+          <p className="text-gray-500 mb-4 text-sm">
+            For organizations such as hospitals, training centers, and nursing
+            homes seeking to register on the platform.
+          </p>
+          <ul className="text-sm text-gray-600 mb-4 list-disc pl-4">
+            <li>Must provide a valid registration number.</li>
+            <li>Accreditation details required.</li>
+            <li>Authorized representative must complete registration.</li>
+          </ul>
+          <Button
+            className="w-full"
+            onClick={() => router.push("/registration/institution")}
+          >
+            Register as an Institution
+          </Button>
+        </div>
+      </div>
 
-        <Input
-          type="text"
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
+      {/* FAQ Section */}
+      <div className="mt-12">
+        <h2 className="text-2xl font-semibold text-center mb-4">
+          Frequently Asked Questions
+        </h2>
+        <div className="border rounded-lg p-4 bg-gray-50">
+          <details className="mb-4">
+            <summary className="font-semibold cursor-pointer">
+              What happens after I register?
+            </summary>
+            <p className="text-sm text-gray-600 mt-2">
+              After registration, your application will be reviewed. You will
+              receive a Magic Link via email for verification. Once approved,
+              you will be granted access to your respective dashboard.
+            </p>
+          </details>
 
-        <Input
-          type="text"
-          placeholder="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
+          <details className="mb-4">
+            <summary className="font-semibold cursor-pointer">
+              How long does the approval process take?
+            </summary>
+            <p className="text-sm text-gray-600 mt-2">
+              The approval process typically takes 24-48 hours. If additional
+              documents are required, you will be notified via email.
+            </p>
+          </details>
 
-        <Input
-          type="text"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
+          <details className="mb-4">
+            <summary className="font-semibold cursor-pointer">
+              Can I update my information after registration?
+            </summary>
+            <p className="text-sm text-gray-600 mt-2">
+              Yes. Once approved, you can log in to your dashboard and update
+              your profile details.
+            </p>
+          </details>
 
-        <Textarea
-          placeholder="Additional Information"
-          value={additionalInfo}
-          onChange={(e) => setAdditionalInfo(e.target.value)}
-        />
+          <details className="mb-4">
+            <summary className="font-semibold cursor-pointer">
+              What should I do if my application is rejected?
+            </summary>
+            <p className="text-sm text-gray-600 mt-2">
+              If your application is rejected, you will receive a reason via
+              email. You may appeal or resubmit your application with the
+              required corrections.
+            </p>
+          </details>
 
-        <Button onClick={handleRegister} disabled={loading} className="w-full">
-          {loading ? "Registering..." : "Sign Up"}
-        </Button>
+          <details>
+            <summary className="font-semibold cursor-pointer">
+              I need help with registration. Who do I contact?
+            </summary>
+            <p className="text-sm text-gray-600 mt-2">
+              You can contact our support team at{" "}
+              <a
+                href="mailto:support@example.com"
+                className="text-blue-500 underline"
+              >
+                support@example.com
+              </a>
+              .
+            </p>
+          </details>
+        </div>
       </div>
     </div>
   );

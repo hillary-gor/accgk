@@ -11,26 +11,36 @@ export async function middleware(req: NextRequest) {
 
   // Create Supabase client
   const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    global: { headers: { Authorization: `Bearer ${req.cookies.get("sb-access-token")?.value}` } },
+    global: {
+      headers: {
+        Authorization: `Bearer ${req.cookies.get("sb-access-token")?.value}`,
+      },
+    },
   });
 
   // Fetch session
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  // Fetch user role from Supabase
-  const { data: userData } = await supabase
-    .from("users")
+  // Fetch user role from `approved_users`
+  const { data: userData, error } = await supabase
+    .from("approved_users") // Changed from `users` to `approved_users`
     .select("role")
-    .eq("id", user.id)
+    .eq("email", user.email)
     .single();
 
-  const role = userData?.role || "caregiver"; // Default role
+  if (error || !userData) {
+    return NextResponse.redirect(new URL("/not-approved", req.url)); // Redirect if not approved
+  }
 
-  // Redirect based on role
+  const role = userData.role || "caregiver"; // Default role
+
+  // Define role-based dashboard routes
   const dashboardRoutes: Record<string, string> = {
     admin: "/dashboard/admin",
     institution: "/dashboard/institution",
@@ -40,6 +50,7 @@ export async function middleware(req: NextRequest) {
 
   const redirectTo = dashboardRoutes[role] || "/dashboard/caregiver";
 
+  // Prevent unnecessary redirects (only redirect if user is in the wrong dashboard)
   if (!req.nextUrl.pathname.startsWith(redirectTo)) {
     return NextResponse.redirect(new URL(redirectTo, req.url));
   }
@@ -47,6 +58,7 @@ export async function middleware(req: NextRequest) {
   return res;
 }
 
+// Apply middleware only to dashboard routes
 export const config = {
   matcher: ["/dashboard/:path*"],
 };
