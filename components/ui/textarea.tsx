@@ -1,5 +1,5 @@
 import { TextareaHTMLAttributes } from "react";
-import { twMerge } from "tailwind-merge"; // Merge Tailwind classes dynamically
+import { twMerge } from "tailwind-merge";
 
 type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label?: string;
@@ -7,7 +7,7 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   inputClass?: string;
 };
 
-export function Textarea({
+export default function Textarea({
   label,
   containerClass,
   inputClass,

@@ -5,7 +5,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "outline";
 }
 
-export function Button({ className, variant = "default", ...props }: ButtonProps) {
+export default function Button({ className, variant = "default", ...props }: ButtonProps) {
   return (
     <button
       className={cn(

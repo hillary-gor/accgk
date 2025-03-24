@@ -1,26 +1,34 @@
-import { SelectHTMLAttributes, ReactNode } from "react";
+import { SelectHTMLAttributes, OptionHTMLAttributes, ReactNode } from "react";
+import clsx from "clsx"; // Optional: Helps merge class names dynamically
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   children: ReactNode;
   className?: string;
 }
 
-export function Select({ children, className = "", ...props }: SelectProps) {
+export const Select = ({ children, className, ...props }: SelectProps) => {
   return (
     <select
-      className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+      className={clsx(
+        "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+        className
+      )}
       {...props}
     >
       {children}
     </select>
   );
-}
+};
 
-interface SelectItemProps {
+interface SelectItemProps extends OptionHTMLAttributes<HTMLOptionElement> {
   value: string;
   children: ReactNode;
 }
 
-export function SelectItem({ value, children }: SelectItemProps) {
-  return <option value={value}>{children}</option>;
-}
+export const SelectItem = ({ value, children, ...props }: SelectItemProps) => {
+  return (
+    <option value={value} {...props}>
+      {children}
+    </option>
+  );
+};
