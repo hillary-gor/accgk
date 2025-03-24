@@ -39,7 +39,7 @@ export default function LoginPage() {
 
       if (fetchError || !user) {
         setError("No account found. Please register.");
-        setTimeout(() => router.push("/register"), 2000);
+        setTimeout(() => router.push("/registration"), 2000);
         setLoading(false);
         return;
       }
@@ -107,7 +107,7 @@ export default function LoginPage() {
         <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
           Joined ACCGk?{" "}
           <button
-            onClick={() => router.push("/register")}
+            onClick={() => router.push("/registration")}
             className="text-blue-500 hover:underline"
           >
             Register here

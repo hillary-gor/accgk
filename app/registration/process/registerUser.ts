@@ -8,7 +8,7 @@ type RegisterData = {
   phone: string;
   address: string;
   additionalInfo?: string;
-  documentUrl?: string; // ✅ Make this optional
+  documentUrl?: string;
 };
 
 export async function registerUser(data: RegisterData) {
@@ -22,7 +22,7 @@ export async function registerUser(data: RegisterData) {
       phone: data.phone,
       address: data.address,
       additional_info: data.additionalInfo,
-      document_urls: data.documentUrl ? [data.documentUrl] : [], // ✅ Handles missing documentUrl
+      document_urls: data.documentUrl ? [data.documentUrl] : [],
       status: "pending",
       created_at: new Date(),
     },

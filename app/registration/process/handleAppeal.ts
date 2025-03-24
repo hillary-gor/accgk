@@ -9,7 +9,7 @@ type AppealData = {
 export async function handleAppeal(data: AppealData) {
   const supabase = await getSupabaseServer();
 
-  // ✅ Check if the user has already submitted an appeal
+  // Check if the user has already submitted an appeal
   const { data: existingAppeal, error: checkError } = await supabase
     .from("appeals")
     .select("id")
@@ -24,7 +24,7 @@ export async function handleAppeal(data: AppealData) {
     return { success: false, message: "You have already submitted an appeal." };
   }
 
-  // ✅ Insert appeal into the `appeals` table
+  // Insert appeal into the `appeals` table
   const { error: insertError } = await supabase.from("appeals").insert([
     {
       email: data.email,
