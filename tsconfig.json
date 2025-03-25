@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/supabase/client", "utils/supabase/middleware", "utils/supabase/server", "middleware"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/supabase/client", "utils/supabase/middleware", "utils/supabase/server", "middleware.ts", "middleware.ts"],
   "exclude": ["node_modules"]
 }

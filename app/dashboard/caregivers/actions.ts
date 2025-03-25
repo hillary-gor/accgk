@@ -2,12 +2,11 @@
 
 import { getSupabaseServer } from "@/lib/supabase";
 
-export async function fetchAdminStats() {
+export async function fetchCaregiverDashboardStats() {
   const supabase = await getSupabaseServer();
 
   try {
-    // Fetch all counts in parallel
-    const [totalApps, approvedApps, rejectedApps, totalUsers] =
+    const [totalApps, approvedApps, pendingApps, completedCourses] =
       await Promise.all([
         supabase
           .from("applications")
@@ -19,24 +18,26 @@ export async function fetchAdminStats() {
         supabase
           .from("applications")
           .select("*", { count: "exact", head: true })
-          .eq("status", "rejected"),
-        supabase.from("users").select("*", { count: "exact", head: true }),
+          .eq("status", "pending"),
+        supabase
+          .from("courses")
+          .select("*", { count: "exact", head: true })
+          .eq("status", "completed"),
       ]);
 
-    // Extract counts safely
     return {
       totalApplications: totalApps.count ?? 0,
       approvedApplications: approvedApps.count ?? 0,
-      rejectedApplications: rejectedApps.count ?? 0,
-      totalUsers: totalUsers.count ?? 0,
+      pendingApplications: pendingApps.count ?? 0,
+      completedCourses: completedCourses.count ?? 0,
     };
   } catch (error) {
-    console.error("Error fetching admin stats:", error);
+    console.error("Error fetching caregiver dashboard stats:", error);
     return {
       totalApplications: 0,
       approvedApplications: 0,
-      rejectedApplications: 0,
-      totalUsers: 0,
+      pendingApplications: 0,
+      completedCourses: 0,
     };
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui";
+import { Button } from "../../components/ui";
 
 export default function RegistrationSelectionPage() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function RegistrationSelectionPage() {
           </ul>
           <Button
             className="w-full"
-            onClick={() => router.push("/registration/caregiver")}
+            onClick={() => router.push("/registration/caregiverApplication")}
           >
             Register as a Caregiver
           </Button>
@@ -50,7 +50,7 @@ export default function RegistrationSelectionPage() {
           </ul>
           <Button
             className="w-full"
-            onClick={() => router.push("/registration/institution")}
+            onClick={() => router.push("/registration/institutionApplication")}
           >
             Register as an Institution
           </Button>

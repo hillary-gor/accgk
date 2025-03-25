@@ -1,83 +1,58 @@
-"use client";
-import { useState, useEffect } from "react";
-import { fetchPendingApplications, approveUser, rejectUser } from "./actions";
+import { fetchAdminStats } from "./actions";
+import { ClipboardIcon, UserGroupIcon } from "@heroicons/react/24/outline";
+import { ElementType } from "react";
 
-type Application = {
-  id: string;
-  full_name: string;
-  email: string;
-  role: "caregiver" | "institution";
-};
-
-export default function AdminDashboard() {
-  const [applications, setApplications] = useState<Application[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadApplications() {
-      try {
-        const data: Application[] = await fetchPendingApplications();
-        setApplications(data);
-      } catch (error) {
-        console.error("Failed to load applications:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadApplications();
-  }, []);
-
-  async function handleApprove(id: string) {
-    try {
-      await approveUser(id);
-      setApplications(applications.filter((app) => app.id !== id));
-      alert("User approved successfully!");
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert("An unknown error occurred.");
-      }
-    }
-  }
-
-  async function handleReject(id: string) {
-    try {
-      await rejectUser(id);
-      setApplications(applications.filter((app) => app.id !== id));
-      alert("User rejected.");
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert("An unknown error occurred.");
-      }
-    }
-  }
-
-  if (loading) return <p>Loading applications...</p>;
+export default async function AdminDashboard() {
+  const stats = await fetchAdminStats();
 
   return (
-    <div>
-      <h1>Admin Dashboard - Approve Users</h1>
-      {applications.length === 0 ? (
-        <p>No pending applications</p>
-      ) : (
-        <ul>
-          {applications.map((app) => (
-            <li key={app.id}>
-              <p>
-                <strong>Name:</strong> {app.full_name} ({app.role})
-              </p>
-              <p>
-                <strong>Email:</strong> {app.email}
-              </p>
-              <button onClick={() => handleApprove(app.id)}>Approve</button>
-              <button onClick={() => handleReject(app.id)}>Reject</button>
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="space-y-6">
+      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard
+          title="Total Applications"
+          value={stats.totalApplications ?? 0}
+          icon={ClipboardIcon}
+        />
+        <StatCard
+          title="Approved Applications"
+          value={stats.approvedApplications ?? 0}
+          icon={ClipboardIcon}
+        />
+        <StatCard
+          title="Rejected Applications"
+          value={stats.rejectedApplications ?? 0}
+          icon={ClipboardIcon}
+        />
+        <StatCard
+          title="Total Users"
+          value={stats.totalUsers ?? 0}
+          icon={UserGroupIcon}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Type for the StatCard component
+function StatCard({
+  title,
+  value,
+  icon: Icon,
+}: {
+  title: string;
+  value: number;
+  icon: ElementType;
+}) {
+  return (
+    <div className="bg-white shadow-lg rounded-lg p-6 flex items-center space-x-4">
+      <Icon className="w-10 h-10 text-gray-700" />
+      <div>
+        <p className="text-lg font-semibold">{title}</p>
+        <p className="text-2xl font-bold">{value}</p>
+      </div>
     </div>
   );
 }
