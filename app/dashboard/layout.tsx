@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseClient } from "@/lib/supabaseClient";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = getSupabaseClient();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -28,8 +32,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       }
 
       if (userData.role === "admin") router.push("/dashboard/admin");
-      else if (userData.role === "caregiver") router.push("/dashboard/caregiver");
-      else if (userData.role === "institution") router.push("/dashboard/institution");
+      else if (userData.role === "caregiver")
+        router.push("/dashboard/caregiver");
+      else if (userData.role === "institution")
+        router.push("/dashboard/institution");
 
       setLoading(false);
     }

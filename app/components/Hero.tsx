@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import Arrow from '../../public/assets/arrow.png';
+import Image from "next/image";
+import Arrow from "../../public/assets/arrow.png";
 
 export function Hero() {
   return (
@@ -20,7 +20,9 @@ export function Hero() {
 
           <button className="w-1/2 text-[#AB056A] justify-center gap-x-2 font-normal flex items-center rounded-[10px]">
             Membership
-            <span><Image src={Arrow} alt='membership'/> </span>
+            <span>
+              <Image src={Arrow} alt="membership" />{" "}
+            </span>
           </button>
         </div>
       </div>

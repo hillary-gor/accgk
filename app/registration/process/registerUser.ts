@@ -22,7 +22,7 @@ interface RegisterData {
   certification_level?: string;
   license_number?: string;
   preferred_work_type?: string;
-  availability_days?: string; // Comma-separated string
+  availability_days?: string;
 
   // Institution fields
   institution_name?: string;
@@ -100,7 +100,7 @@ export async function registerUser(data: RegisterData) {
         certification_level: data.certification_level || undefined,
         license_number: data.license_number || undefined,
         preferred_work_type: data.preferred_work_type || undefined,
-        availability_days: data.availability_days || undefined, // Now a string, not JSON
+        availability_days: data.availability_days || undefined,
       });
     }
     // Assign institution-specific fields

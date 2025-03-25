@@ -10,7 +10,12 @@ interface ModalProps {
   duration?: number;
 }
 
-export default function Modal({ isOpen, message, type = "info", duration = 3000 }: ModalProps) {
+export default function Modal({
+  isOpen,
+  message,
+  type = "info",
+  duration = 3000,
+}: ModalProps) {
   const [show, setShow] = useState(isOpen);
 
   useEffect(() => {
@@ -45,7 +50,9 @@ export default function Modal({ isOpen, message, type = "info", duration = 3000 
         </button>
 
         <div className="flex flex-col items-center text-center">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${typeStyles[type]}`}>
+          <div
+            className={`w-12 h-12 rounded-full flex items-center justify-center ${typeStyles[type]}`}
+          >
             {type === "success" && "✅"}
             {type === "error" && "❌"}
             {type === "info" && "ℹ️"}

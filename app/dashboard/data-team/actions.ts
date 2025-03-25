@@ -3,7 +3,8 @@ import { getSupabaseServer } from "@/lib/supabase";
 
 // Environment variable for Supabase URL
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-if (!supabaseUrl) throw new Error("Supabase URL is missing in environment variables.");
+if (!supabaseUrl)
+  throw new Error("Supabase URL is missing in environment variables.");
 
 // Allowed Fields for Updates
 type ApplicationUpdates = {
@@ -41,7 +42,8 @@ export async function fetchPendingApplications() {
     .eq("id", userId)
     .single();
 
-  if (dataTeamError || !dataTeamMember) throw new Error("Unauthorized: Only Data Team can view applications.");
+  if (dataTeamError || !dataTeamMember)
+    throw new Error("Unauthorized: Only Data Team can view applications.");
 
   // Fetch pending applications
   const { data: applications, error } = await supabase
@@ -55,7 +57,10 @@ export async function fetchPendingApplications() {
 }
 
 // Update application details & track last editor
-export async function updateApplication(id: string, updates: ApplicationUpdates) {
+export async function updateApplication(
+  id: string,
+  updates: ApplicationUpdates
+) {
   const supabase = await getSupabaseServer();
 
   // Get logged-in user
@@ -71,7 +76,8 @@ export async function updateApplication(id: string, updates: ApplicationUpdates)
     .eq("id", userId)
     .single();
 
-  if (dataTeamError || !dataTeamMember) throw new Error("Unauthorized: Only Data Team can update applications.");
+  if (dataTeamError || !dataTeamMember)
+    throw new Error("Unauthorized: Only Data Team can update applications.");
 
   // Restrict viewers from editing
   if (dataTeamMember.role === "viewer") {
@@ -110,7 +116,8 @@ export async function uploadDocument(file: File, applicationId: string) {
     .eq("id", userId)
     .single();
 
-  if (dataTeamError || !dataTeamMember) throw new Error("Unauthorized: Only Data Team can upload documents.");
+  if (dataTeamError || !dataTeamMember)
+    throw new Error("Unauthorized: Only Data Team can upload documents.");
 
   // Restrict viewers from uploading documents
   if (dataTeamMember.role === "viewer") {
@@ -129,12 +136,16 @@ export async function uploadDocument(file: File, applicationId: string) {
   const fileUrl = `${supabaseUrl}/storage/v1/object/public/documents/${fileData.path}`;
 
   // Call the Postgres function to append the document URL
-  const { error: updateError } = await supabase.rpc("append_file_url_to_application", {
-    application_id: applicationId,
-    file_url: fileUrl,
-  });
+  const { error: updateError } = await supabase.rpc(
+    "append_file_url_to_application",
+    {
+      application_id: applicationId,
+      file_url: fileUrl,
+    }
+  );
 
-  if (updateError) throw new Error("Failed to update application with document");
+  if (updateError)
+    throw new Error("Failed to update application with document");
 
   return { success: true, fileUrl };
 }

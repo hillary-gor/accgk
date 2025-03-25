@@ -57,7 +57,7 @@ export default function LoginPage() {
         email,
         options: {
           shouldCreateUser: false,
-          emailRedirectTo: `${window.location.origin}/auth-callback?role=${user.role}`, // Redirect with role
+          emailRedirectTo: `${window.location.origin}/auth-callback?role=${user.role}`,
         },
       });
 
@@ -100,7 +100,11 @@ export default function LoginPage() {
             disabled={loading || cooldown > 0}
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50"
           >
-            {cooldown > 0 ? `Try again in ${cooldown}s` : loading ? "Sending Magic Link..." : "Send Magic Link"}
+            {cooldown > 0
+              ? `Try again in ${cooldown}s`
+              : loading
+              ? "Sending Magic Link..."
+              : "Send Magic Link"}
           </button>
         </form>
 

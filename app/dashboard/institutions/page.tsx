@@ -1,7 +1,5 @@
 const Institutions = () => {
-    return (
-        <div className="container">Institutions</div>
-    )
-}
+  return <div className="container">Institutions</div>;
+};
 
 export default Institutions;

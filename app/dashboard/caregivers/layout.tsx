@@ -5,9 +5,13 @@ import { isCaregiver } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
-import Loader from "./components/Loader"; // Ensure this file exists
+import Loader from "./components/Loader";
 
-export default function CaregiverLayout({ children }: { children: React.ReactNode }) {
+export default function CaregiverLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 

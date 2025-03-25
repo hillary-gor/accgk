@@ -16,9 +16,21 @@ import {
 const navLinks = [
   { name: "Dashboard", href: "/dashboard/caregiver", icon: HomeIcon },
   { name: "Profile", href: "/dashboard/caregiver/profile", icon: UserIcon },
-  { name: "Appointments", href: "/dashboard/caregiver/appointments", icon: CalendarIcon },
-  { name: "Training & Certifications", href: "/dashboard/caregiver/training", icon: AcademicCapIcon },
-  { name: "Support", href: "/dashboard/caregiver/support", icon: QuestionMarkCircleIcon },
+  {
+    name: "Appointments",
+    href: "/dashboard/caregiver/appointments",
+    icon: CalendarIcon,
+  },
+  {
+    name: "Training & Certifications",
+    href: "/dashboard/caregiver/training",
+    icon: AcademicCapIcon,
+  },
+  {
+    name: "Support",
+    href: "/dashboard/caregiver/support",
+    icon: QuestionMarkCircleIcon,
+  },
 ];
 
 export default function Sidebar() {

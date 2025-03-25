@@ -21,7 +21,9 @@ export default function Header() {
   return (
     <header className="bg-white shadow-md p-4 flex justify-between items-center border-b border-gray-200">
       {/* Dashboard Title */}
-      <h2 className="text-2xl font-semibold text-gray-800">Caregiver Dashboard</h2>
+      <h2 className="text-2xl font-semibold text-gray-800">
+        Caregiver Dashboard
+      </h2>
 
       {/* Right Section: Notifications & Profile */}
       <div className="flex items-center space-x-6">

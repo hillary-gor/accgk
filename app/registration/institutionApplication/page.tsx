@@ -21,11 +21,11 @@ const COURSE_OPTIONS = [
   "Community Health Work",
   "Disability Support Services",
   "Rehabilitation Therapy",
-  "Geriatric Care"
+  "Geriatric Care",
 ] as const;
 const FACILITY_OPTIONS = ["ICU", "Lab", "Pharmacy", "Rehabilitation"] as const;
 
-// Define types
+// Types definition
 type Course = (typeof COURSE_OPTIONS)[number];
 type Facility = (typeof FACILITY_OPTIONS)[number];
 
@@ -40,8 +40,8 @@ interface InstitutionFormData {
   contact_person_name: string;
   contact_person_phone: string;
   institution_type: string;
-  years_in_operation: string; // Kept as string to prevent type mismatches
-  caregivers_needed: string; // Keeping it as string for consistency
+  years_in_operation: string;
+  caregivers_needed: string;
   courses_offered: Course[];
   facilities_available: Facility[];
   website: string;
@@ -73,7 +73,6 @@ export default function InstitutionApplication() {
 
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fixed: Explicitly type event handlers
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
@@ -103,10 +102,10 @@ export default function InstitutionApplication() {
     const formattedData = {
       ...formData,
       role: "institution" as const,
-      years_in_operation: Number(formData.years_in_operation) || 0, // Convert string to number
-      caregivers_needed: formData.caregivers_needed, // Keep as string
-      courses_offered: formData.courses_offered.join(","), // Convert array to string
-      facilities_available: formData.facilities_available.join(","), // Convert array to string
+      years_in_operation: Number(formData.years_in_operation) || 0,
+      caregivers_needed: formData.caregivers_needed,
+      courses_offered: formData.courses_offered.join(","),
+      facilities_available: formData.facilities_available.join(","),
     };
 
     const response = await registerUser(formattedData);

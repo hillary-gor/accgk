@@ -14,7 +14,7 @@ export async function getSupabaseServer() {
         setAll: async (cookiesToSet) => {
           "use server"; //Function runs on the server
           const cookieInstance = await cookies(); // Await `cookies()`
-          cookiesToSet.forEach(({ name, value, options }) => 
+          cookiesToSet.forEach(({ name, value, options }) =>
             cookieInstance.set(name, value, options)
           );
         },

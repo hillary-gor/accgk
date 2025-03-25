@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState, useTransition } from "react";
 import { fetchCaregiverDashboardStats } from "./actions";
-import { FiClipboard, FiCheckCircle, FiClock, FiBookOpen } from "react-icons/fi";
+import {
+  FiClipboard,
+  FiCheckCircle,
+  FiClock,
+  FiBookOpen,
+} from "react-icons/fi";
 
 // Define TypeScript Interface for Dashboard Stats
 interface DashboardStats {
@@ -13,7 +18,15 @@ interface DashboardStats {
 }
 
 // Reusable Dashboard Card Component
-function DashboardCard({ title, count, icon }: { title: string; count: number; icon: React.ReactNode }) {
+function DashboardCard({
+  title,
+  count,
+  icon,
+}: {
+  title: string;
+  count: number;
+  icon: React.ReactNode;
+}) {
   return (
     <div className="bg-white p-4 shadow rounded-lg flex items-center space-x-4">
       <div className="p-3 bg-gray-100 rounded-full">{icon}</div>
@@ -45,11 +58,16 @@ export default function CaregiverDashboard() {
   if (pending) {
     return (
       <div className="p-6 bg-gray-50 min-h-screen">
-        <h1 className="text-2xl font-semibold mb-6 text-gray-800">Welcome, Caregiver</h1>
+        <h1 className="text-2xl font-semibold mb-6 text-gray-800">
+          Welcome, Caregiver
+        </h1>
         {/* Skeleton Loader */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-white p-4 shadow rounded-lg animate-pulse">
+            <div
+              key={i}
+              className="bg-white p-4 shadow rounded-lg animate-pulse"
+            >
               <div className="h-10 w-10 bg-gray-200 rounded-full mb-2"></div>
               <div className="h-4 bg-gray-200 rounded w-3/4 mb-1"></div>
               <div className="h-3 bg-gray-200 rounded w-1/2"></div>
@@ -70,7 +88,9 @@ export default function CaregiverDashboard() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-800">Welcome, Caregiver</h1>
+      <h1 className="text-2xl font-semibold mb-6 text-gray-800">
+        Welcome, Caregiver
+      </h1>
 
       {/* Dashboard Stats Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
