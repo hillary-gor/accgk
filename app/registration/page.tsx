@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Button } from "../../components/ui";
+import { Button } from "@/components/ui";
 
 export default function RegistrationSelectionPage() {
   const router = useRouter();

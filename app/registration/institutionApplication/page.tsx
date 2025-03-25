@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/app/registration/process/registerUser";
-import { Button, Input, Select, SelectItem } from "../../../components/ui";
+import { Button, Input, Select, SelectItem } from "@/components/ui";
 
 // Allowed courses and facilities
 const COURSE_OPTIONS = [
