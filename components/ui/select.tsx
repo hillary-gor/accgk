@@ -6,7 +6,7 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
 }
 
-export const Select = ({ children, className, ...props }: SelectProps) => {
+export const select = ({ children, className, ...props }: SelectProps) => {
   return (
     <select
       className={clsx(

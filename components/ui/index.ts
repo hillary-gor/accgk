@@ -1,6 +1,6 @@
-export { default as Button } from "./Button";
-export { default as Input } from "./Input";
-export { Select, SelectItem } from "./Select";
-export { default as Textarea } from "./Textarea";
-export { default as Label } from "./Label";
-export { Card, CardContent } from "./Card";
+export { default as button } from "./Button";
+export { default as input } from "./Input";
+export { select, SelectItem } from "./Select";
+export { default as textarea } from "./Textarea";
+export { default as label } from "./Label";
+export { card, CardContent } from "./Card";

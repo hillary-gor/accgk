@@ -9,7 +9,7 @@ import {
   FiBookOpen,
 } from "react-icons/fi";
 
-// Define TypeScript Interface for Dashboard Stats
+// TypeScript Interface for Dashboard Stats
 interface DashboardStats {
   totalApplications: number;
   approvedApplications: number;

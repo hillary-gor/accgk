@@ -7,7 +7,7 @@ type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   inputClass?: string;
 };
 
-export default function Textarea({
+export default function textarea({
   label,
   containerClass,
   inputClass,

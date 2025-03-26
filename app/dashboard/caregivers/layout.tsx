@@ -17,7 +17,7 @@ export default function CaregiverLayout({
 
   useEffect(() => {
     async function checkCaregiver() {
-      const email = sessionStorage.getItem("userEmail"); // More secure
+      const email = sessionStorage.getItem("userEmail");
       if (!email) {
         router.push("/login");
         return;
@@ -31,7 +31,7 @@ export default function CaregiverLayout({
     checkCaregiver();
   }, [router]);
 
-  if (loading) return <Loader />; // Corporate loading animation
+  if (loading) return <Loader />;
 
   return (
     <div className="flex min-h-screen bg-gray-100">
