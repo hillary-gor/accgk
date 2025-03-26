@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/app/registration/process/registerUser";
-import { Button, Input, Select, SelectItem } from "@/components/ui";
 
 // Allowed courses and facilities
 const COURSE_OPTIONS = [
@@ -122,70 +121,70 @@ export default function InstitutionApplication() {
         Institution Application
       </h1>
 
-      <Input
+      <input
         name="email"
         placeholder="Email"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="phone"
         placeholder="Phone"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="address"
         placeholder="Address"
         onChange={handleChange}
         required
       />
-      <Input name="city" placeholder="City" onChange={handleChange} required />
-      <Input
+      <input name="city" placeholder="City" onChange={handleChange} required />
+      <input
         name="country"
         placeholder="Country"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="institution_name"
         placeholder="Institution Name"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="registration_number"
         placeholder="Registration Number"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="contact_person_name"
         placeholder="Contact Person Name"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="contact_person_phone"
         placeholder="Contact Person Phone"
         onChange={handleChange}
         required
       />
 
-      <Select name="institution_type" onChange={handleChange} required>
-        <SelectItem value="Hospital">Hospital</SelectItem>
-        <SelectItem value="Nursing Home">Nursing Home</SelectItem>
-        <SelectItem value="Training Center">Training Center</SelectItem>
-      </Select>
+      <select name="institution_type" onChange={handleChange} required>
+        <option value="Hospital">Hospital</option>
+        <option value="Nursing Home">Nursing Home</option>
+        <option value="Training Center">Training Center</option>
+      </select>
 
-      <Input
+      <input
         name="years_in_operation"
         type="number"
         placeholder="Years in Operation"
         onChange={handleChange}
         required
       />
-      <Input
+      <input
         name="caregivers_needed"
         type="text"
         placeholder="Caregivers Needed"
@@ -233,11 +232,11 @@ export default function InstitutionApplication() {
         ))}
       </div>
 
-      <Input name="website" placeholder="Website" onChange={handleChange} />
+      <input name="website" placeholder="Website" onChange={handleChange} />
 
-      <Button onClick={handleSubmit} disabled={loading}>
+      <button onClick={handleSubmit} disabled={loading}>
         {loading ? "Submitting..." : "Apply"}
-      </Button>
+      </button>
     </div>
   );
 }

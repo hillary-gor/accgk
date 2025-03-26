@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/app/registration/process/registerUser";
-import { Button, Input, Select, SelectItem } from "@/components/ui";
 
 const PROFESSION_OPTIONS = [
   "Health Care Assistant",
@@ -45,7 +44,7 @@ export default function CaregiverApplication() {
     certification_level: "" as Certification,
     license_number: "",
     preferred_work_type: "" as WorkType,
-    availability_days: [] as string[], // ✅ Multi-select
+    availability_days: [] as string[],
     additionalInfo: "",
   });
 
@@ -90,115 +89,62 @@ export default function CaregiverApplication() {
         Caregiver Application
       </h1>
 
-      <Input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-        required
-      />
-      <Input
-        name="phone"
-        placeholder="Phone"
-        onChange={handleChange}
-        required
-      />
-      <Input
-        name="address"
-        placeholder="Address"
-        onChange={handleChange}
-        required
-      />
-      <Input name="city" placeholder="City" onChange={handleChange} required />
-      <Input
-        name="country"
-        placeholder="Country"
-        onChange={handleChange}
-        required
-      />
-      <Input
-        name="fullName"
-        placeholder="Full Name"
-        onChange={handleChange}
-        required
-      />
-      <Input
-        name="dob"
-        type="date"
-        placeholder="Date of Birth"
-        onChange={handleChange}
-        required
-      />
+      <input name="email" placeholder="Email" onChange={handleChange} required />
+      <input name="phone" placeholder="Phone" onChange={handleChange} required />
+      <input name="address" placeholder="Address" onChange={handleChange} required />
+      <input name="city" placeholder="City" onChange={handleChange} required />
+      <input name="country" placeholder="Country" onChange={handleChange} required />
+      <input name="fullName" placeholder="Full Name" onChange={handleChange} required />
+      <input name="dob" type="date" placeholder="Date of Birth" onChange={handleChange} required />
 
-      <Select name="gender" onChange={handleChange} required>
-        <SelectItem value="Male">Male</SelectItem>
-        <SelectItem value="Female">Female</SelectItem>
-        <SelectItem value="Other">Other</SelectItem>
-      </Select>
+      <select name="gender" onChange={handleChange} required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
 
-      <Select name="profession" onChange={handleChange} required>
+      <select name="profession" onChange={handleChange} required>
+        <option value="">Select Profession</option>
         {PROFESSION_OPTIONS.map((prof) => (
-          <SelectItem key={prof} value={prof}>
+          <option key={prof} value={prof}>
             {prof}
-          </SelectItem>
+          </option>
         ))}
-      </Select>
+      </select>
 
-      <Input
-        name="specialty"
-        placeholder="Specialty"
-        onChange={handleChange}
-        required
-      />
-      <Input
-        name="experience_year"
-        type="number"
-        placeholder="Years of Experience"
-        onChange={handleChange}
-        required
-      />
+      <input name="specialty" placeholder="Specialty" onChange={handleChange} required />
+      <input name="experience_year" type="number" placeholder="Years of Experience" onChange={handleChange} required />
 
-      <Select name="certification_level" onChange={handleChange} required>
+      <select name="certification_level" onChange={handleChange} required>
+        <option value="">Select Certification</option>
         {CERTIFICATION_OPTIONS.map((cert) => (
-          <SelectItem key={cert} value={cert}>
+          <option key={cert} value={cert}>
             {cert}
-          </SelectItem>
+          </option>
         ))}
-      </Select>
+      </select>
 
-      <Input
-        name="license_number"
-        placeholder="License Number"
-        onChange={handleChange}
-        required
-      />
+      <input name="license_number" placeholder="License Number" onChange={handleChange} required />
 
-      <Select name="preferred_work_type" onChange={handleChange} required>
+      <select name="preferred_work_type" onChange={handleChange} required>
+        <option value="">Select Work Type</option>
         {WORK_TYPE_OPTIONS.map((workType) => (
-          <SelectItem key={workType} value={workType}>
+          <option key={workType} value={workType}>
             {workType}
-          </SelectItem>
+          </option>
         ))}
-      </Select>
+      </select>
 
       {/* Availability (Multi-Select) */}
       <label className="font-semibold mt-4">Availability Days:</label>
       <div className="flex flex-wrap gap-2">
-        {[
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ].map((day) => (
+        {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
           <button
             key={day}
             type="button"
             className={`px-2 py-1 border rounded ${
-              formData.availability_days.includes(day)
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200"
+              formData.availability_days.includes(day) ? "bg-blue-500 text-white" : "bg-gray-200"
             }`}
             onClick={() => handleMultiSelectChange(day, "availability_days")}
           >
@@ -207,15 +153,11 @@ export default function CaregiverApplication() {
         ))}
       </div>
 
-      <Input
-        name="additionalInfo"
-        placeholder="Additional Information"
-        onChange={handleChange}
-      />
+      <input name="additionalInfo" placeholder="Additional Information" onChange={handleChange} />
 
-      <Button onClick={handleSubmit} disabled={loading}>
+      <button onClick={handleSubmit} disabled={loading}>
         {loading ? "Submitting..." : "Apply"}
-      </Button>
+      </button>
     </div>
   );
 }

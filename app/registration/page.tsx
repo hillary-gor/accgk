@@ -1,6 +1,5 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui";
 
 export default function RegistrationSelectionPage() {
   const router = useRouter();
@@ -28,12 +27,12 @@ export default function RegistrationSelectionPage() {
             <li>Minimum 18 years old.</li>
             <li>Experience in caregiving (preferred).</li>
           </ul>
-          <Button
-            className="w-full"
+          <button
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded"
             onClick={() => router.push("/registration/caregiverApplication")}
           >
             Register as a Caregiver
-          </Button>
+          </button>
         </div>
 
         {/* Institution Registration */}
@@ -48,12 +47,12 @@ export default function RegistrationSelectionPage() {
             <li>Accreditation details required.</li>
             <li>Authorized representative must complete registration.</li>
           </ul>
-          <Button
-            className="w-full"
+          <button
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded"
             onClick={() => router.push("/registration/institutionApplication")}
           >
             Register as an Institution
-          </Button>
+          </button>
         </div>
       </div>
 
