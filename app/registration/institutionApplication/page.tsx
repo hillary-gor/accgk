@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/app/registration/process/registerUser";
 
-// Allowed courses and facilities
 const COURSE_OPTIONS = [
   "Nursing",
   "Physiotherapy",
@@ -22,9 +21,9 @@ const COURSE_OPTIONS = [
   "Rehabilitation Therapy",
   "Geriatric Care",
 ] as const;
+
 const FACILITY_OPTIONS = ["ICU", "Lab", "Pharmacy", "Rehabilitation"] as const;
 
-// Types definition
 type Course = (typeof COURSE_OPTIONS)[number];
 type Facility = (typeof FACILITY_OPTIONS)[number];
 
@@ -116,125 +115,154 @@ export default function InstitutionApplication() {
   }
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">
+    <div className="p-8 rounded-lg mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
         Institution Application
       </h1>
 
-      <input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="phone"
-        placeholder="Phone"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="address"
-        placeholder="Address"
-        onChange={handleChange}
-        required
-      />
-      <input name="city" placeholder="City" onChange={handleChange} required />
-      <input
-        name="country"
-        placeholder="Country"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="institution_name"
-        placeholder="Institution Name"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="registration_number"
-        placeholder="Registration Number"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="contact_person_name"
-        placeholder="Contact Person Name"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="contact_person_phone"
-        placeholder="Contact Person Phone"
-        onChange={handleChange}
-        required
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="phone"
+          placeholder="Phone"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="address"
+          placeholder="Address"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="city"
+          placeholder="City"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="country"
+          placeholder="Country"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="institution_name"
+          placeholder="Institution Name"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="registration_number"
+          placeholder="Registration Number"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="contact_person_name"
+          placeholder="Contact Person Name"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="contact_person_phone"
+          placeholder="Contact Person Phone"
+          onChange={handleChange}
+          required
+        />
 
-      <select name="institution_type" onChange={handleChange} required>
-        <option value="Hospital">Hospital</option>
-        <option value="Nursing Home">Nursing Home</option>
-        <option value="Training Center">Training Center</option>
-      </select>
+        <select
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="institution_type"
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Institution Type</option>
+          <option value="Hospital">Hospital</option>
+          <option value="Nursing Home">Nursing Home</option>
+          <option value="Training Center">Training Center</option>
+        </select>
 
-      <input
-        name="years_in_operation"
-        type="number"
-        placeholder="Years in Operation"
-        onChange={handleChange}
-        required
-      />
-      <input
-        name="caregivers_needed"
-        type="text"
-        placeholder="Caregivers Needed"
-        onChange={handleChange}
-        required
-      />
-
-      {/* Courses Offered (Multi-Select) */}
-      <label className="font-semibold mt-4">Courses Offered:</label>
-      <div className="flex flex-wrap gap-2">
-        {COURSE_OPTIONS.map((course) => (
-          <button
-            key={course}
-            type="button"
-            className={`px-2 py-1 border rounded ${
-              formData.courses_offered.includes(course)
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200"
-            }`}
-            onClick={() => handleMultiSelectChange(course, "courses_offered")}
-          >
-            {course}
-          </button>
-        ))}
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="years_in_operation"
+          type="number"
+          placeholder="Years in Operation"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="caregivers_needed"
+          type="text"
+          placeholder="Caregivers Needed"
+          onChange={handleChange}
+          required
+        />
       </div>
 
-      {/* Facilities Available (Multi-Select) */}
-      <label className="font-semibold mt-4">Facilities Available:</label>
-      <div className="flex flex-wrap gap-2">
-        {FACILITY_OPTIONS.map((facility) => (
-          <button
-            key={facility}
-            type="button"
-            className={`px-2 py-1 border rounded ${
-              formData.facilities_available.includes(facility)
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200"
-            }`}
-            onClick={() =>
-              handleMultiSelectChange(facility, "facilities_available")
-            }
-          >
-            {facility}
-          </button>
-        ))}
+      {/* Courses Offered */}
+      <div className="mt-4">
+        <label className="font-semibold">Courses Offered:</label>
+        <div className="flex flex-wrap gap-2">
+          {COURSE_OPTIONS.map((course) => (
+            <button
+              key={course}
+              type="button"
+              className={`px-2 py-1 border rounded ${formData.courses_offered.includes(course) ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              onClick={() => handleMultiSelectChange(course, "courses_offered")}
+            >
+              {course}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <input name="website" placeholder="Website" onChange={handleChange} />
+      {/* Facilities Available */}
+      <div className="mt-4">
+        <label className="font-semibold">Facilities Available:</label>
+        <div className="flex flex-wrap gap-2">
+          {FACILITY_OPTIONS.map((facility) => (
+            <button
+              key={facility}
+              type="button"
+              className={`px-2 py-1 border rounded ${formData.facilities_available.includes(facility) ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              onClick={() =>
+                handleMultiSelectChange(facility, "facilities_available")
+              }
+            >
+              {facility}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <button onClick={handleSubmit} disabled={loading}>
+      <input
+        className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500 mt-4"
+        name="website"
+        placeholder="Website"
+        onChange={handleChange}
+      />
+
+      <button
+        className="mt-6 w-full max-w-md bg-blue-600 text-white py-2 rounded-lg transition duration-300 hover:bg-blue-700 hover:shadow-lg"
+        onClick={handleSubmit}
+        disabled={loading}
+      >
         {loading ? "Submitting..." : "Apply"}
       </button>
     </div>

@@ -67,7 +67,6 @@ export default function CaregiverApplication() {
 
   async function handleSubmit() {
     setLoading(true);
-
     const formattedData = {
       ...formData,
       role: "caregiver" as const,
@@ -76,7 +75,6 @@ export default function CaregiverApplication() {
     };
 
     const response = await registerUser(formattedData);
-
     alert(response.message);
     setLoading(false);
 
@@ -84,78 +82,188 @@ export default function CaregiverApplication() {
   }
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg max-w-lg mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">
+    <div className="p-8 rounded-lg mx-auto">
+      <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">
         Caregiver Application
       </h1>
 
-      <input name="email" placeholder="Email" onChange={handleChange} required />
-      <input name="phone" placeholder="Phone" onChange={handleChange} required />
-      <input name="address" placeholder="Address" onChange={handleChange} required />
-      <input name="city" placeholder="City" onChange={handleChange} required />
-      <input name="country" placeholder="Country" onChange={handleChange} required />
-      <input name="fullName" placeholder="Full Name" onChange={handleChange} required />
-      <input name="dob" type="date" placeholder="Date of Birth" onChange={handleChange} required />
+      {/* GRID CONTAINER */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="phone"
+          placeholder="Phone"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="address"
+          placeholder="Address"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="city"
+          placeholder="City"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="country"
+          placeholder="Country"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="fullName"
+          placeholder="Full Name"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="dob"
+          type="date"
+          placeholder="Date of Birth"
+          onChange={handleChange}
+          required
+        />
 
-      <select name="gender" onChange={handleChange} required>
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
+        <select
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="gender"
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
 
-      <select name="profession" onChange={handleChange} required>
-        <option value="">Select Profession</option>
-        {PROFESSION_OPTIONS.map((prof) => (
-          <option key={prof} value={prof}>
-            {prof}
-          </option>
-        ))}
-      </select>
+        <select
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="profession"
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Profession</option>
+          {PROFESSION_OPTIONS.map((prof) => (
+            <option key={prof} value={prof}>
+              {prof}
+            </option>
+          ))}
+        </select>
 
-      <input name="specialty" placeholder="Specialty" onChange={handleChange} required />
-      <input name="experience_year" type="number" placeholder="Years of Experience" onChange={handleChange} required />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="specialty"
+          placeholder="Specialty"
+          onChange={handleChange}
+          required
+        />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="experience_year"
+          type="number"
+          placeholder="Years of Experience"
+          onChange={handleChange}
+          required
+        />
 
-      <select name="certification_level" onChange={handleChange} required>
-        <option value="">Select Certification</option>
-        {CERTIFICATION_OPTIONS.map((cert) => (
-          <option key={cert} value={cert}>
-            {cert}
-          </option>
-        ))}
-      </select>
+        <select
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="certification_level"
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Certification</option>
+          {CERTIFICATION_OPTIONS.map((cert) => (
+            <option key={cert} value={cert}>
+              {cert}
+            </option>
+          ))}
+        </select>
 
-      <input name="license_number" placeholder="License Number" onChange={handleChange} required />
+        <input
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="license_number"
+          placeholder="License Number"
+          onChange={handleChange}
+          required
+        />
 
-      <select name="preferred_work_type" onChange={handleChange} required>
-        <option value="">Select Work Type</option>
-        {WORK_TYPE_OPTIONS.map((workType) => (
-          <option key={workType} value={workType}>
-            {workType}
-          </option>
-        ))}
-      </select>
-
-      {/* Availability (Multi-Select) */}
-      <label className="font-semibold mt-4">Availability Days:</label>
-      <div className="flex flex-wrap gap-2">
-        {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
-          <button
-            key={day}
-            type="button"
-            className={`px-2 py-1 border rounded ${
-              formData.availability_days.includes(day) ? "bg-blue-500 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => handleMultiSelectChange(day, "availability_days")}
-          >
-            {day}
-          </button>
-        ))}
+        <select
+          className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500"
+          name="preferred_work_type"
+          onChange={handleChange}
+          required
+        >
+          <option value="">Select Work Type</option>
+          {WORK_TYPE_OPTIONS.map((workType) => (
+            <option key={workType} value={workType}>
+              {workType}
+            </option>
+          ))}
+        </select>
       </div>
 
-      <input name="additionalInfo" placeholder="Additional Information" onChange={handleChange} />
+      {/* AVAILABILITY DAYS (FULL WIDTH) */}
+      <div className="mt-6">
+        <label className="font-semibold text-gray-700">
+          Availability Days:
+        </label>
+        <div className="flex flex-wrap gap-3 mt-2">
+          {[
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+          ].map((day) => (
+            <button
+              key={day}
+              type="button"
+              className={`px-3 py-1 border rounded transition ${
+                formData.availability_days.includes(day)
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+              onClick={() => handleMultiSelectChange(day, "availability_days")}
+            >
+              {day}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <button onClick={handleSubmit} disabled={loading}>
+      {/* ADDITIONAL INFO */}
+      <input
+        className="w-full p-3 border border-blue-300 rounded-md focus:ring-1 focus:ring-blue-500 mt-4"
+        name="additionalInfo"
+        placeholder="Additional Information"
+        onChange={handleChange}
+      />
+
+      {/* SUBMIT BUTTON */}
+      <button
+        className="mt-6 w-full max-w-md bg-blue-600 text-white py-2 rounded-lg transition duration-300 hover:bg-blue-700 hover:shadow-lg"
+        onClick={handleSubmit}
+        disabled={loading}
+      >
         {loading ? "Submitting..." : "Apply"}
       </button>
     </div>
