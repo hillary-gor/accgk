@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "find . -type f -name '*.tsx' | while read f; do mv \"$f\" \"$(echo $f | tr '[:upper:]' '[:lower:]')\"; done"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
