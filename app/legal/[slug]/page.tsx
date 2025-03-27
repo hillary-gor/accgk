@@ -5,56 +5,64 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { getLegalPages, getLegalPageBySlug } from "@/app/legal/actions";
 
-// Define props with TypeScript
+// Define TypeScript types
 interface LegalPageProps {
-  params: { slug?: string };
+  params: { slug: string };
+}
+
+interface LegalPageData {
+  title: string;
+  content: string;
+}
+
+interface LegalPageItem {
+  title: string;
+  slug: string;
 }
 
 export default async function LegalPage({ params }: LegalPageProps) {
-  if (!params?.slug) {
-    notFound();
-  }
+  if (!params?.slug) notFound();
 
-  // Fetch all legal pages and the specific page in parallel
-  const [pages, page] = await Promise.all([
+  // Fetch data in parallel
+  const [pages, page]: [LegalPageItem[], LegalPageData | null] = await Promise.all([
     getLegalPages(),
     getLegalPageBySlug(params.slug),
   ]);
 
-  if (!page) {
-    notFound();
-  }
+  if (!page) notFound();
 
   return (
     <>
       <Navbar />
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row lg:space-x-8">
-        {/* Sidebar with legal policies */}
+        {/* Sidebar */}
         <aside className="lg:w-1/4 border-r pr-6">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Legal Policies</h2>
-          <ul className="space-y-2">
-            {pages.map((policy) => (
-              <li key={policy.slug}>
-                <Link
-                  href={`/legal/${policy.slug}`}
-                  className={`block p-2 rounded-md transition ${
-                    policy.slug === params.slug
-                      ? "bg-blue-600 text-white font-semibold"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                >
-                  {policy.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <nav>
+            <ul className="space-y-2">
+              {pages.map((policy) => (
+                <li key={policy.slug}>
+                  <Link
+                    href={`/legal/${policy.slug}`}
+                    className={`block p-2 rounded-md transition ${
+                      policy.slug === params.slug
+                        ? "bg-blue-600 text-white font-semibold"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    {policy.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </aside>
 
-        {/* Main content */}
+        {/* Main Content */}
         <main className="lg:w-3/4">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-6">{page.title}</h1>
 
-          {/* Markdown content */}
+          {/* Markdown Content */}
           <article className="prose prose-lg text-gray-800 leading-relaxed max-w-none">
             <ReactMarkdown
               components={{
@@ -64,7 +72,7 @@ export default async function LegalPage({ params }: LegalPageProps) {
                 ul: ({ children }) => <ul className="list-disc pl-6 mt-3">{children}</ul>,
                 ol: ({ children }) => <ol className="list-decimal pl-6 mt-3">{children}</ol>,
                 a: ({ href, children }) => (
-                  <a href={href} className="text-blue-600 hover:underline">
+                  <a href={href} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
                     {children}
                   </a>
                 ),
