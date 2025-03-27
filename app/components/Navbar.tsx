@@ -1,43 +1,53 @@
 import Image from "next/image";
-import Logo from "../../public/assets/accgk_navbar_logo.svg";
-import User from "../../public/assets/User.svg";
-import Menu from "../../public/assets/Menu.svg";
+import Link from "next/link";
+import Logo from "@/public/assets/accgk_navbar_logo.svg";
+import User from "@/public/assets/User.svg";
+import Menu from "@/public/assets/Menu.svg";
 
 const navLinks = [
-  { name: "Membership" },
-  { name: "Courses & Certification" },
-  { name: "Community" },
-  { name: "Resources" },
-  { name: "About" },
+  { name: "Membership", href: "/membership" },
+  { name: "Courses & Certification", href: "/courses" },
+  { name: "Community", href: "/community" },
+  { name: "Resources", href: "/resources" },
+  { name: "About", href: "/about" },
 ];
 
-export function Navbar() {
+export default function Navbar() {
   return (
-    <nav className="flex w-full items-center justify-between px-[20px] py-[16px] lg:container lg:mx-auto lg:px-20">
+    <nav className="flex w-full items-center justify-between px-5 py-4 lg:container lg:mx-auto lg:px-20">
+      {/* Left Side: Logo */}
       <div className="flex items-center">
-        <Image src={Logo} alt="Logo" className="w-[100px] h-auto" />
+        <Link href="/">
+          <Image src={Logo} alt="Logo" className="w-[100px] h-auto" priority />
+        </Link>
 
-        <div className="hidden lg:flex pl-[74px] gap-x-[56px]">
+        {/* Desktop Navigation Links */}
+        <div className="hidden lg:flex pl-10 gap-x-10">
           {navLinks.map((item, index) => (
-            <p className="text-[#0049AB] font-medium" key={index}>
+            <Link key={index} href={item.href} className="text-[#0049AB] font-medium hover:text-blue-700">
               {item.name}
-            </p>
+            </Link>
           ))}
         </div>
       </div>
 
-      <div className="flex gap-x-5">
-        <p className="hidden lg:block text-[#240449] font-medium pr-[56px]">
+      {/* Right Side: User Profile & Menu */}
+      <div className="flex items-center gap-x-5">
+        <Link href="/register" className="hidden lg:block text-[#240449] font-medium pr-10 hover:text-gray-700">
           Register
-        </p>
+        </Link>
+
         <div className="flex items-center gap-x-2">
           <Image src={User} alt="User Profile" />
-          <span className="hidden font-medium text-[red] lg:block">
+          <Link href="/login" className="hidden font-medium text-red-600 lg:block hover:text-red-700">
             Sign in
-          </span>
+          </Link>
         </div>
 
-        <Image src={Menu} alt="Menu Button" className="lg:hidden" />
+        {/* Mobile Menu Button */}
+        <button className="lg:hidden">
+          <Image src={Menu} alt="Menu Button" />
+        </button>
       </div>
     </nav>
   );

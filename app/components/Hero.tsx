@@ -1,31 +1,50 @@
 import Image from "next/image";
 import Arrow from "../../public/assets/arrow.png";
+import HeroImage from "../../public/assets/hero-image.png";
 
 export function Hero() {
   return (
-    <div className="pt-4">
-      <div className="px-[20px] text-[32px] text-center font-bold leading-[40px]">
-        <h1 className="text-center text-[32px] leading-[40px] font-medium text-[#3F96E6]">
-          Association of Certified Care Givers Kenya
+    <section className="relative flex flex-col-reverse items-center lg:flex-row lg:items-center lg:justify-between w-full px-6 py-12 lg:px-20">
+      {/* Left Side: Hero Image */}
+      <div className="w-full lg:w-1/2 flex justify-center relative">
+        {/* Image Wrapper with Modern Styling */}
+        <div className="relative w-[90%] max-w-[500px] lg:w-full">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-30 rounded-xl"></div>
+          <Image
+            src={HeroImage}
+            alt="Caregiver Hero Image"
+            className="w-full h-auto rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-500 ease-in-out"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Right Side: Content */}
+      <div className="w-full lg:w-1/2 text-center lg:text-left animate-fadeIn">
+        <h1 className="text-3xl lg:text-5xl font-bold text-[#3F96E6] leading-tight">
+          Empowering <span className="text-[#AB056A]">Caregivers</span>
+          <br className="hidden lg:block" /> Across Kenya
         </h1>
-        <p className="text-center pt-6 font-normal text-[#136dc2]">
-          Empowering caregivers with training, certification, and a strong
-          professional network. Join us in raising caregiving standards across
-          Kenya.
+        <p className="mt-4 text-lg lg:text-xl text-gray-700 max-w-[500px]">
+          Join the Association of Certified Caregivers Kenya for  
+          <span className="font-bold text-[#AB056A]"> training, certification,</span>  
+          and a  
+          <span className="font-bold text-[#AB056A]"> strong professional network</span>  
+          to advance your career in caregiving.
         </p>
-        <div className="flex w-full pt-8">
-          <button className="bg-[#AB056A] w-1/2 py-4 px-8 text-white font-normal rounded-[10px]">
+
+        {/* Buttons */}
+        <div className="flex flex-col lg:flex-row items-center gap-4 mt-8">
+          <button className="bg-[#AB056A] text-white font-semibold py-3 px-6 rounded-lg text-lg shadow-md hover:bg-[#900455] transition-all duration-300 transform hover:scale-105">
             Learn More
           </button>
 
-          <button className="w-1/2 text-[#AB056A] justify-center gap-x-2 font-normal flex items-center rounded-[10px]">
+          <button className="flex items-center text-[#AB056A] text-lg font-medium gap-2 hover:text-[#900455] transition-all duration-300 transform hover:scale-105">
             Membership
-            <span>
-              <Image src={Arrow} alt="membership" />{" "}
-            </span>
+            <Image src={Arrow} alt="membership" className="w-6 h-6" />
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
