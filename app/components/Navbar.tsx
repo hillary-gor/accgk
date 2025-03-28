@@ -33,8 +33,8 @@ export default function Navbar() {
 
       {/* Right Side: User Profile & Menu */}
       <div className="flex items-center gap-x-5">
-        <Link href="/register" className="hidden lg:block text-[#240449] font-medium pr-10 hover:text-gray-700">
-          Register
+        <Link href="../registration" className="hidden lg:block text-[#240449] font-medium pr-10 hover:text-gray-700">
+          Become a Member
         </Link>
 
         <div className="flex items-center gap-x-2">
