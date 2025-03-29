@@ -32,7 +32,7 @@ export function About() {
           </div>
           <div className="bg-white shadow-md p-4 rounded-lg text-center w-[180px] transition-transform hover:scale-105">
             <h3 className="text-3xl font-bold text-[#3F96E6]">500+</h3>
-            <p className="text-gray-600">Job Placements</p>
+            <p className="text-gray-600">Impacts</p>
           </div>
         </div>
 

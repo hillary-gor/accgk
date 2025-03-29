@@ -1,4 +1,4 @@
-"use client"; // ✅ Required for Client Components
+"use client";
 
 import Link from "next/link";
 

@@ -9,7 +9,7 @@ const navLinks = [
   { name: "Courses & Certification", href: "/courses" },
   { name: "Community", href: "/community" },
   { name: "Resources", href: "/resources" },
-  { name: "About", href: "/about" },
+  { name: "About", href: "/about_us" },
 ];
 
 export default function Navbar() {
