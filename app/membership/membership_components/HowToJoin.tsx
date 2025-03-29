@@ -6,7 +6,7 @@ const steps = [
     title: "Choose Your Membership Type",
     description:
       "Select between Individual Caregiver (KES 5,000) or Institution (KES 100,000).",
-    image: "/icons/membership.svg",
+    image: "../../../public/assets/accgk_navbar_logo.svg",
   },
   {
     id: 2,
@@ -36,11 +36,11 @@ export default function HowToJoin() {
         <h2 className="text-3xl font-bold text-center text-[#AB056A]">
           How to Become a Member
         </h2>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-white">
           {steps.map((step) => (
             <div
               key={step.id}
-              className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center text-center"
+              className="bg-[#AB056A] shadow-lg rounded-lg p-6 flex flex-col items-center text-center"
             >
               <Image
                 src={step.image}
@@ -49,8 +49,8 @@ export default function HowToJoin() {
                 height={60}
                 className="mb-4"
               />
-              <h3 className="text-xl font-semibold text-gray-900">{step.title}</h3>
-              <p className="mt-2 text-gray-700">{step.description}</p>
+              <h3 className="text-xl font-semibold text-white">{step.title}</h3>
+              <p className="mt-2 text-white">{step.description}</p>
             </div>
           ))}
         </div>
