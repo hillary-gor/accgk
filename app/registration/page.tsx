@@ -1,126 +1,109 @@
 "use client";
+import Navbar from "../components/Navbar";
 import { useRouter } from "next/navigation";
+import FAQ from "../components/FAQ";
+import RegistrationHero from "../components/RegistrationHero";
 
 export default function RegistrationSelectionPage() {
   const router = useRouter();
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center">
-        Choose Your Registration Type
-      </h1>
-      <p className="text-gray-600 text-center mb-6">
-        Select the category that best describes you to proceed with
-        registration.
-      </p>
+    <div className="min-h-screen bg-gray-50 text-gray-800">
+      {/* Imported FAQ Component */}
+      <Navbar />
+      <RegistrationHero />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Caregiver Registration */}
-        <div className="p-4 border rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">Caregiver</h2>
-          <p className="text-gray-500 mb-4 text-sm">
-            For individuals offering professional caregiving services, such as
-            home nurses, elderly caregivers, and disability care providers.
-          </p>
-          <ul className="text-sm text-gray-600 mb-4 list-disc pl-4">
-            <li>Must have a valid caregiving certification.</li>
-            <li>Minimum 18 years old.</li>
-            <li>Experience in caregiving (preferred).</li>
-          </ul>
-          <button
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded"
-            onClick={() => router.push("/registration/caregiverApplication")}
-          >
-            Register as a Caregiver
-          </button>
-        </div>
-
-        {/* Institution Registration */}
-        <div className="p-4 border rounded-lg shadow-sm">
-          <h2 className="text-xl font-semibold mb-2">Institution</h2>
-          <p className="text-gray-500 mb-4 text-sm">
-            For organizations such as hospitals, training centers, and nursing
-            homes seeking to register on the platform.
-          </p>
-          <ul className="text-sm text-gray-600 mb-4 list-disc pl-4">
-            <li>Must provide a valid registration number.</li>
-            <li>Accreditation details required.</li>
-            <li>Authorized representative must complete registration.</li>
-          </ul>
-          <button
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded"
-            onClick={() => router.push("/registration/institutionApplication")}
-          >
-            Register as an Institution
-          </button>
-        </div>
-      </div>
-
-      {/* FAQ Section */}
-      <div className="mt-12">
-        <h2 className="text-2xl font-semibold text-center mb-4">
-          Frequently Asked Questions
+      {/* Registration Options */}
+      <section className="py-16 px-6 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-8">
+          Choose Your Registration Type
         </h2>
-        <div className="border rounded-lg p-4 bg-gray-50">
-          <details className="mb-4">
-            <summary className="font-semibold cursor-pointer">
-              What happens after I register?
-            </summary>
-            <p className="text-sm text-gray-600 mt-2">
-              After registration, your application will be reviewed. You will
-              receive a Magic Link via email for verification. Once approved,
-              you will be granted access to your respective dashboard.
-            </p>
-          </details>
+        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+          Select the category that best describes you to proceed with
+          registration.
+        </p>
 
-          <details className="mb-4">
-            <summary className="font-semibold cursor-pointer">
-              How long does the approval process take?
-            </summary>
-            <p className="text-sm text-gray-600 mt-2">
-              The approval process typically takes 24-48 hours. If additional
-              documents are required, you will be notified via email.
-            </p>
-          </details>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* Caregiver Registration */}
+          <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 transition hover:shadow-xl">
+            {/* Card Header */}
+            <h3 className="text-2xl font-semibold text-[#AB056A]">Caregiver</h3>
 
-          <details className="mb-4">
-            <summary className="font-semibold cursor-pointer">
-              Can I update my information after registration?
-            </summary>
-            <p className="text-sm text-gray-600 mt-2">
-              Yes. Once approved, you can log in to your dashboard and update
-              your profile details.
+            {/* Description */}
+            <p className="text-gray-700 mt-3">
+              For individuals offering professional caregiving services, such as
+              home nurses, elderly caregivers, and disability care providers.
             </p>
-          </details>
 
-          <details className="mb-4">
-            <summary className="font-semibold cursor-pointer">
-              What should I do if my application is rejected?
-            </summary>
-            <p className="text-sm text-gray-600 mt-2">
-              If your application is rejected, you will receive a reason via
-              email. You may appeal or resubmit your application with the
-              required corrections.
-            </p>
-          </details>
+            {/* List of Requirements */}
+            <ul className="mt-4 space-y-2 text-gray-600">
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-[#AB056A] rounded-full mr-2"></span>
+                Must have a valid caregiving certification.
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-[#AB056A] rounded-full mr-2"></span>
+                Minimum 18 years old.
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-[#AB056A] rounded-full mr-2"></span>
+                Experience in caregiving (preferred).
+              </li>
+            </ul>
 
-          <details>
-            <summary className="font-semibold cursor-pointer">
-              I need help with registration. Who do I contact?
-            </summary>
-            <p className="text-sm text-gray-600 mt-2">
-              You can contact our support team at{" "}
-              <a
-                href="mailto:support@example.com"
-                className="text-blue-500 underline"
-              >
-                support@example.com
-              </a>
-              .
+            {/* Action Button */}
+            <button
+              className="mt-6 w-full bg-[#3F96E6] text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-[#2c7bc0] transition"
+              onClick={() => router.push("/registration/caregiverApplication")}
+            >
+              Register as a Caregiver
+            </button>
+          </div>
+
+          {/* Institution Registration */}
+          <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 transition hover:shadow-xl">
+            {/* Card Header */}
+            <h3 className="text-2xl font-semibold text-[#AB056A]">
+              Institution
+            </h3>
+
+            {/* Description */}
+            <p className="text-gray-700 mt-3">
+              For organizations such as hospitals, training centers, and nursing
+              homes seeking to register on the platform.
             </p>
-          </details>
+
+            {/* List of Requirements */}
+            <ul className="mt-4 space-y-2 text-gray-600">
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-[#AB056A] rounded-full mr-2"></span>
+                Must provide a valid registration number.
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-[#AB056A] rounded-full mr-2"></span>
+                Accreditation details required.
+              </li>
+              <li className="flex items-center">
+                <span className="w-2 h-2 bg-[#AB056A] rounded-full mr-2"></span>
+                Authorized representative must complete registration.
+              </li>
+            </ul>
+
+            {/* Action Button */}
+            <button
+              className="mt-6 w-full bg-[#3F96E6] text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-[#2c7bc0] transition"
+              onClick={() =>
+                router.push("/registration/institutionApplication")
+              }
+            >
+              Register as an Institution
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Imported FAQ Component */}
+      <FAQ />
     </div>
   );
 }
