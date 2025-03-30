@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getCourses } from "../actions";
 
-// ✅ Type Definition for Courses
+// Type Definition for Courses
 interface Course {
   id: string;
   name: string;

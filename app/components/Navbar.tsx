@@ -6,7 +6,7 @@ import Menu from "@/public/assets/Menu.svg";
 
 const navLinks = [
   { name: "Membership", href: "/membership" },
-  { name: "Courses & Certification", href: "/courses" },
+  { name: "Courses & Certification", href: "../university/courses" },
   { name: "Community", href: "/community" },
   { name: "Resources", href: "/resources" },
   { name: "About", href: "/about_us" },
