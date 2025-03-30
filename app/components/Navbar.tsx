@@ -1,8 +1,12 @@
+"use client"; // Ensure this runs on the client-side
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/public/assets/accgk_navbar_logo.svg";
 import User from "@/public/assets/User.svg";
 import Menu from "@/public/assets/Menu.svg";
+import CloseIcon from "@/public/assets/arrow.png"; // Add a close icon
 
 const navLinks = [
   { name: "Membership", href: "/membership" },
@@ -13,6 +17,8 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <nav className="flex w-full items-center justify-between px-5 py-4 lg:container lg:mx-auto lg:px-20">
       {/* Left Side: Logo */}
@@ -45,10 +51,40 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button className="lg:hidden">
-          <Image src={Menu} alt="Menu Button" />
+        <button 
+          className="lg:hidden" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <Image src={isMobileMenuOpen ? CloseIcon : Menu} alt="Menu Button" />
         </button>
       </div>
+
+      {/* Mobile Navigation Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-white flex flex-col items-center justify-center gap-6 z-50">
+          {navLinks.map((item, index) => (
+            <Link key={index} href={item.href} className="text-2xl font-medium text-[#0049AB] hover:text-blue-700" onClick={() => setIsMobileMenuOpen(false)}>
+              {item.name}
+            </Link>
+          ))}
+
+          {/* Login & Signup Links for Mobile */}
+          <Link href="/login" className="text-xl font-medium text-red-600 hover:text-red-700" onClick={() => setIsMobileMenuOpen(false)}>
+            Sign in
+          </Link>
+          <Link href="../registration" className="text-xl font-medium text-[#240449] hover:text-gray-700" onClick={() => setIsMobileMenuOpen(false)}>
+            Become a Member
+          </Link>
+
+          {/* Close Button */}
+          <button 
+            className="text-red-600 font-medium text-xl hover:text-red-700" 
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Close Menu
+          </button>
+        </div>
+      )}
     </nav>
   );
 }
