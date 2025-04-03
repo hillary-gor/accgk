@@ -1,14 +1,19 @@
 'use client';
 
 import Image from 'next/image';
+import SideImage from '@/public/assets/caregiver_happily_joined_accgk.png'
+import Navbar from '@/app/components/Navbar';
+import Footer from '@/app/components/Footer';
 
 export default function SuccessfullApplication() {
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen">
+   <>
+  <Navbar />
+   <div className="flex flex-col md:flex-row items-center justify-center min-h-screen">
       {/* Left Section - Image (Half Screen) */}
       <div className="w-full md:w-1/2 h-64 md:h-screen">
         <Image
-          src="/success-image.jpg"
+          src={SideImage}
           alt="Success Illustration"
           width={800}
           height={600}
@@ -37,11 +42,13 @@ export default function SuccessfullApplication() {
         {/* Back to Dashboard Button */}
         <button
           className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-md transition-all duration-300 hover:bg-green-700 hover:scale-105"
-          onClick={() => window.location.href = "/dashboard"}
+          onClick={() => window.location.href = "/app/about_us"}
         >
-          Go to Dashboard
+          Wanna Learn More
         </button>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
