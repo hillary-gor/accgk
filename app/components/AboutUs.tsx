@@ -1,5 +1,6 @@
 import Image from "next/image";
 import AboutImage from "../../public/assets/hero-image.png";
+import Link from "next/link";
 
 export function About() {
   return (
@@ -38,12 +39,16 @@ export function About() {
 
         {/* CTA Buttons */}
         <div className="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+          <Link href="/membership">
           <button className="bg-[#AB056A] text-white font-semibold py-3 px-6 rounded-lg text-lg shadow-md hover:bg-[#900455] transition">
             Learn More
           </button>
-          <button className="border-2 border-[#AB056A] text-[#AB056A] font-semibold py-3 px-6 rounded-lg text-lg hover:bg-[#AB056A] hover:text-white transition">
+          </Link>
+          
+          <Link href="/registration"><button className="border-2 border-[#AB056A] text-[#AB056A] font-semibold py-3 px-6 rounded-lg text-lg hover:bg-[#AB056A] hover:text-white transition">
             Join Us
           </button>
+          </Link>
         </div>
       </div>
 
