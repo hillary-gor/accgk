@@ -16,7 +16,7 @@
     "ajv": "^8.17.1",
     "bcryptjs": "^3.0.2",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.6.2",
+    "framer-motion": "^12.6.3",
     "next": "^15.2.4",
     "nodemailer": "^6.10.0",
     "react-icons": "^5.5.0",
