@@ -16,7 +16,7 @@ export default function Hero() {
             onClick={() => setIsOpen(true)}
           >
             <Image
-              src="/video-thumbnail.jpg"
+              src="/https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/staticimages//DJI_20250320112852_0159_D.JPG"
               alt="Membership Video"
               width={800}
               height={450}
@@ -55,7 +55,7 @@ export default function Hero() {
               ✖
             </button>
             <iframe
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Replace with actual membership video
+              src="https://www.youtube.com/" // Replace with actual membership video
               title="Membership Video"
               className="w-full h-[400px] md:h-[500px] rounded-lg"
               allowFullScreen
