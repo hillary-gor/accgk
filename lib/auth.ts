@@ -1,15 +1,39 @@
-// /lib/auth.ts
 "use server";
 
-import { getSupabaseServer } from "@/lib/supabase";
+import { getSupabaseServer } from "@/utils/supabase/server";
 
-export async function isCaregiver(email: string) {
+// Types
+export type ACCGKRole =
+  | "caregiver"
+  | "institution"
+  | "admin"
+  | "assessor"
+  | "trainer";
+
+export type MemberWithRole = {
+  id: string;
+  full_name: string;
+  role: ACCGKRole;
+  avatar_url?: string | null;
+  email?: string | null;
+};
+
+export async function getUserAndRole(): Promise<MemberWithRole | null> {
   const supabase = await getSupabaseServer();
-  const { data } = await supabase
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  const { data: member, error } = await supabase
     .from("members")
-    .select("members_role")
-    .eq("email", email)
+    .select("id, full_name, role, avatar_url, email")
+    .eq("id", user.id)
     .single();
 
-  return data?.members_role === "caregiver";
+  if (error || !member) return null;
+
+  return member as MemberWithRole;
 }
