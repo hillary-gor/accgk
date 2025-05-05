@@ -6,10 +6,10 @@ import { getSupabaseServer } from "@/lib/supabase";
 export async function isCaregiver(email: string) {
   const supabase = await getSupabaseServer();
   const { data } = await supabase
-    .from("users")
-    .select("role")
+    .from("members")
+    .select("members_role")
     .eq("email", email)
     .single();
 
-  return data?.role === "caregiver";
+  return data?.members_role === "caregiver";
 }
