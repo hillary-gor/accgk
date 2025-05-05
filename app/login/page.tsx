@@ -2,18 +2,19 @@
 
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
+import { FaGoogle, FaGithub, FaLinkedin } from "react-icons/fa";
 import {
   loginWithEmailPassword,
-  loginWithMagicLink,
+  // loginWithMagicLink,
   loginWithGoogle,
 } from "./actions";
 import Image from "next/image";
 
 const logoUrl =
-  "https://gowiaewbjsdsvihqmsyg.supabase.co/storage/v1/object/public/assets/logo.svg";
+  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png";
 
 const illustrationUrl =
-  "https://gowiaewbjsdsvihqmsyg.supabase.co/storage/v1/object/public/assets/sandra-janet-joan.JPG";
+  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-akinyi-illustration.JPG";
 
 // Spinner component reused across login buttons
 function Spinner({ text }: { text: string }) {
@@ -98,8 +99,8 @@ export default function LoginPage() {
             <Image
               src={logoUrl}
               alt="ACCGK Logo"
-              width={64}
-              height={64}
+              width={200}
+              height={200}
               className="object-contain"
               priority
             />
@@ -147,7 +148,7 @@ export default function LoginPage() {
             </SubmitButton>
           </form>
 
-          {/* Magic Link Form */}
+          {/* Magic Link Form 
           <form
             className="space-y-4 pt-6 border-t border-gray-200 dark:border-zinc-800"
             action={loginWithMagicLink}
@@ -168,6 +169,7 @@ export default function LoginPage() {
                 className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3F96E6] focus:border-[#3F96E6]"
               />
             </div>
+            
 
             <SubmitButton
               variant="outline"
@@ -177,17 +179,42 @@ export default function LoginPage() {
               Send Magic Link
             </SubmitButton>
           </form>
+          */}
 
-          {/* Google Login */}
-          <form action={loginWithGoogle}>
-            <SubmitButton
-              variant="outline"
-              className="w-full border"
-              loadingText="Redirecting..."
+          {/* Social Auth Buttons */}
+          <div className="flex items-center justify-center gap-4 pt-6 border-t border-gray-200 dark:border-zinc-800">
+            <form action={loginWithGoogle}>
+              <button
+                type="submit"
+                aria-label="Sign in with Google"
+                className="p-2 rounded-full border hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600"
+              >
+                <FaGoogle className="w-5 h-5" />
+              </button>
+            </form>
+
+            {/* GitHub Icon Link */}
+            <a
+              href="https://github.com/your-profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="text-gray-500 hover:text-black transition-colors"
             >
-              Continue with Google
-            </SubmitButton>
-          </form>
+              <FaGithub className="w-5 h-5" />
+            </a>
+
+            {/* LinkedIn Icon Link */}
+            <a
+              href="https://linkedin.com/in/your-profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-gray-500 hover:text-blue-700 transition-colors"
+            >
+              <FaLinkedin className="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </div>
     </main>

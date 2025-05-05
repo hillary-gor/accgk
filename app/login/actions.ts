@@ -52,7 +52,7 @@ export async function loginWithMagicLink(formData: FormData) {
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: false, // ensures login-only, no sign-up
+      shouldCreateUser: false, // login-only
     },
   });
 
@@ -64,21 +64,34 @@ export async function loginWithMagicLink(formData: FormData) {
   redirect("/login?status=magic-link-sent");
 }
 
-// Google OAuth Login
-export async function loginWithGoogle() {
+// Generic OAuth Login
+async function loginWithOAuth(provider: "google" | "github" | "linkedin") {
   const supabase = await getSupabaseServer();
 
   const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
+    provider,
     options: {
       redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
     },
   });
 
   if (error || !data.url) {
-    console.error("[Google OAuth Error]", error?.message ?? "No URL returned");
+    console.error(`[${provider.toUpperCase()} OAuth Error]`, error?.message ?? "No URL returned");
     redirect("/login?error=oauth");
   }
 
   redirect(data.url);
+}
+
+// Exported OAuth logins for use in <form action={...}>
+export async function loginWithGoogle() {
+  return loginWithOAuth("google");
+}
+
+export async function loginWithGitHub() {
+  return loginWithOAuth("github");
+}
+
+export async function loginWithLinkedIn() {
+  return loginWithOAuth("linkedin");
 }
