@@ -19,7 +19,6 @@ const logoUrl =
 const illustrationUrl =
   "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-akinyi-illustration.JPG";
 
-// Spinner reused across buttons
 function Spinner({ text }: { text: string }) {
   return (
     <span className="flex items-center gap-2">
@@ -107,8 +106,8 @@ export default function SignUpPage() {
             <Image
               src={logoUrl}
               alt="CBMTI Logo"
-              width={64}
-              height={64}
+              width={140}
+              height={140}
               className="object-contain"
               priority
             />
@@ -123,28 +122,25 @@ export default function SignUpPage() {
           <form action={handleSubmit} className="space-y-4">
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="full_name">Full Name</Label>
-                <Input id="full_name" name="full_name" required />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="display_name">Display Name</Label>
-                <Input id="display_name" name="display_name" required />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" name="phone" type="tel" />
-              </div>
-
-              <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" autoComplete="email" required />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                />
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" type="password" autoComplete="new-password" required />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                />
               </div>
             </div>
 
@@ -152,7 +148,9 @@ export default function SignUpPage() {
               Sign Up
             </SubmitButton>
 
-            {error && <p className="text-sm text-destructive mt-2">{error}</p>}
+            {error && (
+              <p className="text-sm text-destructive mt-2">{error}</p>
+            )}
           </form>
 
           {/* Separator */}
@@ -166,12 +164,20 @@ export default function SignUpPage() {
               </Button>
             </form>
             <Button asChild variant="outline" size="icon" aria-label="GitHub">
-              <a href="https://github.com/your-profile" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://github.com/your-profile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FaGithub className="w-4 h-4" />
               </a>
             </Button>
             <Button asChild variant="outline" size="icon" aria-label="LinkedIn">
-              <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://linkedin.com/in/your-profile"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FaLinkedin className="w-4 h-4" />
               </a>
             </Button>
@@ -188,7 +194,11 @@ export default function SignUpPage() {
       </div>
 
       {/* Confirmation Modal */}
-      <Dialog open={showModal} onClose={() => setShowModal(false)} className="relative z-50">
+      <Dialog
+        open={showModal}
+        onClose={() => setShowModal(false)}
+        className="relative z-50"
+      >
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center px-4">
           <div className="bg-background rounded-xl p-6 w-full max-w-sm text-center border border-border shadow-lg">
             <CheckCircle className="mx-auto text-green-500 h-10 w-10 mb-2" />
