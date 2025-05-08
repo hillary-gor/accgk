@@ -10,7 +10,7 @@ export type ACCGKRole =
   | "assessor"
   | "trainer";
 
-export type MemberWithRole = {
+export type UserWithRole = {
   id: string;
   full_name: string;
   role: ACCGKRole;
@@ -18,7 +18,7 @@ export type MemberWithRole = {
   email?: string | null;
 };
 
-export async function getUserAndRole(): Promise<MemberWithRole | null> {
+export async function getUserAndRole(): Promise<UserWithRole | null> {
   const supabase = await getSupabaseServer();
 
   const {
@@ -35,5 +35,5 @@ export async function getUserAndRole(): Promise<MemberWithRole | null> {
 
   if (error || !member) return null;
 
-  return member as MemberWithRole;
+  return member as UserWithRole;
 }
