@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useFormStatus } from "react-dom";
 import { signUpWithEmailPassword } from "./actions";
-import { loginWithGoogle } from "@/app/login/actions";
+import { loginWithGoogle } from "@/app/auth/signin/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

@@ -1,64 +1,66 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { NextResponse } from "next/server"
+import type { NextRequest } from "next/server"
+import { createClient } from "./utils/supabase/middleware";
 
 export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
+  const res = NextResponse.next()
+  const supabase = createClient({ req, res })
 
-  // Get Supabase credentials
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-  // Create Supabase client
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${req.cookies.get("sb-access-token")?.value}`,
-      },
-    },
-  });
-
-  // Fetch session
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession()
 
-  if (!user) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  // Check if the user is authenticated
+  if (!session) {
+    // If the user is not authenticated and trying to access a protected route, redirect to the login page
+    if (
+      req.nextUrl.pathname.startsWith("/dashboard") ||
+      req.nextUrl.pathname.startsWith("/licenses") ||
+      req.nextUrl.pathname.startsWith("/certifications") ||
+      req.nextUrl.pathname.startsWith("/training") ||
+      req.nextUrl.pathname.startsWith("/payments") ||
+      req.nextUrl.pathname.startsWith("/profile") ||
+      req.nextUrl.pathname.startsWith("/settings") ||
+      req.nextUrl.pathname.startsWith("/users") ||
+      req.nextUrl.pathname.startsWith("/assessments") ||
+      req.nextUrl.pathname.startsWith("/programs") ||
+      req.nextUrl.pathname.startsWith("/participants") ||
+      req.nextUrl.pathname.startsWith("/reports") ||
+      req.nextUrl.pathname.startsWith("/caregivers") ||
+      req.nextUrl.pathname.startsWith("/compliance") ||
+      req.nextUrl.pathname.startsWith("/schedule")
+    ) {
+      return NextResponse.redirect(new URL("/auth/signin", req.url))
+    }
   }
 
-  // Fetch user role from `approved_users`
-  const { data: userData, error } = await supabase
-    .from("approved_users") // Changed from `users` to `approved_users`
-    .select("role")
-    .eq("email", user.email)
-    .single();
-
-  if (error || !userData) {
-    return NextResponse.redirect(new URL("/not-approved", req.url)); // Redirect if not approved
+  // If the user is authenticated and trying to access auth pages, redirect to the dashboard
+  if (session) {
+    if (req.nextUrl.pathname.startsWith("/auth/")) {
+      return NextResponse.redirect(new URL("/dashboard", req.url))
+    }
   }
 
-  const role = userData.role || "caregiver"; // Default role
-
-  // Define role-based dashboard routes
-  const dashboardRoutes: Record<string, string> = {
-    admin: "/dashboard/admin",
-    institution: "/dashboard/institution",
-    data_team: "/dashboard/data-team",
-    caregiver: "/dashboard/caregiver",
-  };
-
-  const redirectTo = dashboardRoutes[role] || "/dashboard/caregiver";
-
-  // Prevent unnecessary redirects (only redirect if user is in the wrong dashboard)
-  if (!req.nextUrl.pathname.startsWith(redirectTo)) {
-    return NextResponse.redirect(new URL(redirectTo, req.url));
-  }
-
-  return res;
+  return res
 }
 
-// Apply middleware only to dashboard routes
 export const config = {
-  matcher: ["/dashboard/:path*"],
-};
+  matcher: [
+    "/dashboard/:path*",
+    "/licenses/:path*",
+    "/certifications/:path*",
+    "/training/:path*",
+    "/payments/:path*",
+    "/profile/:path*",
+    "/settings/:path*",
+    "/users/:path*",
+    "/assessments/:path*",
+    "/programs/:path*",
+    "/participants/:path*",
+    "/reports/:path*",
+    "/caregivers/:path*",
+    "/compliance/:path*",
+    "/schedule/:path*",
+    "/auth/:path*",
+  ],
+}
