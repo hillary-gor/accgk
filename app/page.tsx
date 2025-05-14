@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -62,12 +63,12 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex items-center justify-center">
-                <img
-                  src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//sandra-mukonyo.JPG?height=400&width=400"
+                <Image
+                  src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/sandra-mukonyo.JPG?height=400&width=400"
                   alt="Hero Image"
-                  className="rounded-lg object-cover"
                   width={400}
                   height={400}
+                  className="rounded-lg object-cover"
                 />
               </div>
             </div>
