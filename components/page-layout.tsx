@@ -1,79 +1,42 @@
-import type React from "react";
-import { MainNav } from "@/components/main-nav";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Metadata, Viewport } from "next"; 
+import type React from "react"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 interface PageLayoutProps {
-  children: React.ReactNode;
-  title: string;
-  description?: string;
+  title: string
+  description: string
+  children: React.ReactNode
 }
 
-// Metadata for SEO, social sharing, and browser behavior
-export const metadata: Metadata = {
-  title: {
-    default: "ACCGK - Association of Certified Caregivers Kenya",
-    template: "%s | ACCGK",
-  },
-  description:
-    "Licensing, certification, and training management platform for caregivers in Kenya",
-  keywords: [
-    "caregivers",
-    "certification",
-    "licensing",
-    "training",
-    "Kenya",
-    "healthcare",
-  ],
-  authors: [{ name: "ACCGK", url: "https://accgk.co.ke" }],
-  creator: "ACCGK",
-  generator: "v0.dev",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0F766E" },
-    { media: "(prefers-color-scheme: dark)", color: "#134E4A" },
-  ],
-};
-
-// Separate viewport config
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
-
-export function PageLayout({ children, title, description }: PageLayoutProps) {
+export default function PageLayout({ title, description, children }: PageLayoutProps) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <div className="flex min-h-screen flex-col">
-        <main className="flex-1">
-          <section className="w-full py-12 md:py-16 lg:py-20 bg-muted/50">
-            <div className="container mx-auto px-4 md:px-6">
-              <div className="flex flex-col items-center justify-center space-y-4 text-center">
-                <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">{title}</h1>
-                  {description && (
-                    <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                      {description}
-                    </p>
-                  )}
-                </div>
-              </div>
+    <>
+      <Header />
+      <main className="min-h-screen">
+        <section className="bg-gradient-to-r from-accgk-blue to-accgk-blue/80 text-white py-16 md:py-24">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">{title}</h1>
+              <p className="text-xl text-white/90">{description}</p>
             </div>
-          </section>
-
-          <div className="container mx-auto px-4 py-12 md:px-6 md:py-16 lg:py-20">
-            {children}
           </div>
-        </main>
-      </div>
-    </ThemeProvider>
-  );
+          {/* Wave Divider */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
+              <path
+                fill="#ffffff"
+                fillOpacity="1"
+                d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
+              ></path>
+            </svg>
+          </div>
+        </section>
+
+        <section className="py-16 md:py-24 bg-white">
+          <div className="container mx-auto px-4">{children}</div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
 }

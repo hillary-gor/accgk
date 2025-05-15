@@ -1,0 +1,84 @@
+import Image from "next/image"
+import { Award, FileCheck, Users, Scale, GraduationCap, ShieldCheck } from "lucide-react"
+
+const focusAreas = [
+  {
+    title: "Competence Assurance & CPD",
+    description:
+      "Ensuring caregivers maintain and enhance their skills through continuous professional development programs.",
+    icon: GraduationCap,
+    image: "/placeholder.svg?height=200&width=200&text=Professional+Development",
+  },
+  {
+    title: "Licensing & Regulation",
+    description: "Establishing and maintaining professional standards through comprehensive licensing frameworks.",
+    icon: FileCheck,
+    image: "/placeholder.svg?height=200&width=200&text=Licensing+and+Certification",
+  },
+  {
+    title: "Caregivers Registry",
+    description: "Maintaining a national database of certified caregivers to ensure accountability and recognition.",
+    icon: Users,
+    image: "/placeholder.svg?height=200&width=200&text=Caregiver+Registry",
+  },
+  {
+    title: "Advocacy for Policy & Legal Reform",
+    description: "Championing the rights and interests of caregivers through policy advocacy and legal reforms.",
+    icon: Scale,
+    image: "/placeholder.svg?height=200&width=200&text=Policy+Advocacy",
+  },
+  {
+    title: "Career Development Pathways",
+    description: "Creating structured career progression routes for caregivers to advance professionally.",
+    icon: Award,
+    image: "/placeholder.svg?height=200&width=200&text=Career+Development",
+  },
+  {
+    title: "Ethical Oversight & Disciplinary Framework",
+    description: "Upholding ethical standards and providing a framework for professional conduct.",
+    icon: ShieldCheck,
+    image: "/placeholder.svg?height=200&width=200&text=Ethical+Standards",
+  },
+]
+
+export default function FocusAreas() {
+  return (
+    <section id="focus-areas" className="py-16 md:py-24 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Our Focus Areas</h2>
+          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <p className="text-lg text-gray-700">
+            ACCGK works across multiple domains to ensure comprehensive support and regulation for caregivers in Kenya.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {focusAreas.map((area, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
+            >
+              <div className="relative h-40 bg-accgk-blue/5">
+                <Image
+                  src={area.image || "/placeholder.svg"}
+                  alt={area.title}
+                  fill
+                  className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
+              </div>
+              <div className="p-6 relative">
+                <div className="w-12 h-12 rounded-full bg-accgk-blue/10 flex items-center justify-center mb-4 absolute -top-6 right-6 border-4 border-white shadow-sm">
+                  <area.icon className="w-6 h-6 text-accgk-blue" />
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-accgk-blue">{area.title}</h3>
+                <p className="text-gray-600">{area.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

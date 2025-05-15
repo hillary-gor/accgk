@@ -1,523 +1,312 @@
 "use client"
 
+import Link from "next/link"
+
 import type React from "react"
 
 import { useState } from "react"
-import { PageLayout } from "@/components/page-layout"
-import { Button } from "@/components/ui/button"
+import PageLayout from "@/components/page-layout"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useToast } from "@/components/ui/use-toast"
-import { useRouter } from "next/navigation"
+import { Separator } from "@/components/ui/separator"
+import { AlertCircle, CheckCircle, Upload } from "lucide-react"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+
+// Kenya counties list
+const kenyaCounties = [
+  "Mombasa",
+  "Kwale",
+  "Kilifi",
+  "Tana River",
+  "Lamu",
+  "Taita Taveta",
+  "Garissa",
+  "Wajir",
+  "Mandera",
+  "Marsabit",
+  "Isiolo",
+  "Meru",
+  "Tharaka-Nithi",
+  "Embu",
+  "Kitui",
+  "Machakos",
+  "Makueni",
+  "Nyandarua",
+  "Nyeri",
+  "Kirinyaga",
+  "Murang'a",
+  "Kiambu",
+  "Turkana",
+  "West Pokot",
+  "Samburu",
+  "Trans Nzoia",
+  "Uasin Gishu",
+  "Elgeyo-Marakwet",
+  "Nandi",
+  "Baringo",
+  "Laikipia",
+  "Nakuru",
+  "Narok",
+  "Kajiado",
+  "Kericho",
+  "Bomet",
+  "Kakamega",
+  "Vihiga",
+  "Bungoma",
+  "Busia",
+  "Siaya",
+  "Kisumu",
+  "Homa Bay",
+  "Migori",
+  "Kisii",
+  "Nyamira",
+  "Nairobi",
+]
 
 export default function RegisterCaregiverPage() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     phone: "",
     idNumber: "",
-    dateOfBirth: "",
-    gender: "",
-    address: "",
-    city: "",
-    certificationLevel: "",
-    certificationNumber: "",
-    certificationDate: "",
-    yearsExperience: "",
-    specialties: [],
-    bio: "",
-    emergencyContactName: "",
-    emergencyContactPhone: "",
-    agreeTerms: false,
-    agreeCode: false,
+    county: "",
   })
-  const [step, setStep] = useState(1)
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const { toast } = useToast()
-  const router = useRouter()
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [paymentInitiated, setPaymentInitiated] = useState(false)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleCountyChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, county: value }))
   }
 
-  const handleCheckboxChange = (name: string, checked: boolean) => {
-    setFormData((prev) => ({ ...prev, [name]: checked }))
-  }
-
-  const handleSpecialtyChange = (specialty: string, checked: boolean) => {
-    setFormData((prev) => ({
-      ...prev,
-      specialties: checked ? [...prev.specialties, specialty] : prev.specialties.filter((s) => s !== specialty),
-    }))
-  }
-
-  const handleNextStep = () => {
-    setStep((prev) => prev + 1)
-    window.scrollTo(0, 0)
-  }
-
-  const handlePrevStep = () => {
-    setStep((prev) => prev - 1)
-    window.scrollTo(0, 0)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Simulate form submission delay
+    setTimeout(() => {
+      setIsSubmitting(false)
+      setIsSubmitted(true)
+    }, 1500)
+  }
 
-    toast({
-      title: "Registration submitted successfully",
-      description: "We'll review your application and get back to you soon.",
-    })
-
-    // Redirect to payment page
-    router.push("/membership/payment?type=caregiver")
+  const initiatePayment = () => {
+    // Simulate payment initiation
+    setPaymentInitiated(true)
   }
 
   return (
     <PageLayout
-      title="Caregiver Registration"
-      description="Complete the form below to register as a caregiver with ACCK."
+      title="Register as a Caregiver"
+      description="Join the ACCGK caregiver network and unlock professional opportunities"
     >
-      <div className="max-w-3xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle>Caregiver Registration Form</CardTitle>
-            <CardDescription>
-              Please provide accurate information to complete your registration. All fields marked with * are required.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <div className="flex justify-between mb-2">
-                <div className="text-sm font-medium">
-                  Step {step} of 3:{" "}
-                  {step === 1 ? "Personal Information" : step === 2 ? "Professional Details" : "Review & Submit"}
-                </div>
-                <div className="text-sm text-muted-foreground">{Math.round((step / 3) * 100)}% Complete</div>
-              </div>
-              <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-teal-600 transition-all duration-300 ease-in-out"
-                  style={{ width: `${(step / 3) * 100}%` }}
-                ></div>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              {step === 1 && (
+      <div className="max-w-2xl mx-auto">
+        {!isSubmitted ? (
+          <Card className="border border-gray-200 shadow-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-center">Caregiver Membership Application</CardTitle>
+              <CardDescription className="text-center">
+                Complete the form below to begin your registration process with ACCGK
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name *</Label>
-                      <Input
-                        id="firstName"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name *</Label>
-                      <Input id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} required />
-                    </div>
+                  <div>
+                    <Label htmlFor="fullName">Full Name</Label>
+                    <Input
+                      id="fullName"
+                      name="fullName"
+                      placeholder="Enter your full name as it appears on your ID"
+                      value={formData.fullName}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="email">Email Address</Label>
                       <Input
                         id="email"
                         name="email"
                         type="email"
+                        placeholder="your.email@example.com"
                         value={formData.email}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number *</Label>
-                      <Input id="phone" name="phone" value={formData.phone} onChange={handleChange} required />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="idNumber">ID/Passport Number *</Label>
-                      <Input id="idNumber" name="idNumber" value={formData.idNumber} onChange={handleChange} required />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="dateOfBirth">Date of Birth *</Label>
+                    <div>
+                      <Label htmlFor="phone">Phone Number</Label>
                       <Input
-                        id="dateOfBirth"
-                        name="dateOfBirth"
-                        type="date"
-                        value={formData.dateOfBirth}
+                        id="phone"
+                        name="phone"
+                        placeholder="e.g., 0712345678"
+                        value={formData.phone}
                         onChange={handleChange}
                         required
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label>Gender *</Label>
-                    <RadioGroup
-                      value={formData.gender}
-                      onValueChange={(value) => handleSelectChange("gender", value)}
-                      className="flex space-x-4"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="male" id="male" />
-                        <Label htmlFor="male">Male</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="female" id="female" />
-                        <Label htmlFor="female">Female</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="other" id="other" />
-                        <Label htmlFor="other">Other</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Physical Address *</Label>
-                    <Textarea id="address" name="address" value={formData.address} onChange={handleChange} required />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="city">City/Town *</Label>
-                    <Input id="city" name="city" value={formData.city} onChange={handleChange} required />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="emergencyContactName">Emergency Contact Name *</Label>
-                    <Input
-                      id="emergencyContactName"
-                      name="emergencyContactName"
-                      value={formData.emergencyContactName}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="emergencyContactPhone">Emergency Contact Phone *</Label>
-                    <Input
-                      id="emergencyContactPhone"
-                      name="emergencyContactPhone"
-                      value={formData.emergencyContactPhone}
-                      onChange={handleChange}
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
-              {step === 2 && (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="certificationLevel">Certification Level *</Label>
-                    <Select
-                      value={formData.certificationLevel}
-                      onValueChange={(value) => handleSelectChange("certificationLevel", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select certification level" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="basic">Basic Caregiving Certificate</SelectItem>
-                        <SelectItem value="intermediate">Intermediate Caregiver</SelectItem>
-                        <SelectItem value="advanced">Advanced Caregiver</SelectItem>
-                        <SelectItem value="specialist">Specialist Caregiver</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="certificationNumber">Certification Number *</Label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="idNumber">ID/Passport Number</Label>
                       <Input
-                        id="certificationNumber"
-                        name="certificationNumber"
-                        value={formData.certificationNumber}
+                        id="idNumber"
+                        name="idNumber"
+                        placeholder="Enter your ID or passport number"
+                        value={formData.idNumber}
                         onChange={handleChange}
                         required
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="certificationDate">Certification Date *</Label>
-                      <Input
-                        id="certificationDate"
-                        name="certificationDate"
-                        type="date"
-                        value={formData.certificationDate}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="yearsExperience">Years of Experience *</Label>
-                    <Select
-                      value={formData.yearsExperience}
-                      onValueChange={(value) => handleSelectChange("yearsExperience", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select years of experience" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="0-1">Less than 1 year</SelectItem>
-                        <SelectItem value="1-3">1-3 years</SelectItem>
-                        <SelectItem value="3-5">3-5 years</SelectItem>
-                        <SelectItem value="5-10">5-10 years</SelectItem>
-                        <SelectItem value="10+">More than 10 years</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label>Specialties (Select all that apply) *</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="elderCare"
-                          checked={formData.specialties.includes("elderCare")}
-                          onCheckedChange={(checked) => handleSpecialtyChange("elderCare", checked as boolean)}
-                        />
-                        <Label htmlFor="elderCare">Elder Care</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="pediatricCare"
-                          checked={formData.specialties.includes("pediatricCare")}
-                          onCheckedChange={(checked) => handleSpecialtyChange("pediatricCare", checked as boolean)}
-                        />
-                        <Label htmlFor="pediatricCare">Pediatric Care</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="disabilityCare"
-                          checked={formData.specialties.includes("disabilityCare")}
-                          onCheckedChange={(checked) => handleSpecialtyChange("disabilityCare", checked as boolean)}
-                        />
-                        <Label htmlFor="disabilityCare">Disability Care</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="palliativeCare"
-                          checked={formData.specialties.includes("palliativeCare")}
-                          onCheckedChange={(checked) => handleSpecialtyChange("palliativeCare", checked as boolean)}
-                        />
-                        <Label htmlFor="palliativeCare">Palliative Care</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="mentalHealth"
-                          checked={formData.specialties.includes("mentalHealth")}
-                          onCheckedChange={(checked) => handleSpecialtyChange("mentalHealth", checked as boolean)}
-                        />
-                        <Label htmlFor="mentalHealth">Mental Health</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="postSurgical"
-                          checked={formData.specialties.includes("postSurgical")}
-                          onCheckedChange={(checked) => handleSpecialtyChange("postSurgical", checked as boolean)}
-                        />
-                        <Label htmlFor="postSurgical">Post-Surgical Care</Label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="bio">Professional Bio *</Label>
-                    <Textarea
-                      id="bio"
-                      name="bio"
-                      value={formData.bio}
-                      onChange={handleChange}
-                      placeholder="Briefly describe your experience, skills, and approach to caregiving (100-300 words)"
-                      className="min-h-[150px]"
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
-              {step === 3 && (
-                <div className="space-y-6">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Personal Information</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm font-medium">Full Name</p>
-                        <p className="text-sm text-muted-foreground">
-                          {formData.firstName} {formData.lastName}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">Contact Information</p>
-                        <p className="text-sm text-muted-foreground">{formData.email}</p>
-                        <p className="text-sm text-muted-foreground">{formData.phone}</p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm font-medium">ID/Passport Number</p>
-                        <p className="text-sm text-muted-foreground">{formData.idNumber}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">Date of Birth</p>
-                        <p className="text-sm text-muted-foreground">{formData.dateOfBirth}</p>
-                      </div>
-                    </div>
                     <div>
-                      <p className="text-sm font-medium">Address</p>
-                      <p className="text-sm text-muted-foreground">
-                        {formData.address}, {formData.city}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Emergency Contact</p>
-                      <p className="text-sm text-muted-foreground">
-                        {formData.emergencyContactName} ({formData.emergencyContactPhone})
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Professional Details</h3>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm font-medium">Certification Level</p>
-                        <p className="text-sm text-muted-foreground">{formData.certificationLevel}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">Certification Number</p>
-                        <p className="text-sm text-muted-foreground">{formData.certificationNumber}</p>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm font-medium">Certification Date</p>
-                        <p className="text-sm text-muted-foreground">{formData.certificationDate}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium">Years of Experience</p>
-                        <p className="text-sm text-muted-foreground">{formData.yearsExperience}</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Specialties</p>
-                      <p className="text-sm text-muted-foreground">
-                        {formData.specialties.length > 0 ? formData.specialties.join(", ") : "None selected"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium">Professional Bio</p>
-                      <p className="text-sm text-muted-foreground">{formData.bio}</p>
+                      <Label htmlFor="county">County</Label>
+                      <Select value={formData.county} onValueChange={handleCountyChange} required>
+                        <SelectTrigger id="county">
+                          <SelectValue placeholder="Select your county" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {kenyaCounties.map((county) => (
+                            <SelectItem key={county} value={county}>
+                              {county}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
 
-                  <div className="space-y-4 border-t pt-4">
-                    <div className="flex flex-col space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="agreeTerms"
-                          checked={formData.agreeTerms}
-                          onCheckedChange={(checked) => handleCheckboxChange("agreeTerms", checked as boolean)}
-                          required
-                        />
-                        <Label htmlFor="agreeTerms" className="text-sm">
-                          I agree to the{" "}
-                          <a href="/terms" className="text-teal-600 hover:underline" target="_blank" rel="noreferrer">
-                            Terms and Conditions
-                          </a>{" "}
-                          and{" "}
-                          <a
-                            href="/privacy-policy"
-                            className="text-teal-600 hover:underline"
-                            target="_blank"
-                            rel="noreferrer"
+                  <div>
+                    <Label htmlFor="documents">Upload Documents (Optional)</Label>
+                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-dashed border-gray-300 rounded-md">
+                      <div className="space-y-1 text-center">
+                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
+                        <div className="flex text-sm text-gray-600">
+                          <label
+                            htmlFor="file-upload"
+                            className="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/80"
                           >
-                            Privacy Policy
-                          </a>
-                          . *
-                        </Label>
+                            <span>Upload a file</span>
+                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                          </label>
+                          <p className="pl-1">or drag and drop</p>
+                        </div>
+                        <p className="text-xs text-gray-500">PNG, JPG, PDF up to 10MB (ID copy, certificates, etc.)</p>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <Checkbox
-                          id="agreeCode"
-                          checked={formData.agreeCode}
-                          onCheckedChange={(checked) => handleCheckboxChange("agreeCode", checked as boolean)}
-                          required
-                        />
-                        <Label htmlFor="agreeCode" className="text-sm">
-                          I agree to abide by the ACCK Code of Ethics and Professional Conduct. *
-                        </Label>
-                      </div>
-                    </div>
-
-                    <div className="rounded-lg bg-muted p-4">
-                      <h4 className="font-medium mb-2">Membership Fee</h4>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        Individual Caregiver Membership: KES 5,000 per year
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        After submitting this form, you will be directed to the payment page to complete your
-                        registration.
-                      </p>
                     </div>
                   </div>
                 </div>
-              )}
 
-              <div className="flex justify-between mt-6">
-                {step > 1 && (
-                  <Button type="button" variant="outline" onClick={handlePrevStep}>
-                    Previous
+                <Separator />
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Membership Fee Payment</h3>
+                  <p className="text-sm text-muted-foreground">
+                    The annual membership fee for individual caregivers is <strong>KES 5,000</strong>. You will be
+                    directed to make payment after submitting your application.
+                  </p>
+
+                  <Alert>
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Important</AlertTitle>
+                    <AlertDescription>
+                      Your membership will be activated after verification of your details and confirmation of payment.
+                    </AlertDescription>
+                  </Alert>
+                </div>
+
+                <div className="flex justify-end">
+                  <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+                    {isSubmitting ? "Processing..." : "Submit Application"}
                   </Button>
-                )}
-                {step < 3 ? (
-                  <Button type="button" className="bg-teal-600 hover:bg-teal-700 ml-auto" onClick={handleNextStep}>
-                    Next
-                  </Button>
-                ) : (
-                  <Button
-                    type="submit"
-                    className="bg-teal-600 hover:bg-teal-700 ml-auto"
-                    disabled={isSubmitting || !formData.agreeTerms || !formData.agreeCode}
-                  >
-                    {isSubmitting ? "Processing..." : "Submit Registration"}
-                  </Button>
-                )}
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="border border-gray-200 shadow-sm">
+            <CardHeader>
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle className="h-8 w-8 text-green-600" />
+                </div>
               </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex flex-col items-start border-t pt-6">
-            <p className="text-sm text-muted-foreground">
-              Need assistance? Contact our membership support team at membership@acck.org or call +254 700 000000.
-            </p>
-          </CardFooter>
-        </Card>
+              <CardTitle className="text-2xl font-bold text-center">Application Submitted Successfully</CardTitle>
+              <CardDescription className="text-center">
+                Your caregiver membership application has been received
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="bg-muted/30 p-4 rounded-md">
+                <p className="font-medium">Application Reference: ACCGK-C-{Date.now().toString().slice(-6)}</p>
+                <p className="text-sm text-muted-foreground">
+                  Please save this reference number for future correspondence
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Next Steps</h3>
+                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
+                  <li>Complete your payment to proceed with the application process</li>
+                  <li>Our team will verify your submitted information</li>
+                  <li>You will receive an email confirmation within 3-5 business days</li>
+                  <li>Upon approval, you will receive your digital membership certificate</li>
+                </ol>
+              </div>
+
+              {!paymentInitiated ? (
+                <div className="bg-primary/5 p-6 rounded-lg border border-primary/20">
+                  <h3 className="text-lg font-semibold mb-4">Complete Your Payment</h3>
+                  <p className="mb-4">
+                    To finalize your application, please pay the membership fee of <strong>KES 5,000</strong> via MPesa.
+                  </p>
+                  <Button onClick={initiatePayment} className="w-full bg-primary hover:bg-primary/90">
+                    Pay via MPesa
+                  </Button>
+                </div>
+              ) : (
+                <div className="bg-green-50 p-6 rounded-lg border border-green-100">
+                  <h3 className="text-lg font-semibold text-green-800 mb-4">MPesa Payment Instructions</h3>
+                  <ol className="list-decimal list-inside space-y-2 text-green-700">
+                    <li>Go to your M-PESA menu on your phone</li>
+                    <li>Select "Lipa na M-PESA"</li>
+                    <li>Select "Pay Bill"</li>
+                    <li>
+                      Enter Business Number: <strong>522522</strong>
+                    </li>
+                    <li>
+                      Enter Account Number: <strong>ACCGK-{formData.idNumber}</strong>
+                    </li>
+                    <li>
+                      Enter Amount: <strong>5,000</strong>
+                    </li>
+                    <li>Enter your M-PESA PIN and confirm</li>
+                  </ol>
+                  <p className="mt-4 text-sm text-green-600">
+                    You will receive an SMS confirmation from M-PESA once the payment is complete.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+            <CardFooter className="flex justify-center">
+              <Button variant="outline" asChild>
+                <Link href="/membership">Return to Membership Page</Link>
+              </Button>
+            </CardFooter>
+          </Card>
+        )}
       </div>
     </PageLayout>
   )

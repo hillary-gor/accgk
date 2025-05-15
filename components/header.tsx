@@ -1,69 +1,97 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
-import { useAuth } from "@/contexts/auth-context"
-import { MainNav } from "@/components/main-nav"
-import { UserNav } from "@/components/user-nav"
-import { ModeToggle } from "@/components/mode-toggle"
+import Image from "next/image"
+import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { ResponsiveContainer } from "@/components/responsive-container"
-import { Menu } from "lucide-react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-export function Header() {
-  const { user } = useAuth()
+export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <ResponsiveContainer>
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-2 md:gap-4">
-            <div className="block md:hidden">
-              <SidebarTrigger />
-            </div>
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-sm font-bold text-primary-foreground">AC</span>
-              </div>
-              <span className="hidden text-lg font-semibold sm:inline-block">ACCGK</span>
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center space-x-2">
+          <Image
+            src="/placeholder.svg?height=40&width=40"
+            alt="ACCGK Logo"
+            width={40}
+            height={40}
+            className="h-10 w-auto"
+          />
+          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">ACCGK</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link href="#about" className="text-gray-700 hover:text-accgk-blue font-medium">
+            About
+          </Link>
+          <Link href="#focus-areas" className="text-gray-700 hover:text-accgk-blue font-medium">
+            Our Work
+          </Link>
+          <Link href="#impact" className="text-gray-700 hover:text-accgk-blue font-medium">
+            Impact
+          </Link>
+          <Link href="#contact" className="text-gray-700 hover:text-accgk-blue font-medium">
+            Contact
+          </Link>
+          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">Join ACCGK</Button>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-gray-700"
+          onClick={toggleMenu}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white border-t">
+          <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+            <Link
+              href="#about"
+              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
             </Link>
-            <div className="hidden md:block">
-              <MainNav />
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="block md:hidden">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-9 w-9">
-                    <Menu className="h-5 w-5" />
-                    <span className="sr-only">Toggle menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-[80%] sm:w-[350px]">
-                  <div className="mt-6">
-                    <MainNav className="flex flex-col space-y-3" />
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-            <ModeToggle />
-            {user ? (
-              <UserNav />
-            ) : (
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/auth/signin">Sign in</Link>
-                </Button>
-                <Button size="sm" asChild>
-                  <Link href="/auth/signup">Sign up</Link>
-                </Button>
-              </div>
-            )}
+            <Link
+              href="#focus-areas"
+              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Our Work
+            </Link>
+            <Link
+              href="#impact"
+              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Impact
+            </Link>
+            <Link
+              href="#contact"
+              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </Link>
+            <Button className="bg-accgk-blue hover:bg-accgk-blue/90 w-full" onClick={() => setIsMenuOpen(false)}>
+              Join ACCGK
+            </Button>
           </div>
         </div>
-      </ResponsiveContainer>
+      )}
     </header>
   )
 }
