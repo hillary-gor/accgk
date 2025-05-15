@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useToast } from "@/components/ui/use-toast"
-import { supabase } from "@/lib/supabase-to-delete-file"
+import { supabase } from "@/lib/supabase"
 
 export default function CreateProgramPage() {
   const { user } = useAuth()

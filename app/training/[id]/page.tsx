@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
-import { supabase } from "@/lib/supabase-to-delete-file"
+import { supabase } from "@/lib/supabase"
 import { BookOpen, Calendar, CheckCircle, Clock, Download, Users } from "lucide-react"
 
 export default function TrainingProgramDetailPage() {

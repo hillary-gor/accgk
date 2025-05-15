@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useToast } from "@/components/ui/use-toast"
-import { supabase } from "@/lib/supabase-to-delete-file"
+import { supabase } from "@/lib/supabase"
 import { PageHeader } from "@/components/page-header"
 import { ResponsiveGrid } from "@/components/responsive-grid"
 import { SkeletonCard } from "@/components/ui/skeleton-card"

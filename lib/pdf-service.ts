@@ -22,7 +22,7 @@ export async function generateLicensePDF(
 
       // Collect the PDF data chunks
       const chunks: Buffer[] = []
-      // const stream = new Readable()
+      const stream = new Readable()
 
       doc.on("data", (chunk) => chunks.push(chunk))
       doc.on("end", () => resolve(Buffer.concat(chunks)))

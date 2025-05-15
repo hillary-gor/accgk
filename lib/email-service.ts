@@ -1,55 +1,64 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer"
+import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Configure nodemailer transporter
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
+  secure: Number(process.env.EMAIL_PORT) === 465,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+})
+
+// Configure Resend (alternative email service)
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export type EmailOptions = {
-  to: string;
-  subject: string;
-  html: string;
-  text?: string;
-  from?: string;
-};
+  to: string
+  subject: string
+  html: string
+  text?: string
+  from?: string
+}
 
 export async function sendEmail(options: EmailOptions) {
-  const {
-    to,
-    subject,
-    html,
-    text,
-    from = process.env.EMAIL_FROM || "no-reply@accgk.co.ke",
-  } = options;
+  const { to, subject, html, text, from = process.env.EMAIL_FROM } = options
 
   try {
-    const { data, error } = await resend.emails.send({
+    // Try sending with nodemailer first
+    const info = await transporter.sendMail({
       from,
       to,
       subject,
+      text: text || "",
       html,
-      text,
-    });
+    })
 
-    if (error) {
-      console.error("Resend error:", error);
-      throw new Error("Failed to send email via Resend.");
-    }
-
-    return {
-      success: true,
-      messageId: data?.id || null,
-    };
+    return { success: true, messageId: info.messageId }
   } catch (error) {
-    console.error("Resend error:", error);
-    throw new Error("Failed to send email via Resend.");
+    console.error("Nodemailer error:", error)
+
+    // Fallback to Resend if nodemailer fails
+    try {
+      const data = await resend.emails.send({
+        from: from || "onboarding@resend.dev",
+        to,
+        subject,
+        html,
+        text: text || "",
+      })
+
+      return { success: true, messageId: data.id }
+    } catch (resendError) {
+      console.error("Resend error:", resendError)
+      throw new Error("Failed to send email through both providers")
+    }
   }
 }
 
-// --- Specialized Emails ---
-
-export async function sendLicenseApprovalEmail(
-  to: string,
-  name: string,
-  licenseNumber: string
-) {
+export async function sendLicenseApprovalEmail(to: string, name: string, licenseNumber: string) {
   return sendEmail({
     to,
     subject: "Your License Application Has Been Approved",
@@ -64,14 +73,10 @@ export async function sendLicenseApprovalEmail(
         <p>Best regards,<br>Association of Certified Caregivers Kenya</p>
       </div>
     `,
-  });
+  })
 }
 
-export async function sendCertificationApprovalEmail(
-  to: string,
-  name: string,
-  certificationType: string
-) {
+export async function sendCertificationApprovalEmail(to: string, name: string, certificationType: string) {
   return sendEmail({
     to,
     subject: "Your Certification Has Been Approved",
@@ -85,15 +90,10 @@ export async function sendCertificationApprovalEmail(
         <p>Best regards,<br>Association of Certified Caregivers Kenya</p>
       </div>
     `,
-  });
+  })
 }
 
-export async function sendRenewalReminderEmail(
-  to: string,
-  name: string,
-  documentType: string,
-  expiryDate: string
-) {
+export async function sendRenewalReminderEmail(to: string, name: string, documentType: string, expiryDate: string) {
   return sendEmail({
     to,
     subject: `Your ${documentType} is About to Expire`,
@@ -106,5 +106,5 @@ export async function sendRenewalReminderEmail(
         <p>Best regards,<br>Association of Certified Caregivers Kenya</p>
       </div>
     `,
-  });
+  })
 }

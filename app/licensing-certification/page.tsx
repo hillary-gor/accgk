@@ -30,7 +30,7 @@ export default function LicensingCertificationPage() {
             </div>
             <div className="flex items-center justify-center">
               <img
-                src="/placeholder.svg?height=300&width=500"
+                src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//IMG_0419.JPG?height=300&width=500"
                 alt="Certification Ceremony"
                 className="rounded-lg shadow-md"
               />

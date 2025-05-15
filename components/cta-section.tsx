@@ -11,7 +11,7 @@ export function CtaSection() {
               Ready to Elevate Your Caregiving Career?
             </h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Join ACCK today and become part of Kenya's premier caregiving community.
+              Join ACCK today and become part of Kenya&apos;s premier caregiving community.
             </p>
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">

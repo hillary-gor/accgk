@@ -6,7 +6,7 @@ import { DashboardShell } from "@/components/dashboard-shell"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
-import { supabase } from "@/lib/supabase-to-delete-file"
+import { supabase } from "@/lib/supabase"
 import { CheckCircle, XCircle } from "lucide-react"
 
 export default function PaymentConfirmPage() {

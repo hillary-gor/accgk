@@ -110,7 +110,7 @@ export default function JoinMembershipPage() {
               <AccordionTrigger>What happens after I register?</AccordionTrigger>
               <AccordionContent>
                 After submitting your registration and payment, our team will review your application within 2-3
-                business days. Once approved, you'll receive a welcome email with your membership certificate, login
+                business days. Once approved, you&apos;ll receive a welcome email with your membership certificate, login
                 credentials for the member portal, and information on how to access your benefits.
               </AccordionContent>
             </AccordionItem>
@@ -133,7 +133,7 @@ export default function JoinMembershipPage() {
             <AccordionItem value="item-4">
               <AccordionTrigger>What should I do if my application is rejected?</AccordionTrigger>
               <AccordionContent>
-                If your application is rejected, you'll receive an email explaining the reasons. Common reasons include
+                If your application is rejected, you&apos;ll receive an email explaining the reasons. Common reasons include
                 incomplete information, unverifiable credentials, or not meeting the minimum requirements. You can
                 address these issues and reapply after 30 days. Our membership support team is available to help you
                 understand the requirements better.
@@ -167,7 +167,7 @@ export default function JoinMembershipPage() {
               <AccordionTrigger>How do institutions register multiple caregivers?</AccordionTrigger>
               <AccordionContent>
                 Institutions can register multiple caregivers through the institutional membership portal. After your
-                institution is approved, you'll gain access to a dashboard where you can add and manage individual
+                institution is approved, you&apos;ll gain access to a dashboard where you can add and manage individual
                 caregiver profiles. Bulk registration discounts are available for institutions registering 10 or more
                 caregivers.
               </AccordionContent>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useAuth } from "@/contexts/auth-context"
-import { supabase } from "@/lib/supabase-to-delete-file"
+import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"

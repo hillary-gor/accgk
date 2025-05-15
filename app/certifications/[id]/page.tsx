@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
-import { getSupabaseServer } from "@/utils/supabase/server"
+import { createClient } from "@/utils/supabase/client"
 import { sendCertificationApprovalEmail } from "@/lib/email-service"
 import { CheckCircle, Download, Medal, XCircle } from "lucide-react"
 
@@ -24,9 +24,9 @@ export default function CertificationDetailPage() {
   const [isProcessing, setIsProcessing] = useState(false)
   const [reviewNotes, setReviewNotes] = useState("")
   const [userRole, setUserRole] = useState<string | null>(null)
-  const supabase = getSupabaseServer()
 
   const certificationId = params.id as string
+  const supabase = createClient() 
 
   useEffect(() => {
     if (!user) return

@@ -7,7 +7,7 @@ import { DashboardShell } from "@/components/dashboard-shell"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
-import { supabase } from "@/lib/supabase-to-delete-file"
+import { supabase } from "@/lib/supabase"
 import { Breadcrumbs } from "@/components/ui/breadcrumbs"
 import { BookOpen, Calendar, Download, FileText, Share2, ThumbsUp, Video } from "lucide-react"
 

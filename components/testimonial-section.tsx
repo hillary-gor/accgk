@@ -32,8 +32,8 @@ export function TestimonialSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                "ACCK certification has opened doors for me professionally. The comprehensive training prepared me for
-                real-world caregiving challenges, and employers recognize the value of my credentials."
+                &quot;ACCK certification has opened doors for me professionally. The comprehensive training prepared me for
+                real-world caregiving challenges, and employers recognize the value of my credentials.&quot;
               </p>
             </CardContent>
           </Card>
@@ -52,8 +52,8 @@ export function TestimonialSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                "The community aspect of ACCK has been invaluable. Being able to connect with other caregivers, share
-                experiences, and learn from each other has made me a better caregiver."
+                &quot;The community aspect of ACCK has been invaluable. Being able to connect with other caregivers, share
+                experiences, and learn from each other has made me a better caregiver.&quot;
               </p>
             </CardContent>
           </Card>
@@ -72,8 +72,8 @@ export function TestimonialSection() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                "The online resources and continuing education opportunities through ACCK keep me updated on best
-                practices. I feel confident in my ability to provide the highest quality care."
+                &quot;The online resources and continuing education opportunities through ACCK keep me updated on best
+                practices. I feel confident in my ability to provide the highest quality care.&quot;
               </p>
             </CardContent>
           </Card>

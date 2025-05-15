@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useAuth } from "@/contexts/auth-context"
 import { DashboardShell } from "@/components/dashboard-shell"
 import { Button } from "@/components/ui/button"
@@ -11,10 +11,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/components/ui/use-toast"
-import { createClient } from "@supabase/supabase-js"
+import { supabase } from "@/lib/supabase"
 
 export default function SettingsPage() {
-  const supanse = useMemo(() => )
   const { user } = useAuth()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
