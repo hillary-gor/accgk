@@ -8,16 +8,17 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/components/ui/use-toast"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/utils/supabase/client"
 import { Download, FileText, Medal } from "lucide-react"
 
 export default function CertificationsPage() {
+  const supabase = createClient() 
   const { user } = useAuth()
   const { toast } = useToast()
   const [certifications, setCertifications] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [userRole, setUserRole] = useState<string | null>(null)
-
+  
   useEffect(() => {
     if (!user) return
 

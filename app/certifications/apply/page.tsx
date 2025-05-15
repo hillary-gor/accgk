@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 import { initiateSTKPush, generatePaymentReference } from "@/lib/mpesa-service"
-import { supabase } from "@/lib/supabase"
+import { createClient } from "@/utils/supabase/client"
 import { v4 as uuidv4 } from "uuid"
 
 export default function CertificationApplicationPage() {
@@ -30,6 +30,7 @@ export default function CertificationApplicationPage() {
     experience: "",
     references: "",
   })
+   const supabase = createClient() 
 
   const certificationTypes = [
     { value: "basic", label: "Basic Caregiving", fee: 1500 },
