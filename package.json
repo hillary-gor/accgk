@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.3",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "latest",
     "@radix-ui/react-alert-dialog": "1.1.4",
