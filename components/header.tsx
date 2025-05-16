@@ -5,11 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react"
+import { ChevronDown } from "lucide-react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMoreOpen, setIsMoreOpen] = useState(false)
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -70,47 +70,53 @@ export default function Header() {
             Get Involved
           </Link>
           {/* Dropdown for More */}
-          <div className="relative group">
-            <button className="text-gray-700 hover:text-accgk-blue font-medium">
-              More
+          <div className="relative">
+            <button
+              onClick={() => setIsMoreOpen(!isMoreOpen)}
+              onBlur={() => setTimeout(() => setIsMoreOpen(false), 100)}
+              className="text-gray-700 hover:text-accgk-blue font-medium flex items-center gap-1"
+            >
+              More <ChevronDown className="w-4 h-4" />
             </button>
-            <div className="absolute left-0 mt-2 hidden group-hover:block bg-white shadow-md rounded-md z-50">
-              <div className="flex flex-col py-2">
-                <Link
-                  href="/partnerships"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Partnerships
-                </Link>
-                <Link
-                  href="/success-stories"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Success Stories
-                </Link>
-                <Link
-                  href="/licensing-certification"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Licensing
-                </Link>
-                <Link
-                  href="/privacy-policy"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Privacy Policy
-                </Link>
-                <Link href="/terms" className="px-4 py-2 hover:bg-gray-100">
-                  Terms
-                </Link>
-                <Link
-                  href="/cookies-policy"
-                  className="px-4 py-2 hover:bg-gray-100"
-                >
-                  Cookies Policy
-                </Link>
+            {isMoreOpen && (
+              <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md z-50">
+                <div className="flex flex-col py-2">
+                  <Link
+                    href="/partnerships"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    Partnerships
+                  </Link>
+                  <Link
+                    href="/success-stories"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    Success Stories
+                  </Link>
+                  <Link
+                    href="/licensing-certification"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    Licensing
+                  </Link>
+                  <Link
+                    href="/privacy-policy"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link href="/terms" className="px-4 py-2 hover:bg-gray-100">
+                    Terms
+                  </Link>
+                  <Link
+                    href="/cookies-policy"
+                    className="px-4 py-2 hover:bg-gray-100"
+                  >
+                    Cookies Policy
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <Button className="bg-accgk-blue hover:bg-accgk-blue/90">
             Join ACCGK
