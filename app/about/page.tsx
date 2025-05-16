@@ -14,7 +14,6 @@ export default function AboutPage() {
       <CoreValuesSection />
       <TeamSection />
       <CTASection />
-      <Footer />
     </main>
   )
 }
