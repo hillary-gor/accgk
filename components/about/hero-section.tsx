@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from "next/image";
 
 export default function HeroSection() {
   return (
@@ -31,18 +31,25 @@ export default function HeroSection() {
           {/* Content Column */}
           <div className="order-1 md:order-2">
             <div className="max-w-xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">About ACCGK</h1>
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-blue-600">
+                About ACCGK
+              </h1>
               <div className="w-20 h-1 bg-accgk-pink mb-8"></div>
-              <p className="text-xl mb-8 text-white/90">
-                The Association of Certified Caregivers Kenya (ACCGK) is the premier regulatory body dedicated to
-                uplifting caregiving standards across Kenya. We establish and maintain professional standards, ensuring
-                quality care delivery while advocating for the rights and welfare of caregiving professionals.
+              <p className="text-xl mb-8 text-blue-500">
+                The Association of Certified Caregivers Kenya (ACCGK) is the
+                premier regulatory body dedicated to uplifting caregiving
+                standards across Kenya. We establish and maintain professional
+                standards, ensuring quality care delivery while advocating for
+                the rights and welfare of caregiving professionals.
               </p>
-              <p className="text-lg text-white/80">
-                Through our comprehensive framework, we provide certification, continuing education, and a structured
-                career pathway for caregivers, enhancing their professional growth and recognition in the healthcare
-                ecosystem.
-              </p>
+              <div className="bg-pink-300/20 rounded-xl p-6 md:p-8 shadow-sm backdrop-blur-sm">
+                <p className="text-base md:text-lg text-pink-700 leading-relaxed">
+                  Through our comprehensive framework, we provide certification,
+                  continuing education, and a structured career pathway for
+                  caregivers, enhancing their professional growth and
+                  recognition in the healthcare ecosystem.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -50,7 +57,11 @@ export default function HeroSection() {
 
       {/* Wave Divider */}
       <div className="absolute bottom-0 left-0 right-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 120"
+          className="w-full h-auto"
+        >
           <path
             fill="#111827"
             fillOpacity="1"
@@ -59,5 +70,5 @@ export default function HeroSection() {
         </svg>
       </div>
     </section>
-  )
+  );
 }
