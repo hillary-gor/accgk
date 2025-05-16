@@ -1,17 +1,19 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react"
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false)
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -24,24 +26,95 @@ export default function Header() {
             height={40}
             className="h-10 w-auto"
           />
-          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">ACCGK</span>
+          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">
+            ACCGK
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link href="#about" className="text-gray-700 hover:text-accgk-blue font-medium">
+          <Link
+            href="./about"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
             About
           </Link>
-          <Link href="#focus-areas" className="text-gray-700 hover:text-accgk-blue font-medium">
-            Our Work
+          <Link
+            href="./membership"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
+            Membership
           </Link>
-          <Link href="#impact" className="text-gray-700 hover:text-accgk-blue font-medium">
+          <Link
+            href="#impact"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
             Impact
           </Link>
-          <Link href="#contact" className="text-gray-700 hover:text-accgk-blue font-medium">
+          <Link
+            href="#contact"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
             Contact
           </Link>
-          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">Join ACCGK</Button>
+          <Link
+            href="/faq"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/get-involved"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
+            Get Involved
+          </Link>
+          {/* Dropdown for More */}
+          <div className="relative group">
+            <button className="text-gray-700 hover:text-accgk-blue font-medium">
+              More
+            </button>
+            <div className="absolute left-0 mt-2 hidden group-hover:block bg-white shadow-md rounded-md z-50">
+              <div className="flex flex-col py-2">
+                <Link
+                  href="/partnerships"
+                  className="px-4 py-2 hover:bg-gray-100"
+                >
+                  Partnerships
+                </Link>
+                <Link
+                  href="/success-stories"
+                  className="px-4 py-2 hover:bg-gray-100"
+                >
+                  Success Stories
+                </Link>
+                <Link
+                  href="/licensing-certification"
+                  className="px-4 py-2 hover:bg-gray-100"
+                >
+                  Licensing
+                </Link>
+                <Link
+                  href="/privacy-policy"
+                  className="px-4 py-2 hover:bg-gray-100"
+                >
+                  Privacy Policy
+                </Link>
+                <Link href="/terms" className="px-4 py-2 hover:bg-gray-100">
+                  Terms
+                </Link>
+                <Link
+                  href="/cookies-policy"
+                  className="px-4 py-2 hover:bg-gray-100"
+                >
+                  Cookies Policy
+                </Link>
+              </div>
+            </div>
+          </div>
+          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">
+            Join ACCGK
+          </Button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -86,12 +159,15 @@ export default function Header() {
             >
               Contact
             </Link>
-            <Button className="bg-accgk-blue hover:bg-accgk-blue/90 w-full" onClick={() => setIsMenuOpen(false)}>
+            <Button
+              className="bg-accgk-blue hover:bg-accgk-blue/90 w-full"
+              onClick={() => setIsMenuOpen(false)}
+            >
               Join ACCGK
             </Button>
           </div>
         </div>
       )}
     </header>
-  )
+  );
 }
