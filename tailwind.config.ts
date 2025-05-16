@@ -54,8 +54,8 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         // Direct color values
-        "accgk-blue": "#0033A1",
-        "accgk-pink": "#D40F7D",
+        "accgk-blue": "#3F96E6",
+        "accgk-pink": "#AB056A",
       },
       borderRadius: {
         lg: "var(--radius)",

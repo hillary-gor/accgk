@@ -8,7 +8,7 @@ import InstitutionsTab from "./institutions-tab"
 export default function AccreditationTabs() {
   return (
     <div className="mt-16">
-      <h2 className="text-3xl font-bold text-accgk-blue mb-8 text-center">Accreditation Information</h2>
+      <h2 className="text-3xl font-bold text-[#3F96E6] mb-8 text-center">Accreditation Information</h2>
       <Tabs defaultValue="process" className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-8">
           <TabsTrigger value="process">Accreditation Process</TabsTrigger>

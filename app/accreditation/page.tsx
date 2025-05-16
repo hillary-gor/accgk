@@ -1,6 +1,7 @@
 import PageLayout from "@/components/page-layout"
 import BenefitsSection from "@/components/accreditation/benefits-section"
 import AccreditationTabs from "@/components/accreditation/accreditation-tabs"
+import AccreditationHero from "@/components/accreditation/hero-section"
 
 export default function AccreditationPage() {
   return (
@@ -8,6 +9,8 @@ export default function AccreditationPage() {
       title="Accreditation Information"
       description="ACCGK's comprehensive accreditation process ensures that caregiving institutions meet the highest standards of education and professional preparation."
     >
+      <AccreditationHero />
+
       <div className="max-w-3xl mx-auto mb-12">
         <p className="text-lg text-gray-700 mb-4">
           The Association of Certified Caregivers Kenya (ACCGK) plays a vital role in accrediting caregiving
