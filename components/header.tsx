@@ -43,11 +43,11 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/placeholder.svg?height=40&width=40"
+            src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.svg?height=40&width=40"
             alt="ACCGK Logo"
             width={40}
             height={40}
-            className="h-10 w-auto"
+            className="h-12 w-auto"
           />
           <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">
             ACCGK
