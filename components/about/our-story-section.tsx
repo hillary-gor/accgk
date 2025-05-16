@@ -43,7 +43,7 @@ export default function OurStorySection() {
           <div className="relative">
             <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/placeholder.svg?height=1200&width=800&text=Caregivers+in+Action"
+                src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-accgk-aboutSmile.JPG"
                 alt="ACCGK Caregivers in Action"
                 fill
                 className="object-cover"

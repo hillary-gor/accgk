@@ -12,9 +12,9 @@ export default function HeroSection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Image Column */}
           <div className="order-2 md:order-1">
-            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl transform md:rotate-1">
+            <div className="relative h-[650px] rounded-2xl overflow-hidden shadow-2xl transform md:rotate-1">
               <Image
-                src="/placeholder.svg?height=800&width=600&text=Professional+Caregivers+Team"
+                src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//janet-accgk-aboutHero.JPG"
                 alt="ACCGK Professional Caregivers Team"
                 fill
                 className="object-cover"
