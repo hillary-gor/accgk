@@ -7,37 +7,37 @@ const focusAreas = [
     description:
       "Ensuring caregivers maintain and enhance their skills through continuous professional development programs.",
     icon: GraduationCap,
-    image: "/placeholder.svg?height=200&width=200&text=Professional+Development",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//IMG_0314.JPG?height=200&width=200&text=Professional+Development",
   },
   {
     title: "Licensing & Regulation",
     description: "Establishing and maintaining professional standards through comprehensive licensing frameworks.",
     icon: FileCheck,
-    image: "/placeholder.svg?height=200&width=200&text=Licensing+and+Certification",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-accgk.JPG?height=200&width=200&text=Licensing+and+Certification",
   },
   {
     title: "Caregivers Registry",
     description: "Maintaining a national database of certified caregivers to ensure accountability and recognition.",
     icon: Users,
-    image: "/placeholder.svg?height=200&width=200&text=Caregiver+Registry",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//janet-smile-accgk.JPG?height=200&width=200&text=Caregiver+Registry",
   },
   {
     title: "Advocacy for Policy & Legal Reform",
     description: "Championing the rights and interests of caregivers through policy advocacy and legal reforms.",
     icon: Scale,
-    image: "/placeholder.svg?height=200&width=200&text=Policy+Advocacy",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//dida-accgk.JPG",
   },
   {
     title: "Career Development Pathways",
     description: "Creating structured career progression routes for caregivers to advance professionally.",
     icon: Award,
-    image: "/placeholder.svg?height=200&width=200&text=Career+Development",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-accgk.JPG?height=200&width=200&text=Career+Development",
   },
   {
     title: "Ethical Oversight & Disciplinary Framework",
     description: "Upholding ethical standards and providing a framework for professional conduct.",
     icon: ShieldCheck,
-    image: "/placeholder.svg?height=200&width=200&text=Ethical+Standards",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//sandra-accgk-confidence.JPG?height=200&width=200&text=Ethical+Standards",
   },
 ]
 

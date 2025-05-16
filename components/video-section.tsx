@@ -14,7 +14,7 @@ export default function VideoSection() {
           <div className="aspect-w-16 aspect-h-9 relative group cursor-pointer">
             {/* Video Thumbnail */}
             <Image
-              src="/placeholder.svg?height=1080&width=1920&text=ACCGK+Caregiver+Training+Video"
+              src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//sandra-accgk-confidence.JPG"
               alt="ACCGK Caregiver Training Video"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
