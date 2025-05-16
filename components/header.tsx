@@ -1,19 +1,39 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { Menu, X, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { AnimatePresence, motion } from "framer-motion"
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMoreOpen, setIsMoreOpen] = useState(false)
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // Prevent body scroll when mobile nav is open
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? "hidden" : ""
+  }, [isMenuOpen])
+
+  const navLinks = [
+    { label: "About", href: "/about" },
+    { label: "Membership", href: "/membership" },
+    { label: "Accreditation", href: "/accreditation" },
+    { label: "Impact", href: "#impact" },
+    { label: "Contact", href: "#contact" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Get Involved", href: "/get-involved" },
+  ]
+
+  const moreLinks = [
+    { label: "Partnerships", href: "/partnerships" },
+    { label: "Success Stories", href: "/success-stories" },
+    { label: "Licensing", href: "/licensing-certification" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms", href: "/terms" },
+    { label: "Cookies Policy", href: "/cookies-policy" },
+  ]
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
@@ -26,57 +46,21 @@ export default function Header() {
             height={40}
             className="h-10 w-auto"
           />
-          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">
-            ACCGK
-          </span>
+          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">ACCGK</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <Link
-            href="./about"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            About
-          </Link>
-          <Link
-            href="./membership"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            Membership
-          </Link>
-          <Link
-            href="./accreditation"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            Accreditation
-          </Link>
-          <Link
-            href="#impact"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            Impact
-          </Link>
-          <Link
-            href="#contact"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            Contact
-          </Link>
-          <Link
-            href="/faq"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            FAQ
-          </Link>
-          <Link
-            href="/get-involved"
-            className="text-gray-700 hover:text-accgk-blue font-medium"
-          >
-            Get Involved
-          </Link>
-          {/* Dropdown for More */}
-          <div className="relative">
+        <nav className="hidden md:flex items-center space-x-6">
+          {navLinks.map(({ label, href }) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-gray-700 hover:text-accgk-blue font-medium"
+            >
+              {label}
+            </Link>
+          ))}
+          <div className="relative group">
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
               onBlur={() => setTimeout(() => setIsMoreOpen(false), 100)}
@@ -87,99 +71,108 @@ export default function Header() {
             {isMoreOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md z-50">
                 <div className="flex flex-col py-2">
-                  <Link
-                    href="/partnerships"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Partnerships
-                  </Link>
-                  <Link
-                    href="/success-stories"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Success Stories
-                  </Link>
-                  <Link
-                    href="/licensing-certification"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Licensing
-                  </Link>
-                  <Link
-                    href="/privacy-policy"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Privacy Policy
-                  </Link>
-                  <Link href="/terms" className="px-4 py-2 hover:bg-gray-100">
-                    Terms
-                  </Link>
-                  <Link
-                    href="/cookies-policy"
-                    className="px-4 py-2 hover:bg-gray-100"
-                  >
-                    Cookies Policy
-                  </Link>
+                  {moreLinks.map(({ label, href }) => (
+                    <Link key={href} href={href} className="px-4 py-2 hover:bg-gray-100">
+                      {label}
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}
           </div>
-          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">
-            Join ACCGK
-          </Button>
+          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">Join ACCGK</Button>
         </nav>
 
         {/* Mobile Menu Button */}
         <button
           className="md:hidden text-gray-700"
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          onClick={() => setIsMenuOpen(true)}
+          aria-label="Open menu"
         >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          <Menu size={24} />
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t">
-          <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <Link
-              href="#about"
-              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
+      {/* Mobile Navigation Slide-in */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsMenuOpen(false)}
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+            />
+
+            {/* Slide-in Panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween" }}
+              className="fixed top-0 right-0 bottom-0 z-50 w-4/5 max-w-sm bg-white shadow-lg p-6 overflow-y-auto"
             >
-              About
-            </Link>
-            <Link
-              href="#focus-areas"
-              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Our Work
-            </Link>
-            <Link
-              href="#impact"
-              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Impact
-            </Link>
-            <Link
-              href="#contact"
-              className="text-gray-700 hover:text-accgk-blue font-medium py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
-            <Button
-              className="bg-accgk-blue hover:bg-accgk-blue/90 w-full"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Join ACCGK
-            </Button>
-          </div>
-        </div>
-      )}
+              <div className="flex justify-between items-center mb-6">
+                <span className="text-lg font-semibold">Menu</span>
+                <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
+                  <X size={24} />
+                </button>
+              </div>
+
+              <nav className="flex flex-col space-y-4">
+                {navLinks.map(({ label, href }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="text-gray-700 hover:text-accgk-blue font-medium"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                ))}
+
+                {/* Collapsible More */}
+                <div>
+                  <button
+                    onClick={() => setIsMoreOpen((prev) => !prev)}
+                    className="flex items-center justify-between w-full text-gray-700 font-medium hover:text-accgk-blue"
+                  >
+                    More
+                    <ChevronDown
+                      className={`w-4 h-4 transform transition-transform ${
+                        isMoreOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {isMoreOpen && (
+                    <div className="ml-2 mt-2 flex flex-col space-y-2">
+                      {moreLinks.map(({ label, href }) => (
+                        <Link
+                          key={href}
+                          href={href}
+                          className="text-gray-700 hover:text-accgk-blue text-sm"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <Button
+                  className="bg-accgk-blue hover:bg-accgk-blue/90 mt-4"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Join ACCGK
+                </Button>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
-  );
+  )
 }
