@@ -7,28 +7,28 @@ const services = [
     description: "Register as a certified caregiver or institution",
     icon: UserPlus,
     color: "bg-blue-500",
-    link: "#",
+    link: "./membership",
   },
   {
     title: "Verify",
     description: "Verify a caregiver's certification status",
     icon: CheckCircle,
     color: "bg-green-500",
-    link: "#",
+    link: "./verify",
   },
   {
     title: "Partner",
     description: "Become an institutional partner with ACCGK",
     icon: Handshake,
     color: "bg-purple-500",
-    link: "#",
+    link: "./partnerships",
   },
   {
     title: "Submit Complaint",
     description: "Report an issue or file a formal complaint",
     icon: AlertCircle,
     color: "bg-amber-500",
-    link: "#",
+    link: "./about",
   },
 ]
 

@@ -8,7 +8,7 @@ export default function CallToAction() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/placeholder.svg?height=1080&width=1920&text=Caregivers+Training+Session"
+          src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-janet-pricilla-shanice-sandy.JPG"
           alt="Caregivers in a training session"
           fill
           className="object-cover"
