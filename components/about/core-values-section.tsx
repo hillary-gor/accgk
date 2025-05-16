@@ -48,7 +48,7 @@ export default function CoreValuesSection() {
             Our Core Values
           </h2>
           <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
-          <p className="text-xl text-blue-500">
+          <p className="text-xl text-gray-900">
             Upholding professionalism and integrity in caregiving practices
             across Kenya.
           </p>

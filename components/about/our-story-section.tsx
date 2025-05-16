@@ -10,7 +10,7 @@ export default function OurStorySection() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Our Story</h2>
             <div className="w-20 h-1 bg-[#AB056A] mb-8"></div>
 
-            <div className="space-y-6 text-base md:text-lg text-neutral-700 leading-relaxed">
+            <div className="space-y-6 text-base md:text-lg text-neutral-900 leading-relaxed">
               <p>
                 Founded in 2020, the Association of Certified Caregivers Kenya (ACCGK) emerged from a critical need to
                 professionalize and standardize caregiving practices across Kenya. What began as a small coalition of
