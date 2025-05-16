@@ -25,7 +25,7 @@ export default function Hero() {
           </div>
 
           {/* Image Right */}
-          <div className="relative w-full aspect-[4/3] md:aspect-[3/2] lg:aspect-video rounded-xl overflow-hidden shadow-xl">
+          <div className="relative w-full aspect-[4/3] md:aspect-[4/3] lg:aspect-video rounded-xl overflow-hidden shadow-xl">
             <Image
               src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/neema-and-shanice-accgk.JPG"
               alt="Professional caregivers providing compassionate care"
