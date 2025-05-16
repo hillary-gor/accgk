@@ -12,7 +12,7 @@ export default function Hero() {
           alt="Professional caregivers providing compassionate care"
           fill
           priority
-          className="object-cover opacity-90 mix-blend-overlay"
+          className="object-cover opacity-70 mix-blend-overlay"
         />
       </div>
 
