@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { PageLayout } from "@/components/page-layout"
+import PageLayout from "@/components/page-layout"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"

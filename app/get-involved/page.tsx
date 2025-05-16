@@ -1,6 +1,6 @@
 "use client"
 
-import { PageLayout } from "@/components/page-layout"
+import PageLayout from "@/components/page-layout"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState } from "react"
