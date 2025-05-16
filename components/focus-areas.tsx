@@ -7,19 +7,19 @@ const focusAreas = [
     description:
       "Ensuring caregivers maintain and enhance their skills through continuous professional development programs.",
     icon: GraduationCap,
-    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//IMG_0314.JPG?height=200&width=200&text=Professional+Development",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//IMG_0314.JPG",
   },
   {
     title: "Licensing & Regulation",
     description: "Establishing and maintaining professional standards through comprehensive licensing frameworks.",
     icon: FileCheck,
-    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-accgk.JPG?height=200&width=200&text=Licensing+and+Certification",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-accgk.JPG",
   },
   {
     title: "Caregivers Registry",
     description: "Maintaining a national database of certified caregivers to ensure accountability and recognition.",
     icon: Users,
-    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//janet-smile-accgk.JPG?height=200&width=200&text=Caregiver+Registry",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//janet-smile-accgk.JPG",
   },
   {
     title: "Advocacy for Policy & Legal Reform",
@@ -31,13 +31,13 @@ const focusAreas = [
     title: "Career Development Pathways",
     description: "Creating structured career progression routes for caregivers to advance professionally.",
     icon: Award,
-    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-accgk.JPG?height=200&width=200&text=Career+Development",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-accgk.JPG",
   },
   {
     title: "Ethical Oversight & Disciplinary Framework",
     description: "Upholding ethical standards and providing a framework for professional conduct.",
     icon: ShieldCheck,
-    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//sandra-accgk-confidence.JPG?height=200&width=200&text=Ethical+Standards",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//sandra-accgk-confidence.JPG",
   },
 ]
 
