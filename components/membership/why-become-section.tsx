@@ -25,8 +25,8 @@ export default function WhyBecomeSection() {
   return (
     <div className="mb-16">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Why Become a Member?</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-[#3F96E6] mb-4">Why Become a Member?</h2>
+        <p className="text-gray-700 max-w-3xl mx-auto">
           ACCGK membership offers tailored benefits for both individual caregivers and healthcare institutions, designed
           to enhance professional growth, credibility, and service quality.
         </p>
@@ -36,7 +36,7 @@ export default function WhyBecomeSection() {
         {/* Card 1: For Caregivers */}
         <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="bg-gray-50 border-b border-gray-100">
-            <CardTitle className="text-2xl font-bold text-teal-600">For Caregivers</CardTitle>
+            <CardTitle className="text-2xl font-bold text-[#3F96E6]">For Caregivers</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             <ul className="space-y-3">
@@ -49,7 +49,7 @@ export default function WhyBecomeSection() {
             </ul>
           </CardContent>
           <CardFooter className="border-t border-gray-100 pt-4">
-            <Button asChild className="w-full bg-teal-600 hover:bg-teal-700">
+            <Button asChild className="w-full bg-[#3F96E6] hover:bg-teal-700">
               <Link href="/membership/join?type=caregiver">Apply as a Caregiver</Link>
             </Button>
           </CardFooter>
@@ -58,7 +58,7 @@ export default function WhyBecomeSection() {
         {/* Card 2: For Institutions */}
         <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="bg-gray-50 border-b border-gray-100">
-            <CardTitle className="text-2xl font-bold text-teal-600">For Institutions</CardTitle>
+            <CardTitle className="text-2xl font-bold text-[#3F96E6]">For Institutions</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
             <ul className="space-y-3">
@@ -71,7 +71,7 @@ export default function WhyBecomeSection() {
             </ul>
           </CardContent>
           <CardFooter className="border-t border-gray-100 pt-4">
-            <Button asChild className="w-full bg-teal-600 hover:bg-teal-700">
+            <Button asChild className="w-full bg-[#3F96E6] hover:bg-teal-700">
               <Link href="/membership/join?type=institution">Apply as an Institution</Link>
             </Button>
           </CardFooter>

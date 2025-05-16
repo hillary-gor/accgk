@@ -1,6 +1,11 @@
 "use client"
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 const faqItems = [
   {
@@ -47,26 +52,34 @@ const faqItems = [
 
 export default function FaqSection() {
   return (
-    <div className="mb-16">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto">
-          Find answers to common questions about ACCGK membership, application process, and benefits.
+    <section className="mb-20">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Find answers to common questions about ACCGK membership, applications, and support.
         </p>
       </div>
 
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto space-y-4">
         <Accordion type="single" collapsible className="w-full">
           {faqItems.map((item, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left font-medium text-gray-800 hover:text-teal-600">
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className="border border-gray-200 rounded-xl shadow-sm bg-white transition-all hover:border-teal-400"
+            >
+              <AccordionTrigger className="px-6 py-4 text-left text-lg font-medium text-gray-800 hover:text-teal-600 transition-colors">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-600">{item.answer}</AccordionContent>
+              <AccordionContent className="px-6 pb-6 text-gray-600">
+                {item.answer}
+              </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
       </div>
-    </div>
+    </section>
   )
 }

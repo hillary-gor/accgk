@@ -5,7 +5,7 @@ import { Play } from "lucide-react"
 
 export default function HeroSection() {
   return (
-    <div className="bg-gradient-to-r from-teal-600 to-teal-500 rounded-xl overflow-hidden shadow-lg mb-16 text-white">
+    <div className="bg-gradient-to-r from-[#3F96E6] to-[#228cf0] rounded-xl overflow-hidden shadow-lg mb-16 text-white">
       <div className="grid md:grid-cols-2 gap-8 p-8 md:p-12">
         {/* Left Column - Text Content */}
         <div className="flex flex-col justify-center">
@@ -19,7 +19,7 @@ export default function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="bg-white text-teal-600 hover:bg-white/90 hover:text-teal-700 font-semibold"
+              className="bg-white text-[#3F96E6] hover:bg-white/90 hover:text-teal-700 font-semibold"
             >
               <Link href="/membership/join">Join Now</Link>
             </Button>
