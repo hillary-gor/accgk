@@ -11,7 +11,6 @@ interface PageLayoutProps {
 export default function PageLayout({ title, description, children }: PageLayoutProps) {
   return (
     <>
-      <Header />
       <main className="min-h-screen">
         <section className="bg-gradient-to-r from-accgk-blue to-accgk-blue/80 text-white py-16 md:py-24">
           <div className="container mx-auto px-4">
@@ -36,7 +35,6 @@ export default function PageLayout({ title, description, children }: PageLayoutP
           <div className="container mx-auto px-4">{children}</div>
         </section>
       </main>
-      <Footer />
     </>
   )
 }
