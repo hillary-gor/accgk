@@ -12,7 +12,7 @@ export default function Hero() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               Association of Certified Caregivers Kenya
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
+            <p className="text-xl md:text-2xl mb-8 text-blue-500">
               Uplifting Caregiving Standards in Kenya
             </p>
             <Button
