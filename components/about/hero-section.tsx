@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-r from-accgk-blue to-accgk-blue/80 text-white overflow-hidden py-16 md:py-24">
+    <section className="relative bg-gradient-to-r from-accgk-white to-accgk-blue/80 text-white overflow-hidden py-16 md:py-24">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-grid-white/10"></div>

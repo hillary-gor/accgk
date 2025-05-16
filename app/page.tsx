@@ -28,7 +28,6 @@ export default function Home() {
       <BlogSection />
       <FaqSection />
       <Contact />
-      <Footer />
     </main>
   )
 }
