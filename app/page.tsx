@@ -16,7 +16,7 @@ import FaqSection from "@/components/faq-section"
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <AnnouncementBar />
+      {/*<AnnouncementBar />*/}
       <Hero />
       <ServiceTiles />
       <About />
