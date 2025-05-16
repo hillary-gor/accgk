@@ -1,17 +1,17 @@
-import type React from "react";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { AuthProvider } from "@/contexts/auth-context";
-import { Toaster } from "@/components/ui/toaster";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import type React from "react"
+import type { Metadata, Viewport } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { AuthProvider } from "@/contexts/auth-context"
+import { Toaster } from "@/components/ui/toaster"
+import Header from "@/components/header"
+import Footer from "@/components/footer"
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
-});
+})
 
 export const metadata: Metadata = {
   title: "ACCGK - Association of Certified Caregivers Kenya",
@@ -27,15 +27,20 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Hillary Gor", url: "https://github.com/hillary-gor" }],
   creator: "ACCGK",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
-  themeColor: "#0F766E", // Only light theme color
   generator: "Hillary",
-};
+}
+
+export const viewport: Viewport = {
+  themeColor: "#0F766E",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
@@ -49,5 +54,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  );
+  )
 }
