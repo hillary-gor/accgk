@@ -4,34 +4,47 @@ import { Button } from "@/components/ui/button"
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-r from-accgk-blue to-accgk-blue/80 text-white overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-and-shanice-accgk.JPG?height=1080&width=1920&text=Professional+Caregivers+Team"
-          alt="Professional caregivers providing compassionate care"
-          fill
-          priority
-          className="object-cover opacity-70 mix-blend-overlay"
-        />
-      </div>
+    <section className="relative bg-gradient-to-r from-accgk-blue to-accgk-blue/90 text-white overflow-hidden">
+      <div className="container mx-auto px-4 py-20 md:py-32">
+        <div className="grid md:grid-cols-2 items-center gap-12">
+          {/* Text Content Left */}
+          <div className="text-center md:text-left">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              Association of Certified Caregivers Kenya
+            </h1>
+            <p className="text-xl md:text-2xl mb-8 text-white/90">
+              Uplifting Caregiving Standards in Kenya
+            </p>
+            <Button
+              asChild
+              size="lg"
+              className="bg-accgk-pink hover:bg-accgk-pink/90 text-white"
+            >
+              <Link href="#cta">Join the Movement</Link>
+            </Button>
+          </div>
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            Association of Certified Caregivers Kenya
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white/90">Uplifting Caregiving Standards in Kenya</p>
-          <Button asChild size="lg" className="bg-accgk-pink hover:bg-accgk-pink/90 text-white">
-            <Link href="#cta">Join the Movement</Link>
-          </Button>
+          {/* Image Right */}
+          <div className="relative w-full aspect-[4/3] md:aspect-[3/2] lg:aspect-video rounded-xl overflow-hidden shadow-xl">
+            <Image
+              src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/neema-and-shanice-accgk.JPG"
+              alt="Professional caregivers providing compassionate care"
+              fill
+              priority
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Wave Divider */}
+      {/* Optional Wave Divider */}
       <div className="absolute bottom-0 left-0 right-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" className="w-full h-auto">
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 120"
+          className="w-full h-auto"
+        >
           <path
             fill="#ffffff"
             fillOpacity="1"
