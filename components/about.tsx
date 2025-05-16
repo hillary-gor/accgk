@@ -24,9 +24,9 @@ export default function About() {
             </p>
           </div>
 
-          <div className="relative rounded-xl overflow-hidden shadow-xl h-[400px]">
+          <div className="relative rounded-xl overflow-hidden shadow-xl h-[500px]">
             <Image
-              src="/placeholder.svg?height=800&width=600&text=Professional+Caregiver+in+Action"
+              src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//IMG_0325.JPG"
               alt="Professional caregiver providing care with compassion"
               fill
               className="object-cover"
