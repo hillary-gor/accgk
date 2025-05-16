@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-r from-accgk-blue to-accgk-blue/90 text-white overflow-hidden">
+    <section className="relative bg-gradient-to-r from-white via-accgk-blue/5 to-white text-blue-600 overflow-hidden">
       <div className="container mx-auto px-4 py-20 md:py-32">
         <div className="grid md:grid-cols-2 items-center gap-12">
           {/* Text Content Left */}
