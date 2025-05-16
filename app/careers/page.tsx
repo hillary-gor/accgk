@@ -1,9 +1,10 @@
-import { PageLayout } from "@/components/page-layout"
+import PageLayout from "@/components/page-layout"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
+
 
 // Mock data for job openings
 const jobOpenings = [
