@@ -1,6 +1,6 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Hero() {
   return (
@@ -18,7 +18,7 @@ export default function Hero() {
             <Button
               asChild
               size="lg"
-              className="bg-accgk-pink hover:bg-accgk-pink/90 text-white"
+              className="bg-[#AB056A] hover:bg-[#AB056A]/90 text-white"
             >
               <Link href="#cta">Join the Movement</Link>
             </Button>
@@ -53,5 +53,5 @@ export default function Hero() {
         </svg>
       </div>
     </section>
-  )
+  );
 }
