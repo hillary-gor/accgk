@@ -8,11 +8,11 @@ export default function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/placeholder.svg?height=1080&width=1920&text=Professional+Caregivers+Team"
+          src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-and-shanice-accgk.JPG?height=1080&width=1920&text=Professional+Caregivers+Team"
           alt="Professional caregivers providing compassionate care"
           fill
           priority
-          className="object-cover opacity-30 mix-blend-overlay"
+          className="object-cover opacity-90 mix-blend-overlay"
         />
       </div>
 

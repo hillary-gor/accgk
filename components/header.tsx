@@ -1,23 +1,23 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Menu, X, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { Menu, X, ChevronDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { AnimatePresence, motion } from "framer-motion"
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMoreOpen, setIsMoreOpen] = useState(false)
 
   // Prevent body scroll when mobile nav is open
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
-  }, [isMenuOpen]);
+    document.body.style.overflow = isMenuOpen ? "hidden" : ""
+  }, [isMenuOpen])
 
   const navLinkStyles =
-    "text-gray-700 font-medium px-2 py-1 rounded-md hover:bg-blue-500 hover:text-white transition-colors duration-200";
+    "text-gray-700 font-medium px-2 py-1 rounded-md hover:bg-blue-500 hover:text-white transition-colors duration-200"
 
   const navLinks = [
     { label: "About", href: "/about" },
@@ -27,7 +27,7 @@ export default function Header() {
     { label: "Contact", href: "#contact" },
     { label: "FAQ", href: "/faq" },
     { label: "Get Involved", href: "/get-involved" },
-  ];
+  ]
 
   const moreLinks = [
     { label: "Partnerships", href: "/partnerships" },
@@ -36,22 +36,20 @@ export default function Header() {
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms", href: "/terms" },
     { label: "Cookies Policy", href: "/cookies-policy" },
-  ];
+  ]
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-white/70 dark:bg-black/30 border-b border-white/20 dark:border-black/20 shadow-sm transition-colors duration-300">
+    <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.svg?height=40&width=40"
+            src="/placeholder.svg?height=40&width=40"
             alt="ACCGK Logo"
             width={40}
             height={40}
-            className="h-12 w-auto"
+            className="h-10 w-auto"
           />
-          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">
-            ACCGK
-          </span>
+          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">ACCGK</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -81,9 +79,7 @@ export default function Header() {
               </div>
             )}
           </div>
-          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">
-            Join ACCGK
-          </Button>
+          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">Join ACCGK</Button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -119,10 +115,7 @@ export default function Header() {
             >
               <div className="flex justify-between items-center mb-6">
                 <span className="text-lg font-semibold">Menu</span>
-                <button
-                  onClick={() => setIsMenuOpen(false)}
-                  aria-label="Close menu"
-                >
+                <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
                   <X size={24} />
                 </button>
               </div>
@@ -180,5 +173,5 @@ export default function Header() {
         )}
       </AnimatePresence>
     </header>
-  );
+  )
 }
