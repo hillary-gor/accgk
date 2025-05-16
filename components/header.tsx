@@ -46,6 +46,12 @@ export default function Header() {
             Membership
           </Link>
           <Link
+            href="./accreditation"
+            className="text-gray-700 hover:text-accgk-blue font-medium"
+          >
+            Accreditation
+          </Link>
+          <Link
             href="#impact"
             className="text-gray-700 hover:text-accgk-blue font-medium"
           >
