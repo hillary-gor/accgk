@@ -15,9 +15,9 @@ export default function CTASection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Image Column */}
           <div className="relative">
-            <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/placeholder.svg?height=800&width=600&text=Partnership+Meeting"
+                src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//Pricilla.JPG"
                 alt="ACCGK Partnership Meeting"
                 fill
                 className="object-cover"
