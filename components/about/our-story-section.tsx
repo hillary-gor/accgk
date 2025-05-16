@@ -2,15 +2,15 @@ import Image from "next/image"
 
 export default function OurStorySection() {
   return (
-    <section className="bg-gray-900 text-white py-16 md:py-24">
+    <section className="bg-white text-neutral-800 py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Content Column */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Story</h2>
-            <div className="w-20 h-1 bg-accgk-pink mb-8"></div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Our Story</h2>
+            <div className="w-20 h-1 bg-[#AB056A] mb-8"></div>
 
-            <div className="space-y-6 text-gray-300">
+            <div className="space-y-6 text-base md:text-lg text-neutral-700 leading-relaxed">
               <p>
                 Founded in 2020, the Association of Certified Caregivers Kenya (ACCGK) emerged from a critical need to
                 professionalize and standardize caregiving practices across Kenya. What began as a small coalition of
@@ -54,13 +54,13 @@ export default function OurStorySection() {
               <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-accgk-blue rounded-full opacity-20 blur-xl"></div>
 
               {/* Content overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent">
+              <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-white/60 to-transparent">
                 <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <blockquote className="italic text-white/90">
+                  <blockquote className="italic text-white">
                     "Our vision is to create a healthcare ecosystem where every caregiver is recognized, respected, and
                     empowered to deliver exceptional care."
                   </blockquote>
-                  <p className="mt-2 text-accgk-pink font-medium">— ACCGK Founding Statement, 2020</p>
+                  <p className="mt-2 text-pink-500 font-medium">— ACCGK Founding Statement, 2020</p>
                 </div>
               </div>
             </div>
