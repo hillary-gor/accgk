@@ -18,9 +18,9 @@ export default function ContactPage() {
               <h1 className="text-4xl md:text-6xl font-bold mb-6 gradient-text">
                 Contact Us
               </h1>
-              <p className="text-lg md:text-xl text-gray-300 max-w-3xl">
-                Have a question or ready to start your next project? Get in
-                touch with our team and let's create something amazing together.
+              <p className="text-lg md:text-3xl text-blue-500 max-w-3xl">
+                Have a question or ready to join ACCGK? Get in
+                touch with our team and let's get you going amazing together.
               </p>
             </div>
             <div className="lg:w-1/2 flex justify-center lg:justify-end">
@@ -143,10 +143,10 @@ export default function ContactPage() {
                           For general inquiries and support
                         </p>
                         <Link
-                          href="mailto:info@surgeinnovations.com"
+                          href="mailto:info@accgk.co.ke"
                           className="text-white hover:text-blue-400"
                         >
-                          info@surgeinnovations.com
+                          info@accgk.co.ke
                         </Link>
                       </div>
                     </div>
@@ -185,11 +185,11 @@ export default function ContactPage() {
                         <h3 className="font-bold text-lg mb-1">Visit Us</h3>
                         <p className="text-gray-400 mb-2">Our headquarters</p>
                         <address className="not-italic text-white">
-                          123 Tech Avenue
+                          00100 Nairobi
                           <br />
-                          San Francisco, CA 94107
+                          Kilimani, CA 94107
                           <br />
-                          United States
+                          Kenya
                         </address>
                       </div>
                     </div>
@@ -211,7 +211,7 @@ export default function ContactPage() {
                         </p>
                         <div className="space-y-1 text-white">
                           <p>Monday - Friday: 9:00 AM - 6:00 PM EST</p>
-                          <p>Saturday: 10:00 AM - 2:00 PM EST</p>
+                          <p>Saturday: Closed</p>
                           <p>Sunday: Closed</p>
                         </div>
                       </div>
@@ -232,7 +232,7 @@ export default function ContactPage() {
               Our Location
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Visit our headquarters in the heart of San Francisco's tech
+              Visit our headquarters in the heart of Nairobi's office
               district
             </p>
           </div>
@@ -246,9 +246,9 @@ export default function ContactPage() {
             />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="bg-black/70 p-6 rounded-lg max-w-md text-center">
-                <h3 className="text-xl font-bold mb-2">Surge Innovations HQ</h3>
+                <h3 className="text-xl font-bold mb-2">ACCGK HQ</h3>
                 <p className="text-gray-300 mb-4">
-                  123 Tech Avenue, San Francisco, CA 94107
+                  Nairobi Kenya, Kilimani, CA 94107
                 </p>
                 <Button
                   variant="outline"
@@ -269,7 +269,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ Section 
       <section className="py-24 px-4 md:px-6 bg-black">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
@@ -314,7 +314,7 @@ export default function ContactPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA Section */}
       <section className="py-24 px-4 md:px-6 gradient-background relative">
@@ -324,7 +324,7 @@ export default function ContactPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Ready to Start Your Project?
             </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mb-8">
+            <p className="text-lg text-violet-700 max-w-2xl mb-8">
               Take the first step towards transforming your business with
               cutting-edge technology solutions.
             </p>
@@ -333,7 +333,7 @@ export default function ContactPage() {
               className="bg-white text-black hover:bg-gray-200"
               asChild
             >
-              <Link href="/get-started">Get Started Now</Link>
+              <Link href="/get-involved">Get Started Now</Link>
             </Button>
           </div>
         </div>

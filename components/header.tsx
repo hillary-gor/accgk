@@ -24,7 +24,7 @@ export default function Header() {
     { label: "Membership", href: "/membership" },
     { label: "Accreditation", href: "/accreditation" },
     { label: "Impact", href: "#impact" },
-    { label: "Contact", href: "#contact" },
+    { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
     { label: "Get Involved", href: "/get-involved" },
   ]
