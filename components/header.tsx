@@ -16,6 +16,9 @@ export default function Header() {
     document.body.style.overflow = isMenuOpen ? "hidden" : ""
   }, [isMenuOpen])
 
+  const navLinkStyles =
+    "text-gray-700 font-medium px-2 py-1 rounded-md hover:bg-blue-500 hover:text-white transition-colors duration-200"
+
   const navLinks = [
     { label: "About", href: "/about" },
     { label: "Membership", href: "/membership" },
@@ -52,11 +55,7 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map(({ label, href }) => (
-            <Link
-              key={href}
-              href={href}
-              className="text-gray-700 hover:text-accgk-blue font-medium"
-            >
+            <Link key={href} href={href} className={navLinkStyles}>
               {label}
             </Link>
           ))}
@@ -64,7 +63,7 @@ export default function Header() {
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
               onBlur={() => setTimeout(() => setIsMoreOpen(false), 100)}
-              className="text-gray-700 hover:text-accgk-blue font-medium flex items-center gap-1"
+              className="text-gray-700 hover:text-accgk-blue font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-colors duration-200"
             >
               More <ChevronDown className="w-4 h-4" />
             </button>
@@ -72,7 +71,7 @@ export default function Header() {
               <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md z-50">
                 <div className="flex flex-col py-2">
                   {moreLinks.map(({ label, href }) => (
-                    <Link key={href} href={href} className="px-4 py-2 hover:bg-gray-100">
+                    <Link key={href} href={href} className={navLinkStyles}>
                       {label}
                     </Link>
                   ))}
@@ -126,7 +125,7 @@ export default function Header() {
                   <Link
                     key={href}
                     href={href}
-                    className="text-gray-700 hover:text-accgk-blue font-medium"
+                    className={navLinkStyles}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {label}
@@ -137,7 +136,7 @@ export default function Header() {
                 <div>
                   <button
                     onClick={() => setIsMoreOpen((prev) => !prev)}
-                    className="flex items-center justify-between w-full text-gray-700 font-medium hover:text-accgk-blue"
+                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-accgk-blue px-2 py-1 rounded-md transition-colors duration-200"
                   >
                     More
                     <ChevronDown
@@ -152,7 +151,7 @@ export default function Header() {
                         <Link
                           key={href}
                           href={href}
-                          className="text-gray-700 hover:text-accgk-blue text-sm"
+                          className={`${navLinkStyles} text-sm`}
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {label}
