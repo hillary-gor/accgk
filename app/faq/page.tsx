@@ -160,6 +160,11 @@ export default function FAQPage() {
       title="Frequently Asked Questions"
       description="Find answers to common questions about ACCK membership, certification, courses, and more."
     >
+      <div className="max-w-3xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Frequently Asked Questions</h2>
+          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <p className="text-lg text-gray-700">Find answers to common questions about ACCGK and our services.</p>
+        </div>
       <div className="space-y-8">
         <div className="relative max-w-md mx-auto">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -186,7 +191,7 @@ export default function FAQPage() {
               <Accordion type="single" collapsible className="w-full">
                 {filterFAQs(category.faqs).map((faq, index) => (
                   <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                    <AccordionTrigger className="text-left font-medium text-accgk-blue hover:text-accgk-pink">{faq.question}</AccordionTrigger>
                     <AccordionContent>{faq.answer}</AccordionContent>
                   </AccordionItem>
                 ))}
