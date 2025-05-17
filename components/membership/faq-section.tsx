@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { motion, AnimatePresence } from "framer-motion"
 
 const faqItems = [
   {
@@ -53,8 +54,8 @@ const faqItems = [
 export default function FaqSection() {
   return (
     <section className="mb-20">
-      <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+      <div className="text-center mb-12 px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#3F96E6] mb-4">
           Frequently Asked Questions
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
@@ -62,23 +63,46 @@ export default function FaqSection() {
         </p>
       </div>
 
-      <div className="max-w-3xl mx-auto space-y-4">
-        <Accordion type="single" collapsible className="w-full">
-          {faqItems.map((item, index) => (
-            <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className="border border-gray-200 rounded-xl shadow-sm bg-white transition-all hover:border-teal-400"
-            >
-              <AccordionTrigger className="px-6 py-4 text-left text-lg font-medium text-gray-800 hover:text-teal-600 transition-colors">
-                {item.question}
-              </AccordionTrigger>
-              <AccordionContent className="px-6 pb-6 text-gray-600">
-                {item.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-4 max-w-6xl mx-auto items-start">
+        {/* Image Section */}
+        <div className="w-full">
+          <img
+            src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//neema-mbuno-accgk-standing.JPG"
+            alt="Illustration representing frequently asked questions"
+            className="w-full h-auto rounded-xl shadow-md object-cover"
+          />
+        </div>
+
+        {/* FAQ Section */}
+        <div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {faqItems.map((item, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="border border-gray-200 rounded-xl shadow-sm bg-white hover:border-[#3F96E6] transition-all"
+              >
+                <AccordionTrigger className="px-6 py-4 text-left text-lg font-medium text-gray-800 hover:text-[#3F96E6] transition-colors">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent asChild>
+                  <AnimatePresence initial={false}>
+                    <motion.div
+                      key={`faq-${index}`}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="overflow-hidden px-6 pb-4 text-gray-600"
+                    >
+                      {item.answer}
+                    </motion.div>
+                  </AnimatePresence>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </section>
   )

@@ -22,7 +22,7 @@ export default function CTASection() {
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-accgk-blue/60 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#3F96E6] to-transparent"></div>
             </div>
 
             {/* Decorative elements */}

@@ -17,7 +17,6 @@ export default function MembershipPage() {
       <WhyBecomeSection />
       <HowToBecomeSection />
       <BenefitsTabsSection />
-      <CertificatePreview />
       <FaqSection />
       <FinalCta />
     </PageLayout>
