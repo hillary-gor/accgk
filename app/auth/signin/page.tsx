@@ -86,9 +86,9 @@ export default function LoginPage() {
           <span className="text-gray-600 dark:text-gray-300">
             Don’t have an account?
           </span>
-          <a href="/signup">
+          <a href="/auth/signup">
             <Button variant="link" size="sm" className="text-[#3F96E6] px-0">
-              Register
+              Sign up
             </Button>
           </a>
         </div>
