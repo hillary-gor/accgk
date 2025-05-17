@@ -106,7 +106,7 @@ export default function LoginPage() {
             />
           </div>
 
-          <div className="text-center text-lg font-bold text-gray-800 dark:text-white">
+          <div className="text-center text-lg font-bold text-[#3F96E6] dark:text-white">
             ACCGK Member Portal
           </div>
 
@@ -144,7 +144,7 @@ export default function LoginPage() {
               className="w-full bg-gradient-to-r from-[#3F96E6] to-[#AB056A] hover:opacity-90 text-white"
               loadingText="Logging in..."
             >
-              Log In
+              Sign In
             </SubmitButton>
           </form>
 
