@@ -11,7 +11,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isMoreOpen, setIsMoreOpen] = useState(false)
 
-  // Prevent body scroll when mobile nav is open
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : ""
   }, [isMenuOpen])
@@ -26,7 +25,7 @@ export default function Header() {
     { label: "Impact", href: "#impact" },
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
-    { label: "Get Involved", href: "/get-involved" },
+    // removed: { label: "Get Involved", href: "/get-involved" },
   ]
 
   const moreLinks = [
@@ -41,6 +40,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <Image
             src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png?height=40&width=40"
@@ -52,13 +52,14 @@ export default function Header() {
           <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">ACCGK</span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map(({ label, href }) => (
             <Link key={href} href={href} className={navLinkStyles}>
               {label}
             </Link>
           ))}
+
           <div className="relative group">
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
@@ -79,7 +80,19 @@ export default function Header() {
               </div>
             )}
           </div>
-          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">Join ACCGK</Button>
+
+          {/* Sign In */}
+          <Link
+            href="/auth/signin"
+            className="text-gray-700 font-medium px-2 py-1 rounded-md hover:text-accgk-blue transition-colors"
+          >
+            Sign In
+          </Link>
+
+          {/* Register Button */}
+          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">
+            <Link href="/membership" className="text-white">Register</Link>
+          </Button>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -92,7 +105,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Navigation Slide-in */}
+      {/* Mobile Navigation */}
       <AnimatePresence>
         {isMenuOpen && (
           <>
@@ -132,7 +145,7 @@ export default function Header() {
                   </Link>
                 ))}
 
-                {/* Collapsible More */}
+                {/* More section (collapsible) */}
                 <div>
                   <button
                     onClick={() => setIsMoreOpen((prev) => !prev)}
@@ -161,11 +174,21 @@ export default function Header() {
                   )}
                 </div>
 
-                <Button
-                  className="bg-accgk-blue hover:bg-accgk-blue/90 mt-4"
+                {/* Sign In and Register */}
+                <Link
+                  href="/auth/signin"
+                  className="text-sm font-medium text-gray-700 hover:text-accgk-blue transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Join ACCGK
+                  Sign In
+                </Link>
+
+                <Button
+                  className="bg-accgk-blue hover:bg-accgk-blue/90 text-white"
+                  onClick={() => setIsMenuOpen(false)}
+                  asChild
+                >
+                  <Link href="/membership">Register</Link>
                 </Button>
               </nav>
             </motion.div>
