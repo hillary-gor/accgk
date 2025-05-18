@@ -60,9 +60,6 @@ export default function VerifyPage() {
           </div>
         </div>
       </section>
-
-      {/* Support Footer */}
-      <SupportFooter />
     </main>
   )
 }

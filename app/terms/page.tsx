@@ -90,7 +90,7 @@ export default function TermsPage() {
         <div className="flex flex-col lg:flex-row lg:gap-8">
           {/* Desktop TOC - Left Sidebar */}
           <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-24 p-6 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 overflow-y-auto max-h-[calc(100vh-120px)]">
+            <div className="sticky top-24 p-6 bg-slate-50 rounded-lg border border-slate-200 dark:border-slate-800 overflow-y-auto max-h-[calc(100vh-120px)]">
               <h2 className="text-xl font-semibold mb-4">Contents</h2>
               <TableOfContents activeSection={activeSection} />
             </div>
@@ -105,7 +105,7 @@ export default function TermsPage() {
                   <div className="h-1 w-20 bg-primary rounded-full"></div>
                 </div>
                 <p className="text-base lg:text-lg leading-relaxed mb-4">
-                  Welcome to the Association of Certified Caregivers Kenya (ACCK) website. These Terms and Conditions
+                  Welcome to the Association of Certified Caregivers Kenya (ACCGK) website. These Terms and Conditions
                   govern your use of our website, platform, and services. By accessing or using our services, you agree
                   to be bound by these Terms. If you do not agree with any part of these Terms, you may not use our
                   services.
@@ -123,7 +123,7 @@ export default function TermsPage() {
                   <h2 className="text-2xl lg:text-3xl font-bold mb-2">Definitions</h2>
                   <div className="h-1 w-20 bg-primary rounded-full"></div>
                 </div>
-                <div className="bg-slate-50 dark:bg-slate-900 p-4 lg:p-6 rounded-lg border border-slate-200 dark:border-slate-800">
+                <div className="bg-slate-50 p-4 lg:p-6 rounded-lg border border-slate-200 dark:border-slate-800">
                   <ul className="space-y-4">
                     <li className="flex flex-col sm:flex-row">
                       <span className="font-semibold text-primary sm:min-w-[180px] mb-1 sm:mb-0">
@@ -159,7 +159,6 @@ export default function TermsPage() {
               </section>
 
               {/* Additional sections would follow with the same pattern */}
-              {/* For brevity, I'm not including all sections here */}
 
               <section id="account" className="scroll-mt-32">
                 <div className="border-l-4 border-primary pl-6 mb-6">
@@ -301,7 +300,7 @@ function TableOfContents({ activeSection, onLinkClick }: { activeSection: string
           className={`block py-2 px-3 rounded-md transition-colors ${
             activeSection === link.id
               ? "bg-primary/10 text-primary font-medium"
-              : "text-foreground hover:bg-slate-100 dark:hover:bg-slate-800"
+              : "text-foreground hover:bg-blue-300"
           }`}
         >
           {link.label}

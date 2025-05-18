@@ -13,6 +13,9 @@ export default function Header() {
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [isMenuOpen])
 
   const navLinkStyles =
@@ -25,7 +28,6 @@ export default function Header() {
     { label: "Impact", href: "#impact" },
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
-    // removed: { label: "Get Involved", href: "/get-involved" },
   ]
 
   const moreLinks = [
@@ -49,10 +51,12 @@ export default function Header() {
             height={40}
             className="h-10 w-auto"
           />
-          <span className="font-bold text-xl text-[color:var(--accgk-blue)] hidden sm:inline-block">ACCGK</span>
+          <span className="font-bold text-xl text-[color:var(--accgk-blue)] hidden sm:inline-block">
+            ACCGK
+          </span>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           {navLinks.map(({ label, href }) => (
             <Link key={href} href={href} className={navLinkStyles}>
@@ -60,6 +64,7 @@ export default function Header() {
             </Link>
           ))}
 
+          {/* More Dropdown */}
           <div className="relative group">
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
@@ -81,7 +86,7 @@ export default function Header() {
             )}
           </div>
 
-          {/* Sign In */}
+          {/* Sign In & Register */}
           <Link
             href="/auth/signin"
             className="text-gray-700 font-medium px-2 py-1 rounded-md hover:text-[color:var(--accgk-blue)] transition-colors"
@@ -89,7 +94,6 @@ export default function Header() {
             Sign In
           </Link>
 
-          {/* Register Button */}
           <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90">
             <Link href="/membership" className="text-white">Register</Link>
           </Button>
@@ -108,91 +112,67 @@ export default function Header() {
       {/* Mobile Navigation */}
       <AnimatePresence>
         {isMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-white z-50 p-6 md:hidden flex flex-col"
+          >
+            {/* Close Button */}
+            <button
+              className="self-end mb-4 text-gray-700"
               onClick={() => setIsMenuOpen(false)}
-              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
-            />
-
-            {/* Slide-in Panel */}
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "tween" }}
-              className="fixed top-0 right-0 bottom-0 z-50 w-4/5 max-w-sm bg-white shadow-lg p-6 overflow-y-auto"
+              aria-label="Close menu"
             >
-              <div className="flex justify-between items-center mb-6">
-                <span className="text-lg font-semibold">Menu</span>
-                <button onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
-                  <X size={24} />
-                </button>
-              </div>
+              <X size={24} />
+            </button>
 
-              <nav className="flex flex-col space-y-4">
-                {navLinks.map(({ label, href }) => (
+            {/* Links */}
+            <div className="space-y-4">
+              {navLinks.map(({ label, href }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="block text-lg text-gray-800"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
+
+              <div className="border-t pt-4">
+                {moreLinks.map(({ label, href }) => (
                   <Link
                     key={href}
                     href={href}
-                    className={navLinkStyles}
+                    className="block text-lg text-gray-600"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {label}
                   </Link>
                 ))}
+              </div>
 
-                {/* More section (collapsible) */}
-                <div>
-                  <button
-                    onClick={() => setIsMoreOpen((prev) => !prev)}
-                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-[color:var(--accgk-blue)] px-2 py-1 rounded-md transition-colors duration-200"
-                  >
-                    More
-                    <ChevronDown
-                      className={`w-4 h-4 transform transition-transform ${
-                        isMoreOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {isMoreOpen && (
-                    <div className="ml-2 mt-2 flex flex-col space-y-2">
-                      {moreLinks.map(({ label, href }) => (
-                        <Link
-                          key={href}
-                          href={href}
-                          className={`${navLinkStyles} text-sm`}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Sign In and Register */}
+              <div className="pt-4 space-y-2">
                 <Link
                   href="/auth/signin"
-                  className="text-sm font-medium text-gray-700 hover:text-[color:var(--accgk-blue)] transition-colors"
+                  className="block text-lg text-gray-800"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign In
                 </Link>
-
                 <Button
-                  className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90 text-white"
+                  className="w-full bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90"
                   onClick={() => setIsMenuOpen(false)}
-                  asChild
                 >
-                  <Link href="/membership">Register</Link>
+                  <Link href="/membership" className="text-white w-full text-center">
+                    Register
+                  </Link>
                 </Button>
-              </nav>
-            </motion.div>
-          </>
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </header>

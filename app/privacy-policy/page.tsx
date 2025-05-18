@@ -90,7 +90,7 @@ export default function PrivacyPolicyPage() {
         <div className="flex flex-col lg:flex-row lg:gap-8">
           {/* Desktop TOC - Left Sidebar */}
           <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-24 p-6 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 overflow-y-auto max-h-[calc(100vh-120px)]">
+            <div className="sticky top-24 p-6 bg-blue-500 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 overflow-y-auto max-h-[calc(100vh-120px)]">
               <h2 className="text-xl font-semibold mb-4">Contents</h2>
               <TableOfContents activeSection={activeSection} />
             </div>
@@ -123,7 +123,7 @@ export default function PrivacyPolicyPage() {
                   <div className="h-1 w-20 bg-primary rounded-full"></div>
                 </div>
 
-                <div className="bg-slate-50 dark:bg-slate-900 p-4 lg:p-6 rounded-lg border border-slate-200 dark:border-slate-800 mb-6">
+                <div className="bg-blue-500 dark:bg-slate-900 p-4 lg:p-6 rounded-lg border border-slate-200 dark:border-slate-800 mb-6">
                   <h3 className="text-xl font-semibold mb-4 text-primary">Personal Information</h3>
                   <p className="leading-relaxed mb-4">We may collect the following types of personal information:</p>
                   <ul className="list-disc pl-6 space-y-2">
@@ -148,7 +148,7 @@ export default function PrivacyPolicyPage() {
                   </ul>
                 </div>
 
-                <div className="bg-slate-50 dark:bg-slate-900 p-4 lg:p-6 rounded-lg border border-slate-200 dark:border-slate-800">
+                <div className="bg-blue-500 dark:bg-slate-900 p-4 lg:p-6 rounded-lg border border-slate-200 dark:border-slate-800">
                   <h3 className="text-xl font-semibold mb-4 text-primary">Usage Information</h3>
                   <p className="leading-relaxed mb-4">
                     We automatically collect certain information about your interaction with our platform, including:
@@ -183,7 +183,7 @@ export default function PrivacyPolicyPage() {
                   We use the information we collect for various purposes, including:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
+                  <div className="bg-blue-500 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
                     <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +200,7 @@ export default function PrivacyPolicyPage() {
                     </div>
                     <div>Providing and improving our services</div>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
+                  <div className="bg-blue-500 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
                     <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -218,7 +218,7 @@ export default function PrivacyPolicyPage() {
                     </div>
                     <div>Processing membership applications</div>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
+                  <div className="bg-blue-500 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
                     <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -236,7 +236,7 @@ export default function PrivacyPolicyPage() {
                     </div>
                     <div>Facilitating certification processes</div>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
+                  <div className="bg-blue-500 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
                     <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -254,7 +254,7 @@ export default function PrivacyPolicyPage() {
                     </div>
                     <div>Processing payments</div>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
+                  <div className="bg-blue-500 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
                     <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +272,7 @@ export default function PrivacyPolicyPage() {
                     </div>
                     <div>Communicating with you</div>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
+                  <div className="bg-blue-500 dark:bg-slate-900 p-4 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center">
                     <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center text-primary mr-4">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

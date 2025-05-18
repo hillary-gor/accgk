@@ -19,15 +19,17 @@ export default function ContactPage() {
                 Contact Us
               </h1>
               <p className="text-lg md:text-3xl text-blue-500 max-w-3xl">
-                Have a question or ready to join ACCGK? Get in
-                touch with our team and let's get you going amazing together.
+                Have a question or ready to join ACCGK? Get in touch with our
+                team and let's get you going amazing together.
               </p>
             </div>
             <div className="lg:w-1/2 flex justify-center lg:justify-end">
-              <img
+              <Image
                 src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//IMG_0324.JPG"
                 alt="Contact Us"
-                className="w-full max-w-md h-auto rounded-xl shadow-lg"
+                width={600}
+                height={400}
+                className="w-full max-w-md h-auto rounded-xl shadow-lg object-cover"
               />
             </div>
           </div>
@@ -232,8 +234,7 @@ export default function ContactPage() {
               Our Location
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Visit our headquarters in the heart of Nairobi's office
-              district
+              Visit our headquarters in the heart of Nairobi's office district
             </p>
           </div>
 
