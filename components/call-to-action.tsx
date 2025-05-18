@@ -13,7 +13,7 @@ export default function CallToAction() {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-accgk-blue/80"></div>
+        <div className="absolute inset-0 bg-[color:var(--accgk-blue)]/80"></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -47,7 +47,7 @@ export default function CallToAction() {
                 Get certified, access professional development, and join a community of recognized caregiving
                 professionals.
               </p>
-              <Button asChild className="w-full bg-accgk-pink hover:bg-accgk-pink/90">
+              <Button asChild className="w-full bg-[color:var(--accgk-pink)] hover:bg-[color:var(--accgk-pink)]/90">
                 <Link href="#contact">Register as a Caregiver</Link>
               </Button>
             </div>
@@ -74,7 +74,7 @@ export default function CallToAction() {
                 Partner with ACCGK to ensure your caregiving staff meet national standards and receive ongoing
                 professional support.
               </p>
-              <Button asChild className="w-full bg-white text-accgk-blue hover:bg-white/90">
+              <Button asChild className="w-full bg-white text-[color:var(--accgk-blue)] hover:bg-white/90">
                 <Link href="#contact">Partner with ACCGK</Link>
               </Button>
             </div>

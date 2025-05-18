@@ -26,7 +26,7 @@ export default function VerificationResult() {
 
   return (
     <div id="verification-result" className="hidden animate-fade-in-up">
-      <h2 className="text-2xl font-bold text-accgk-blue mb-6 text-center">Verification Result</h2>
+      <h2 className="text-2xl font-bold text-[color:var(--accgk-blue)] mb-6 text-center">Verification Result</h2>
 
       {verificationStatus === "verified" ? <VerifiedResult caregiverData={caregiverData} /> : <NotFoundResult />}
     </div>
@@ -49,7 +49,7 @@ function VerifiedResult({ caregiverData }: { caregiverData: any }) {
             {/* Left column - Photo and basic info */}
             <div className="md:col-span-1">
               <div className="flex flex-col items-center text-center">
-                <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-accgk-blue/20 mb-4">
+                <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-[color:var(--accgk-blue)]/20 mb-4">
                   <Image
                     src={caregiverData.photo || "/placeholder.svg"}
                     alt={caregiverData.name}
@@ -81,7 +81,7 @@ function VerifiedResult({ caregiverData }: { caregiverData: any }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex items-center text-gray-700 mb-1">
-                      <Calendar className="h-4 w-4 mr-2 text-accgk-blue" />
+                      <Calendar className="h-4 w-4 mr-2 text-[color:var(--accgk-blue)]" />
                       <span className="text-sm font-medium">Issued Date</span>
                     </div>
                     <p>{caregiverData.issuedDate}</p>
@@ -89,7 +89,7 @@ function VerifiedResult({ caregiverData }: { caregiverData: any }) {
 
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex items-center text-gray-700 mb-1">
-                      <Calendar className="h-4 w-4 mr-2 text-accgk-blue" />
+                      <Calendar className="h-4 w-4 mr-2 text-[color:var(--accgk-blue)]" />
                       <span className="text-sm font-medium">Expiry Date</span>
                     </div>
                     <p>{caregiverData.expiryDate}</p>
@@ -98,7 +98,7 @@ function VerifiedResult({ caregiverData }: { caregiverData: any }) {
 
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="flex items-center text-gray-700 mb-1">
-                    <Building className="h-4 w-4 mr-2 text-accgk-blue" />
+                    <Building className="h-4 w-4 mr-2 text-[color:var(--accgk-blue)]" />
                     <span className="text-sm font-medium">Training Institution</span>
                   </div>
                   <p>{caregiverData.trainingInstitution}</p>
@@ -106,7 +106,7 @@ function VerifiedResult({ caregiverData }: { caregiverData: any }) {
 
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <div className="flex items-center text-gray-700 mb-1">
-                    <Award className="h-4 w-4 mr-2 text-accgk-blue" />
+                    <Award className="h-4 w-4 mr-2 text-[color:var(--accgk-blue)]" />
                     <span className="text-sm font-medium">Specialization</span>
                   </div>
                   <p>{caregiverData.specialization}</p>
@@ -114,13 +114,13 @@ function VerifiedResult({ caregiverData }: { caregiverData: any }) {
 
                 <div className="flex flex-col sm:flex-row gap-3 mt-6">
                   <Button
-                    className={`flex-1 ${isActive ? "bg-accgk-blue hover:bg-accgk-blue/90" : "bg-gray-300 cursor-not-allowed"}`}
+                    className={`flex-1 ${isActive ? "bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90" : "bg-gray-300 cursor-not-allowed"}`}
                     disabled={!isActive}
                   >
                     <Download className="mr-2 h-4 w-4" />
                     Download Certificate
                   </Button>
-                  <Button variant="outline" className="flex-1 border-accgk-pink text-accgk-pink hover:bg-accgk-pink/10">
+                  <Button variant="outline" className="flex-1 border-[color:var(--accgk-pink)] text-[color:var(--accgk-pink)] hover:bg-[color:var(--accgk-pink)]/10">
                     <Flag className="mr-2 h-4 w-4" />
                     Report a Concern
                   </Button>
@@ -163,7 +163,7 @@ function NotFoundResult() {
               </div>
 
               <div className="mt-6">
-                <Button className="bg-accgk-blue hover:bg-accgk-blue/90">Try Another Search</Button>
+                <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90">Try Another Search</Button>
               </div>
             </div>
 

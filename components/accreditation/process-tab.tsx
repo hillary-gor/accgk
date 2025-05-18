@@ -52,11 +52,11 @@ export default function ProcessTab() {
           <Card key={index} className="border border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-100 pb-3">
               <div className="flex items-start">
-                <div className="bg-accgk-blue text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                <div className="bg-[color:var(--accgk-blue)] text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                   {index + 1}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-accgk-blue">{step.title}</h3>
+                  <h3 className="text-xl font-semibold text-[color:var(--accgk-blue)]">{step.title}</h3>
                   <p className="text-gray-600 font-medium">{step.shortDescription}</p>
                 </div>
               </div>

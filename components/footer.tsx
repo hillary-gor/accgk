@@ -39,28 +39,28 @@ const Footer = () => {
               <Link
                 href="https://facebook.com"
                 aria-label="Facebook"
-                className="hover:text-accgk-blue transition-colors"
+                className="hover:text-[color:var(--accgk-blue)] transition-colors"
               >
                 <SiFacebook className="h-5 w-5 hover:scale-110 transition-transform" />
               </Link>
               <Link
                 href="https://twitter.com"
                 aria-label="Twitter"
-                className="hover:text-accgk-blue transition-colors"
+                className="hover:text-[color:var(--accgk-blue)] transition-colors"
               >
                 <SiX className="h-5 w-5 hover:scale-110 transition-transform" />
               </Link>
               <Link
                 href="https://linkedin.com"
                 aria-label="LinkedIn"
-                className="hover:text-accgk-blue transition-colors"
+                className="hover:text-[color:var(--accgk-blue)] transition-colors"
               >
                 <SiLinkedin className="h-5 w-5 hover:scale-110 transition-transform" />
               </Link>
               <Link
                 href="https://linkedin.com"
                 aria-label="LinkedIn"
-                className="hover:text-accgk-blue transition-colors"
+                className="hover:text-[color:var(--accgk-blue)] transition-colors"
               >
                 <SiTiktok className="h-5 w-5 hover:scale-110 transition-transform" />
               </Link>
@@ -123,7 +123,7 @@ const Footer = () => {
                   <li key={href}>
                     <Link
                       href={href}
-                      className="hover:text-accgk-blue transition-colors block font-medium"
+                      className="hover:text-[color:var(--accgk-blue)] transition-colors block font-medium"
                     >
                       {text}
                     </Link>
@@ -143,19 +143,19 @@ const Footer = () => {
           <div className="flex space-x-6">
             <Link
               href="/privacy-policy"
-              className="hover:text-accgk-blue transition-colors font-medium"
+              className="hover:text-[color:var(--accgk-blue)] transition-colors font-medium"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="hover:text-accgk-blue transition-colors font-medium"
+              className="hover:text-[color:var(--accgk-blue)] transition-colors font-medium"
             >
               Terms of Service
             </Link>
             <Link
               href="/cookies-policy"
-              className="hover:text-accgk-blue transition-colors font-medium"
+              className="hover:text-[color:var(--accgk-blue)] transition-colors font-medium"
             >
               Cookie Policy
             </Link>

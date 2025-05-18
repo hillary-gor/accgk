@@ -26,14 +26,14 @@ export default function CTASection() {
             </div>
 
             {/* Decorative elements */}
-            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-accgk-pink rounded-full opacity-20 blur-xl"></div>
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[color:var(--accgk-pink)] rounded-full opacity-20 blur-xl"></div>
           </div>
 
           {/* Content Column */}
           <div>
             <div className="max-w-xl">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Partner with Us</h2>
-              <div className="w-20 h-1 bg-accgk-pink mb-8"></div>
+              <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mb-8"></div>
               <p className="text-xl mb-6 text-white/90">
                 Join ACCGK in our mission to elevate caregiving standards across Kenya. Whether you're a healthcare
                 institution, training provider, or advocacy organization, we welcome partnerships that advance our
@@ -45,7 +45,7 @@ export default function CTASection() {
               </p>
 
               <div className="space-y-4 md:space-y-0 md:space-x-4 md:flex">
-                <Button asChild size="lg" className="bg-accgk-pink hover:bg-accgk-pink/90 text-white w-full md:w-auto">
+                <Button asChild size="lg" className="bg-[color:var(--accgk-pink)] hover:bg-[color:var(--accgk-pink)]/90 text-white w-full md:w-auto">
                   <Link href="/contact">
                     <span className="flex items-center">
                       Partner with Us

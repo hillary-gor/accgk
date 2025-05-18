@@ -49,7 +49,7 @@ export default function Header() {
             height={40}
             className="h-10 w-auto"
           />
-          <span className="font-bold text-xl text-accgk-blue hidden sm:inline-block">ACCGK</span>
+          <span className="font-bold text-xl text-[color:var(--accgk-blue)] hidden sm:inline-block">ACCGK</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -64,7 +64,7 @@ export default function Header() {
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
               onBlur={() => setTimeout(() => setIsMoreOpen(false), 100)}
-              className="text-gray-700 hover:text-accgk-blue font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-colors duration-200"
+              className="text-gray-700 hover:text-[color:var(--accgk-blue)] font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-colors duration-200"
             >
               More <ChevronDown className="w-4 h-4" />
             </button>
@@ -84,13 +84,13 @@ export default function Header() {
           {/* Sign In */}
           <Link
             href="/auth/signin"
-            className="text-gray-700 font-medium px-2 py-1 rounded-md hover:text-accgk-blue transition-colors"
+            className="text-gray-700 font-medium px-2 py-1 rounded-md hover:text-[color:var(--accgk-blue)] transition-colors"
           >
             Sign In
           </Link>
 
           {/* Register Button */}
-          <Button className="bg-accgk-blue hover:bg-accgk-blue/90">
+          <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90">
             <Link href="/membership" className="text-white">Register</Link>
           </Button>
         </nav>
@@ -149,7 +149,7 @@ export default function Header() {
                 <div>
                   <button
                     onClick={() => setIsMoreOpen((prev) => !prev)}
-                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-accgk-blue px-2 py-1 rounded-md transition-colors duration-200"
+                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-[color:var(--accgk-blue)] px-2 py-1 rounded-md transition-colors duration-200"
                   >
                     More
                     <ChevronDown
@@ -177,14 +177,14 @@ export default function Header() {
                 {/* Sign In and Register */}
                 <Link
                   href="/auth/signin"
-                  className="text-sm font-medium text-gray-700 hover:text-accgk-blue transition-colors"
+                  className="text-sm font-medium text-gray-700 hover:text-[color:var(--accgk-blue)] transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Sign In
                 </Link>
 
                 <Button
-                  className="bg-accgk-blue hover:bg-accgk-blue/90 text-white"
+                  className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90 text-white"
                   onClick={() => setIsMenuOpen(false)}
                   asChild
                 >

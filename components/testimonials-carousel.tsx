@@ -63,16 +63,16 @@ export default function TestimonialsCarousel() {
   }, [isAutoPlaying, currentIndex])
 
   return (
-    <section className="py-16 md:py-24 bg-accgk-blue text-white">
+    <section className="py-16 md:py-24 bg-[color:var(--accgk-blue)] text-white">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5 bg-[url('/placeholder.svg?height=500&width=500&text=Pattern')] bg-repeat"></div>
 
       <div className="container mx-auto px-4 relative">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Impact Stories</h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-xl text-white/90">
-            Hear from caregivers and institutions who have benefited from ACCGK's work.
+            Hear from caregivers and institutions who have benefited from ACCGK&apos;s work.
           </p>
         </div>
 
@@ -81,10 +81,10 @@ export default function TestimonialsCarousel() {
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 md:p-12">
             <div className="flex justify-center mb-8">
               <div className="relative">
-                <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-accgk-pink flex items-center justify-center">
+                <div className="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-[color:var(--accgk-pink)] flex items-center justify-center">
                   <Quote className="w-5 h-5 text-white" />
                 </div>
-                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-accgk-pink shadow-lg">
+                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[color:var(--accgk-pink)] shadow-lg">
                   <Image
                     src={testimonials[currentIndex].image || "/placeholder.svg"}
                     alt={testimonials[currentIndex].name}
@@ -93,14 +93,14 @@ export default function TestimonialsCarousel() {
                     className="object-cover w-full h-full"
                   />
                 </div>
-                <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-full bg-accgk-pink flex items-center justify-center rotate-180">
+                <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-full bg-[color:var(--accgk-pink)] flex items-center justify-center rotate-180">
                   <Quote className="w-5 h-5 text-white" />
                 </div>
               </div>
             </div>
 
             <blockquote className="text-center mb-8">
-              <p className="text-xl md:text-2xl italic mb-6">"{testimonials[currentIndex].quote}"</p>
+              <p className="text-xl md:text-2xl italic mb-6">&quot;{testimonials[currentIndex].quote}&quot;</p>
               <footer>
                 <p className="font-semibold text-lg">{testimonials[currentIndex].name}</p>
                 <p className="text-white/80">{testimonials[currentIndex].role}</p>
@@ -114,7 +114,7 @@ export default function TestimonialsCarousel() {
                   key={index}
                   onClick={() => goToSlide(index)}
                   className={`relative w-12 h-12 rounded-full overflow-hidden border-2 transition-all ${
-                    index === currentIndex ? "border-accgk-pink scale-110" : "border-white/30 opacity-70"
+                    index === currentIndex ? "border-[color:var(--accgk-pink)] scale-110" : "border-white/30 opacity-70"
                   }`}
                   aria-label={`Go to testimonial from ${testimonial.name}`}
                 >
@@ -134,7 +134,7 @@ export default function TestimonialsCarousel() {
                 <button
                   key={index}
                   onClick={() => goToSlide(index)}
-                  className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-accgk-pink" : "bg-white/30"}`}
+                  className={`w-3 h-3 rounded-full ${index === currentIndex ? "bg-[color:var(--accgk-pink)]" : "bg-white/30"}`}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
               ))}

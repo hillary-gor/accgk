@@ -50,8 +50,8 @@ export default function FaqSection() {
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Frequently Asked Questions</h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Frequently Asked Questions</h2>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-lg text-gray-700">Find answers to common questions about ACCGK and our services.</p>
         </div>
 
@@ -59,7 +59,7 @@ export default function FaqSection() {
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left font-medium text-accgk-blue hover:text-accgk-pink">
+                <AccordionTrigger className="text-left font-medium text-[color:var(--accgk-blue)] hover:text-[color:var(--accgk-pink)]">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-gray-700">{faq.answer}</AccordionContent>
@@ -73,7 +73,7 @@ export default function FaqSection() {
             </p>
             <a
               href="#contact"
-              className="inline-block px-6 py-3 bg-accgk-blue text-white rounded-md hover:bg-accgk-blue/90 transition-colors"
+              className="inline-block px-6 py-3 bg-[color:var(--accgk-blue)] text-white rounded-md hover:bg-[color:var(--accgk-blue)]/90 transition-colors"
             >
               Contact Us
             </a>

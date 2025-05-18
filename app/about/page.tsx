@@ -3,8 +3,6 @@ import OurStorySection from "@/components/about/our-story-section"
 import CoreValuesSection from "@/components/about/core-values-section"
 import TeamSection from "@/components/about/team-section"
 import CTASection from "@/components/about/cta-section"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
 
 export default function AboutPage() {
   return (

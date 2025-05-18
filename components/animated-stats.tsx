@@ -41,7 +41,7 @@ function AnimatedStat({ value, label, suffix = "", duration = 2000 }: StatProps)
 
   return (
     <div ref={ref} className="text-center p-6">
-      <div className="text-4xl md:text-5xl font-bold text-accgk-blue mb-2">
+      <div className="text-4xl md:text-5xl font-bold text-[color:var(--accgk-blue)] mb-2">
         {count}
         {suffix}
       </div>
@@ -62,8 +62,8 @@ export default function AnimatedStats() {
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Our Impact in Numbers</h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Our Impact in Numbers</h2>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-lg text-gray-700">
             ACCGK continues to make significant strides in professionalizing caregiving across Kenya.
           </p>

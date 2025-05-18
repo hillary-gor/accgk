@@ -47,7 +47,7 @@ export default function CoreValuesSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#3F96E6]">
             Our Core Values
           </h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-xl text-gray-900">
             Upholding professionalism and integrity in caregiving practices
             across Kenya.
@@ -60,8 +60,8 @@ export default function CoreValuesSection() {
               key={index}
               className="group bg-gray-900 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-xl hover:bg-white/10 transition-colors duration-300"
             >
-              <div className="w-12 h-12 rounded-full bg-accgk-pink/20 flex items-center justify-center mb-4">
-                <value.icon className="h-6 w-6 text-accgk-pink" />
+              <div className="w-12 h-12 rounded-full bg-[color:var(--accgk-pink)]/20 flex items-center justify-center mb-4">
+                <value.icon className="h-6 w-6 text-[color:var(--accgk-pink)]" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-blue-500 transition-colors duration-300">
                 {value.title}

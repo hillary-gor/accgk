@@ -42,11 +42,11 @@ export default function BenefitsSection() {
         {benefitsData.map((item, index) => (
           <Card key={index} className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardContent className="p-6">
-              <h3 className="text-xl font-semibold text-accgk-blue mb-4">{item.title}</h3>
+              <h3 className="text-xl font-semibold text-[color:var(--accgk-blue)] mb-4">{item.title}</h3>
               <ul className="space-y-3">
                 {item.benefits.map((benefit, idx) => (
                   <li key={idx} className="flex items-start">
-                    <Check className="h-5 w-5 text-accgk-pink mr-2 flex-shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 text-[color:var(--accgk-pink)] mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700">{benefit}</span>
                   </li>
                 ))}

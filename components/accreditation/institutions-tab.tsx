@@ -63,19 +63,19 @@ export default function InstitutionsTab() {
         {accreditedInstitutions.map((institution, index) => (
           <Card key={index} className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="bg-gray-50 border-b border-gray-100">
-              <h3 className="text-xl font-semibold text-accgk-blue">{institution.name}</h3>
+              <h3 className="text-xl font-semibold text-[color:var(--accgk-blue)]">{institution.name}</h3>
             </CardHeader>
             <CardContent className="pt-4 space-y-4">
               <div className="flex items-start">
-                <MapPin className="h-5 w-5 text-accgk-pink mr-2 flex-shrink-0 mt-0.5" />
+                <MapPin className="h-5 w-5 text-[color:var(--accgk-pink)] mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-gray-700">{institution.location}</span>
               </div>
               <div className="flex items-start">
-                <Calendar className="h-5 w-5 text-accgk-pink mr-2 flex-shrink-0 mt-0.5" />
+                <Calendar className="h-5 w-5 text-[color:var(--accgk-pink)] mr-2 flex-shrink-0 mt-0.5" />
                 <span className="text-gray-700">Accredited since: {institution.accreditationDate}</span>
               </div>
               <div className="flex items-start">
-                <GraduationCap className="h-5 w-5 text-accgk-pink mr-2 flex-shrink-0 mt-1" />
+                <GraduationCap className="h-5 w-5 text-[color:var(--accgk-pink)] mr-2 flex-shrink-0 mt-1" />
                 <div>
                   <p className="text-gray-700 font-medium mb-1">Accredited Programs:</p>
                   <ul className="list-disc pl-5 text-gray-600 space-y-1">
@@ -87,7 +87,7 @@ export default function InstitutionsTab() {
               </div>
             </CardContent>
             <CardFooter className="border-t border-gray-100 pt-4">
-              <Button variant="outline" className="w-full text-accgk-blue border-accgk-blue hover:bg-accgk-blue/5">
+              <Button variant="outline" className="w-full text-[color:var(--accgk-blue)] border-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/5">
                 <ExternalLink className="h-4 w-4 mr-2" />
                 Visit Website
               </Button>

@@ -46,8 +46,8 @@ export default function FocusAreas() {
     <section id="focus-areas" className="py-16 md:py-24 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Our Focus Areas</h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Our Focus Areas</h2>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-lg text-gray-700">
             ACCGK works across multiple domains to ensure comprehensive support and regulation for caregivers in Kenya.
           </p>
@@ -59,7 +59,7 @@ export default function FocusAreas() {
               key={index}
               className="bg-white rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden group"
             >
-              <div className="relative h-40 bg-accgk-blue/5">
+              <div className="relative h-40 bg-[color:var(--accgk-blue)]/5">
                 <Image
                   src={area.image || "/placeholder.svg"}
                   alt={area.title}
@@ -69,10 +69,10 @@ export default function FocusAreas() {
                 <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
               </div>
               <div className="p-6 relative">
-                <div className="w-12 h-12 rounded-full bg-accgk-blue/10 flex items-center justify-center mb-4 absolute -top-6 right-6 border-4 border-white shadow-sm">
-                  <area.icon className="w-6 h-6 text-accgk-blue" />
+                <div className="w-12 h-12 rounded-full bg-[color:var(--accgk-blue)]/10 flex items-center justify-center mb-4 absolute -top-6 right-6 border-4 border-white shadow-sm">
+                  <area.icon className="w-6 h-6 text-[color:var(--accgk-blue)]" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-accgk-blue">{area.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 text-[color:var(--accgk-blue)]">{area.title}</h3>
                 <p className="text-gray-600">{area.description}</p>
               </div>
             </div>

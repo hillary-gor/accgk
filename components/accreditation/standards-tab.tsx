@@ -71,13 +71,13 @@ export default function StandardsTab() {
         {standardsCategories.map((category, index) => (
           <Card key={index} className="border border-gray-200 shadow-sm">
             <CardHeader className="bg-gray-50 border-b border-gray-100">
-              <h3 className="text-xl font-semibold text-accgk-blue">{category.title}</h3>
+              <h3 className="text-xl font-semibold text-[color:var(--accgk-blue)]">{category.title}</h3>
             </CardHeader>
             <CardContent className="pt-4">
               <ul className="space-y-3">
                 {category.standards.map((standard, idx) => (
                   <li key={idx} className="flex items-start">
-                    <Check className="h-5 w-5 text-accgk-pink mr-2 flex-shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 text-[color:var(--accgk-pink)] mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-700">{standard}</span>
                   </li>
                 ))}

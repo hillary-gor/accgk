@@ -37,7 +37,7 @@ export default function ServiceTiles() {
     <section className="py-12 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-accgk-blue">Quick Services</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center text-[color:var(--accgk-blue)]">Quick Services</h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
@@ -51,7 +51,7 @@ export default function ServiceTiles() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-gray-800">{service.title}</h3>
                 <p className="text-gray-600 mb-4 flex-grow">{service.description}</p>
-                <div className="flex items-center text-accgk-blue font-medium group-hover:text-accgk-pink transition-colors">
+                <div className="flex items-center text-[color:var(--accgk-blue)] font-medium group-hover:text-[color:var(--accgk-pink)] transition-colors">
                   <span>Access now</span>
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>

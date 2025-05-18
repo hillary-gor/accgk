@@ -7,7 +7,7 @@ export default function OurStorySection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Content Column */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Our Story</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Our Story</h2>
             <div className="w-20 h-1 bg-[#AB056A] mb-8"></div>
 
             <div className="space-y-6 text-base md:text-lg text-neutral-900 leading-relaxed">
@@ -50,8 +50,8 @@ export default function OurStorySection() {
               />
 
               {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-accgk-pink rounded-full opacity-20 blur-xl"></div>
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-accgk-blue rounded-full opacity-20 blur-xl"></div>
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-[color:var(--accgk-pink)] rounded-full opacity-20 blur-xl"></div>
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-[color:var(--accgk-blue)] rounded-full opacity-20 blur-xl"></div>
 
               {/* Content overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-blue-900 via-white/60 to-transparent">

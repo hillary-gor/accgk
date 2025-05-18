@@ -46,14 +46,14 @@ export default function VerificationForm() {
   return (
     <div className="relative mb-16">
       {/* Decorative background elements */}
-      <div className="absolute -top-12 -left-12 w-24 h-24 bg-accgk-pink/10 rounded-full blur-3xl"></div>
-      <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-accgk-blue/10 rounded-full blur-3xl"></div>
+      <div className="absolute -top-12 -left-12 w-24 h-24 bg-[color:var(--accgk-pink)]/10 rounded-full blur-3xl"></div>
+      <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-[color:var(--accgk-blue)]/10 rounded-full blur-3xl"></div>
 
       <div className="relative bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-xl p-6 md:p-8">
         <div className="grid md:grid-cols-5 gap-8 items-center">
           {/* Left side - Form */}
           <div className="md:col-span-3">
-            <h2 className="text-2xl font-bold text-accgk-blue mb-2">Verification Portal</h2>
+            <h2 className="text-2xl font-bold text-[color:var(--accgk-blue)] mb-2">Verification Portal</h2>
             <p className="text-gray-600 mb-6">
               Enter the caregiver's full name or certification number to verify their credentials.
             </p>
@@ -101,7 +101,7 @@ export default function VerificationForm() {
 
               <Button
                 type="submit"
-                className="w-full bg-accgk-blue hover:bg-accgk-blue/90 text-white"
+                className="w-full bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90 text-white"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -153,23 +153,23 @@ export default function VerificationForm() {
                 className="object-contain"
               />
             </div>
-            <div className="bg-accgk-blue/5 rounded-lg p-4 mt-4">
-              <h3 className="font-medium text-accgk-blue mb-2">Why Verify?</h3>
+            <div className="bg-[color:var(--accgk-blue)]/5 rounded-lg p-4 mt-4">
+              <h3 className="font-medium text-[color:var(--accgk-blue)] mb-2">Why Verify?</h3>
               <ul className="text-sm text-gray-600 space-y-2">
                 <li className="flex items-start">
-                  <span className="bg-accgk-pink/20 text-accgk-pink rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+                  <span className="bg-[color:var(--accgk-pink)]/20 text-[color:var(--accgk-pink)] rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
                     ✓
                   </span>
                   Ensure your caregiver is properly certified
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-accgk-pink/20 text-accgk-pink rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+                  <span className="bg-[color:var(--accgk-pink)]/20 text-[color:var(--accgk-pink)] rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
                     ✓
                   </span>
                   Confirm certification is current and valid
                 </li>
                 <li className="flex items-start">
-                  <span className="bg-accgk-pink/20 text-accgk-pink rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
+                  <span className="bg-[color:var(--accgk-pink)]/20 text-[color:var(--accgk-pink)] rounded-full w-5 h-5 flex items-center justify-center mr-2 mt-0.5">
                     ✓
                   </span>
                   Protect yourself and your loved ones

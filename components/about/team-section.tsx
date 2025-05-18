@@ -45,8 +45,8 @@ export default function TeamSection() {
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Meet Our Team</h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Meet Our Team</h2>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-lg text-gray-700">
             Our dedicated team of professionals works tirelessly to uphold caregiving standards and support certified
             caregivers across Kenya.
@@ -66,7 +66,7 @@ export default function TeamSection() {
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-accgk-blue/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--accgk-blue)]/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <div className="p-4 w-full">
                     <div className="flex justify-center space-x-4">
                       <a
@@ -92,8 +92,8 @@ export default function TeamSection() {
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-1 text-accgk-blue">{member.name}</h3>
-                <p className="text-accgk-pink font-medium mb-3">{member.role}</p>
+                <h3 className="text-xl font-semibold mb-1 text-[color:var(--accgk-blue)]">{member.name}</h3>
+                <p className="text-[color:var(--accgk-pink)] font-medium mb-3">{member.role}</p>
                 <p className="text-gray-600 text-sm">{member.bio}</p>
               </div>
             </div>

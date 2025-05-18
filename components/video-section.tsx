@@ -5,8 +5,8 @@ export default function VideoSection() {
     <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">See Our Work in Action</h2>
-          <div className="w-20 h-1 bg-accgk-pink mx-auto mb-8"></div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">See Our Work in Action</h2>
+          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
           <p className="text-lg text-gray-700">Watch how ACCGK is transforming the caregiving profession in Kenya.</p>
         </div>
 
@@ -21,9 +21,9 @@ export default function VideoSection() {
             />
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-accgk-blue/80 to-transparent flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--accgk-blue)]/80 to-transparent flex items-center justify-center">
               {/* Play Button */}
-              <div className="w-20 h-20 rounded-full bg-accgk-pink flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+              <div className="w-20 h-20 rounded-full bg-[color:var(--accgk-pink)] flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-10 w-10 text-white"
@@ -57,10 +57,10 @@ export default function VideoSection() {
 
         <div className="max-w-4xl mx-auto mt-8 grid md:grid-cols-3 gap-6">
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-100 shadow-sm">
-            <div className="w-12 h-12 rounded-full bg-accgk-blue/10 flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-full bg-[color:var(--accgk-blue)]/10 flex items-center justify-center mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-accgk-blue"
+                className="h-6 w-6 text-[color:var(--accgk-blue)]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -73,16 +73,16 @@ export default function VideoSection() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-lg mb-2 text-accgk-blue">Our Mission</h3>
+            <h3 className="font-semibold text-lg mb-2 text-[color:var(--accgk-blue)]">Our Mission</h3>
             <p className="text-gray-600">
               Learn about our mission to transform caregiving in Kenya through professional standards.
             </p>
           </div>
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-100 shadow-sm">
-            <div className="w-12 h-12 rounded-full bg-accgk-blue/10 flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-full bg-[color:var(--accgk-blue)]/10 flex items-center justify-center mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-accgk-blue"
+                className="h-6 w-6 text-[color:var(--accgk-blue)]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -95,14 +95,14 @@ export default function VideoSection() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-lg mb-2 text-accgk-blue">Success Stories</h3>
-            <p className="text-gray-600">Hear from certified caregivers who have benefited from ACCGK's programs.</p>
+            <h3 className="font-semibold text-lg mb-2 text-[color:var(--accgk-blue)]">Success Stories</h3>
+            <p className="text-gray-600">Hear from certified caregivers who have benefited from ACCGK&apos;s programs.</p>
           </div>
           <div className="bg-gray-50 p-6 rounded-lg border border-gray-100 shadow-sm">
-            <div className="w-12 h-12 rounded-full bg-accgk-blue/10 flex items-center justify-center mb-4">
+            <div className="w-12 h-12 rounded-full bg-[color:var(--accgk-blue)]/10 flex items-center justify-center mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-accgk-blue"
+                className="h-6 w-6 text-[color:var(--accgk-blue)]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -115,7 +115,7 @@ export default function VideoSection() {
                 />
               </svg>
             </div>
-            <h3 className="font-semibold text-lg mb-2 text-accgk-blue">Future Vision</h3>
+            <h3 className="font-semibold text-lg mb-2 text-[color:var(--accgk-blue)]">Future Vision</h3>
             <p className="text-gray-600">Discover our plans for the future of caregiving profession in Kenya.</p>
           </div>
         </div>

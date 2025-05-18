@@ -10,7 +10,7 @@ export default function AnnouncementBar() {
   if (!isVisible) return null
 
   return (
-    <div className="bg-accgk-pink text-white py-2 px-4 text-center relative">
+    <div className="bg-[color:var(--accgk-pink)] text-white py-2 px-4 text-center relative">
       <div className="container mx-auto">
         <p className="text-sm md:text-base font-medium">
           <span className="font-bold mr-2">IMPORTANT:</span> Registration for the 2023 Caregivers Conference is now

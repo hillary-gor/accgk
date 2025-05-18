@@ -35,15 +35,15 @@ export default function BlogSection() {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-accgk-blue">Latest News & Updates</h2>
-            <div className="w-20 h-1 bg-accgk-pink mb-4"></div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Latest News & Updates</h2>
+            <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mb-4"></div>
             <p className="text-lg text-gray-700">
               Stay informed about the latest developments in the caregiving profession.
             </p>
           </div>
           <Link
             href="#"
-            className="hidden md:flex items-center text-accgk-blue hover:text-accgk-pink transition-colors font-medium"
+            className="hidden md:flex items-center text-[color:var(--accgk-blue)] hover:text-[color:var(--accgk-pink)] transition-colors font-medium"
           >
             <span>View all news</span>
             <ArrowRight className="ml-2 w-4 h-4" />
@@ -65,19 +65,19 @@ export default function BlogSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
                   <div className="p-4 w-full">
-                    <span className="inline-block px-3 py-1 bg-accgk-pink text-white text-xs rounded-full">News</span>
+                    <span className="inline-block px-3 py-1 bg-[color:var(--accgk-pink)] text-white text-xs rounded-full">News</span>
                   </div>
                 </div>
               </div>
               <div className="p-6">
                 <p className="text-sm text-gray-500 mb-2">{post.date}</p>
-                <h3 className="text-xl font-semibold mb-3 text-accgk-blue group-hover:text-accgk-pink transition-colors">
+                <h3 className="text-xl font-semibold mb-3 text-[color:var(--accgk-blue)] group-hover:text-[color:var(--accgk-pink)] transition-colors">
                   {post.title}
                 </h3>
                 <p className="text-gray-600 mb-4">{post.excerpt}</p>
                 <Link
                   href={post.link}
-                  className="inline-flex items-center text-accgk-pink hover:text-accgk-blue transition-colors font-medium"
+                  className="inline-flex items-center text-[color:var(--accgk-pink)] hover:text-[color:var(--accgk-blue)] transition-colors font-medium"
                 >
                   <span>Read more</span>
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -90,7 +90,7 @@ export default function BlogSection() {
         <div className="text-center mt-10 md:hidden">
           <Link
             href="#"
-            className="inline-flex items-center text-accgk-blue hover:text-accgk-pink transition-colors font-medium"
+            className="inline-flex items-center text-[color:var(--accgk-blue)] hover:text-[color:var(--accgk-pink)] transition-colors font-medium"
           >
             <span>View all news</span>
             <ArrowRight className="ml-2 w-4 h-4" />

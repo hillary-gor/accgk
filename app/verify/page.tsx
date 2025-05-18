@@ -9,7 +9,7 @@ export default function VerifyPage() {
   return (
     <main className="min-h-screen flex flex-col">
       {/* Header Section */}
-      <section className="relative bg-gradient-to-r from-accgk-blue to-accgk-blue/80 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-r from-[color:var(--accgk-blue)] to-[color:var(--accgk-blue)]/80 text-white overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
