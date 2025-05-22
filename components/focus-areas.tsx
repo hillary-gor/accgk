@@ -25,7 +25,7 @@ const focusAreas = [
     title: "Advocacy for Policy & Legal Reform",
     description: "Championing the rights and interests of caregivers through policy advocacy and legal reforms.",
     icon: Scale,
-    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//dida-accgk.JPG",
+    image: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//pricilla-show-off.JPG",
   },
   {
     title: "Career Development Pathways",
