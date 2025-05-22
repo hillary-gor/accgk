@@ -16,9 +16,9 @@ export default function MembershipJoinPage() {
           <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <UserPlus className="h-8 w-8 text-primary" />
+                <UserPlus className="h-8 w-8 text-[color:var(--accgk-blue)]" />
               </div>
-              <CardTitle className="text-2xl font-bold text-primary">Caregiver Membership</CardTitle>
+              <CardTitle className="text-2xl font-bold text-[color:var(--accgk-blue)]">Caregiver Membership</CardTitle>
               <CardDescription className="text-base">
                 For individual healthcare professionals providing caregiving services
               </CardDescription>
@@ -26,24 +26,28 @@ export default function MembershipJoinPage() {
             <CardContent className="text-center">
               <ul className="text-left space-y-2 mb-6">
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Professional certification and recognition</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Access to continuing education and training</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Networking with fellow caregivers</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Career advancement opportunities</span>
                 </li>
               </ul>
               <p className="text-sm text-muted-foreground mb-4">
-                Annual Membership Fee: <span className="font-semibold">KES 5,000</span>
+                Annual Membership Fee: <span className="font-semibold">KES 6,000</span><br/>
+                Firt Time Application Fee: <span className="font-semibold">KES 10,000</span><br/>
+              </p>
+              <p>
+                <strong>Total: <span className="font-semibold">KES 16,000</span></strong>
               </p>
             </CardContent>
             <CardFooter>
@@ -57,9 +61,9 @@ export default function MembershipJoinPage() {
           <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Building className="h-8 w-8 text-primary" />
+                <Building className="h-8 w-8 text-[color:var(--accgk-blue)]" />
               </div>
-              <CardTitle className="text-2xl font-bold text-primary">Institutional Membership</CardTitle>
+              <CardTitle className="text-2xl font-bold text-[color:var(--accgk-blue)]">Institutional Membership</CardTitle>
               <CardDescription className="text-base">
                 For healthcare facilities, training institutions, and caregiving agencies
               </CardDescription>
@@ -67,19 +71,19 @@ export default function MembershipJoinPage() {
             <CardContent className="text-center">
               <ul className="text-left space-y-2 mb-6">
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Institutional accreditation and recognition</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Access to certified caregivers database</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Discounted group certification for staff</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-primary mr-2">•</span>
+                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
                   <span>Participation in setting industry standards</span>
                 </li>
               </ul>
