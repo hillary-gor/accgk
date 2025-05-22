@@ -23,7 +23,7 @@ export default function Hero() {
             <p className="text-xl md:text-2xl mb-8 text-blue-500">
               Uplifting Caregiving Standards in Kenya
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="flex flex-row sm:flex-row gap-4 justify-center md:justify-start">
               <Button
                 asChild
                 size="lg"
