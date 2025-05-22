@@ -17,7 +17,7 @@ export default function Hero() {
           <h1 className="text-4xl md:text-5xl font-bold text-[color:var(--accgk-blue)] leading-tight">
             Association of Certified Caregivers Kenya
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="hidden lg:block text-gray-600 text-lg">
             Join the movement of certified caregivers making a difference in
             healthcare. Get certified, get licensed, and start making a
             difference today!
@@ -45,13 +45,14 @@ export default function Hero() {
         </div>
 
         <div className="flex flex-col items-center">
-          <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] relative overflow-hidden rounded-[15px]">
+          <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] relative overflow-hidden rounded-[25px]">
             <Image
               src={image1.url}
               alt={image1.alt}
               width={800}
               height={500}
-              className="object-contain rounded-[30px] w-full h-full"
+              className="object-cover w-full h-full"
+              style={{ borderRadius: "25px" }}
               unoptimized
             />
           </div>
