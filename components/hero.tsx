@@ -1,82 +1,60 @@
-'use client';
+"use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import Link from "next/link";
+
+const image1 = {
+  url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/group-photo.JPG",
+  alt: "A diverse group of smiling caregivers standing together, signifying community and support.",
+};
+
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-r from-white via-[color:var(--accgk-blue)]/5 to-white text-blue-600 overflow-hidden">
-      <div className="container mx-auto px-4 py-20 md:py-32">
-        <div className="grid md:grid-cols-2 items-center gap-12">
-          {/* Text Content Left */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center md:text-left"
-          >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Association of Certified Caregivers Kenya
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-500">
-              Uplifting Caregiving Standards in Kenya
-            </p>
-            <div className="flex flex-row sm:flex-row gap-4 justify-center md:justify-start">
-              <Button
-                asChild
-                size="lg"
-                className="bg-[#AB056A] hover:bg-[#AB056A]/90 text-white shadow-md"
-              >
-                <Link href="/membership/join" aria-label="Get Certified in Pink">
-                  Get Certified
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                className="bg-[var(--accgk-blue)] hover:bg-[var(--accgk-blue)]/90 text-white shadow-md"
-              >
-                <Link href="/membership" aria-label="Get Certified in Blue">
-                  Why join?
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
+    <section className="relative bg-white overflow-hidden">
+      <div className="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        {/* Text Section */}
+        <div className="space-y-6 z-10">
+          <div className="bg-[color:var(--accgk-blue)]/20 text-[color:var(--accgk-blue)] px-4 py-2 rounded-lg text-sm font-medium w-fit">
+            Empowering Caregivers Across Kenya.<br/>You’re in! 🔓 Member services are just a click away.
+          </div>
 
-          {/* Image Right */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-            className="relative w-full aspect-[4/3] md:aspect-[4/3] lg:aspect-video rounded-xl overflow-hidden shadow-xl"
-          >
-            <Image
-              src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/neema-and-shanice-accgk.JPG"
-              alt="Professional caregivers providing compassionate care"
-              fill
-              priority
-              className="object-cover"
-            />
-          </motion.div>
+          <h1 className="text-4xl md:text-5xl font-bold text-[color:var(--accgk-blue)] leading-tight">
+            Association of Certified Caregivers Kenya
+          </h1>
+          <p className="text-gray-600 text-lg">
+            Join the movement of certified caregivers making a difference in
+            healthcare. Get certified, get licensed, and start making a difference today!
+          </p>
+
+          <div className="flex space-x-4">
+            <Link
+              href="/membership/join"
+              className="bg-[color:var(--accgk-blue)] text-white px-6 py-3 rounded-lg hover:bg-[color:var(--accgk-blue)]/90 transition"
+            >
+              Join Now
+            </Link>
+            <Link
+              href="/membership"
+              className="text-[color:var(--accgk-blue)] font-semibold hover:underline"
+            >
+              Learn More
+            </Link>
+          </div>
         </div>
-      </div>
 
-      {/* Optional Wave Divider */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg
-          aria-hidden="true"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 120"
-          className="w-full h-auto"
-        >
-          <path
-            fill="#ffffff"
-            fillOpacity="1"
-            d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"
-          ></path>
-        </svg>
+        <div className="flex flex-col items-center">
+          <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] relative overflow-hidden rounded-[15px]">
+            <Image
+              src={image1.url}
+              alt={image1.alt}
+              width={800}
+              height={500}
+              className="object-contain rounded-[30px] w-full h-full"
+              unoptimized
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
