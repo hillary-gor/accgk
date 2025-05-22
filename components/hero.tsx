@@ -38,7 +38,7 @@ export default function Hero() {
                 size="lg"
                 className="bg-[var(--accgk-blue)] hover:bg-[var(--accgk-blue)]/90 text-white shadow-md"
               >
-                <Link href="#cta" aria-label="Get Certified in Blue">
+                <Link href="/membership" aria-label="Get Certified in Blue">
                   Why join?
                 </Link>
               </Button>
