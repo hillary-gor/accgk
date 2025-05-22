@@ -1,6 +1,13 @@
-"use client"
+"use client";
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const faqs = [
   {
@@ -43,43 +50,70 @@ const faqs = [
     answer:
       "The ACCGK Code of Ethics outlines the professional standards and ethical principles that all certified caregivers must adhere to. It covers areas such as patient dignity, confidentiality, professional boundaries, and continuing competence.",
   },
-]
+];
+
+const faqImage = {
+  url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//pricilla-show-off.JPG",
+  alt: "Pricilla smilling, signifying happiness.",
+};
 
 export default function FaqSection() {
   return (
-    <section className="py-16 md:py-24 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[color:var(--accgk-blue)]">Frequently Asked Questions</h2>
-          <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mx-auto mb-8"></div>
-          <p className="text-lg text-gray-700">Find answers to common questions about ACCGK and our services.</p>
+    <section className="mb-20">
+      <div className="text-center mb-12 px-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#3F96E6] mb-4">
+          Frequently Asked Questions
+        </h2>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Find answers to common questions about ACCGK membership, applications,
+          and support.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-4 max-w-6xl mx-auto items-start">
+        {/* Image Section */}
+        <div className="w-full">
+          <Image
+            src={faqImage.url}
+            alt={faqImage.alt}
+            width={800}
+            height={500}
+            className="object-contain rounded-[30px] w-full h-full"
+            unoptimized
+          />
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left font-medium text-[color:var(--accgk-blue)] hover:text-[color:var(--accgk-pink)]">
-                  {faq.question}
+        {/* FAQ Section */}
+        <div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {faqs.map((item, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className="border border-gray-200 rounded-xl shadow-sm bg-white hover:border-[#3F96E6] transition-all"
+              >
+                <AccordionTrigger className="px-6 py-4 text-left text-lg font-medium text-gray-800 hover:text-[#3F96E6] transition-colors">
+                  {item.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-700">{faq.answer}</AccordionContent>
+                <AccordionContent asChild>
+                  <AnimatePresence initial={false}>
+                    <motion.div
+                      key={`faq-${index}`}
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="overflow-hidden px-6 pb-4 text-gray-600"
+                    >
+                      {item.answer}
+                    </motion.div>
+                  </AnimatePresence>
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-
-          <div className="mt-10 text-center">
-            <p className="text-gray-700 mb-4">
-              Don't see your question here? Contact us directly and we'll be happy to help.
-            </p>
-            <a
-              href="#contact"
-              className="inline-block px-6 py-3 bg-[color:var(--accgk-blue)] text-white rounded-md hover:bg-[color:var(--accgk-blue)]/90 transition-colors"
-            >
-              Contact Us
-            </a>
-          </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
