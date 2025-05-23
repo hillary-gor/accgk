@@ -1,6 +1,11 @@
 import Image from "next/image";
 
 export default function HeroSection() {
+  const aboutHeroImage = {
+    url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//janet-glows-accgk.JPG",
+    alt: "Janet Glows",
+  };
+
   return (
     <section className="relative bg-gradient-to-r from-accgk-white to-[color:var(--accgk-blue)]/80 text-white overflow-hidden py-16 md:py-24">
       {/* Background Pattern */}
@@ -14,10 +19,13 @@ export default function HeroSection() {
           <div className="order-2 md:order-1">
             <div className="relative h-[650px] rounded-2xl overflow-hidden shadow-2xl transform md:rotate-1">
               <Image
-                src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//janet-accgk-aboutHero.JPG"
-                alt="ACCGK Professional Caregivers Team"
-                fill
-                className="object-cover"
+                src={aboutHeroImage.url}
+                alt={aboutHeroImage.alt}
+                width={800}
+                height={500}
+                className="object-cover w-full h-full"
+                style={{ borderRadius: "25px" }}
+                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--accgk-blue)]/60 to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6">
