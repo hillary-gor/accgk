@@ -62,8 +62,6 @@ export default function HelpPage() {
         subject: formData.subject,
         description: formData.message,
         status: "open",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
       });
 
       if (error) throw error;
