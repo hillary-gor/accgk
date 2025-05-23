@@ -7,7 +7,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative bg-gradient-to-r from-accgk-white to-[color:var(--accgk-blue)]/80 text-white overflow-hidden py-16 md:py-24">
+    <section className="relative bg-white text-white overflow-hidden py-16 md:py-24">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-grid-white/10"></div>
@@ -39,19 +39,19 @@ export default function HeroSection() {
           {/* Content Column */}
           <div className="order-1 md:order-2">
             <div className="max-w-xl">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-blue-600">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight text-[color:var(--accgk-blue)]">
                 About ACCGK
               </h1>
               <div className="w-20 h-1 bg-[color:var(--accgk-pink)] mb-8"></div>
-              <p className="text-xl mb-8 text-blue-500">
+              <p className="text-xl mb-8 text-gray-900">
                 The Association of Certified Caregivers Kenya (ACCGK) is the
                 premier regulatory body dedicated to uplifting caregiving
                 standards across Kenya. We establish and maintain professional
                 standards, ensuring quality care delivery while advocating for
                 the rights and welfare of caregiving professionals.
               </p>
-              <div className="bg-pink-300/20 rounded-xl p-6 md:p-8 shadow-sm backdrop-blur-sm">
-                <p className="text-base md:text-lg text-pink-700 leading-relaxed">
+              <div className="bg-[color:var(--accgk-pink)]/20 rounded-xl p-6 md:p-8 shadow-sm backdrop-blur-sm">
+                <p className="text-base md:text-lg text-[color:var(--accgk-pink)] leading-relaxed">
                   Through our comprehensive framework, we provide certification,
                   continuing education, and a structured career pathway for
                   caregivers, enhancing their professional growth and
