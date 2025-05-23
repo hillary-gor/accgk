@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Menu, X, ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { AnimatePresence, motion } from "framer-motion"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isMoreOpen, setIsMoreOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : ""
+    document.body.style.overflow = isMenuOpen ? "hidden" : "";
     return () => {
-      document.body.style.overflow = ""
-    }
-  }, [isMenuOpen])
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
 
   const navLinkStyles =
-    "text-gray-700 font-medium px-2 py-1 rounded-md hover:bg-blue-500 hover:text-white transition-colors duration-200"
+    "text-gray-700 font-medium px-2 py-1 rounded-md hover:bg-blue-500 hover:text-white transition-colors duration-200";
 
   const navLinks = [
     { label: "About", href: "/about" },
@@ -28,7 +28,7 @@ export default function Header() {
     { label: "Impact", href: "#impact" },
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
-  ]
+  ];
 
   const moreLinks = [
     { label: "Partnerships", href: "/partnerships" },
@@ -37,19 +37,25 @@ export default function Header() {
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms", href: "/terms" },
     { label: "Cookies Policy", href: "/cookies-policy" },
-  ]
+  ];
+
+  const accgkLogo = {
+    url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png?height=40&width=40",
+    alt: "Association of certified caregivers kenya",
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-1 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png?height=40&width=40"
-            alt="ACCGK Logo"
-            width={40}
-            height={40}
-            className="h-10 w-auto"
+            src={accgkLogo.url}
+            alt={accgkLogo.alt}
+            width={50}
+            height={50}
+            className="object-cover w-auto h-15"
+            unoptimized
           />
           <span className="font-bold text-xl text-[color:var(--accgk-blue)] hidden sm:inline-block">
             ACCGK
@@ -89,13 +95,15 @@ export default function Header() {
           {/* Sign In & Register */}
           <Link
             href="/auth/signin"
-            className="text-gray-700 font-medium px-2 py-1 rounded-md hover:text-[color:var(--accgk-blue)] transition-colors"
+            className="text-blue-500 font-medium px-2 py-1 rounded-md hover:text-[color:var(--accgk-blue)] transition-colors"
           >
             Sign In
           </Link>
 
           <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90">
-            <Link href="/membership" className="text-white">Register</Link>
+            <Link href="/membership" className="text-white">
+              Register
+            </Link>
           </Button>
         </nav>
 
@@ -166,7 +174,10 @@ export default function Header() {
                   className="w-full bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <Link href="/membership" className="text-white w-full text-center">
+                  <Link
+                    href="/membership"
+                    className="text-white w-full text-center"
+                  >
                     Register
                   </Link>
                 </Button>
@@ -176,5 +187,5 @@ export default function Header() {
         )}
       </AnimatePresence>
     </header>
-  )
+  );
 }
