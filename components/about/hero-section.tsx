@@ -27,7 +27,7 @@ export default function HeroSection() {
                 style={{ borderRadius: "25px" }}
                 unoptimized
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--accgk-blue)]/60 to-transparent"></div>
+              {/*<div className="absolute inset-0 bg-gradient-to-t from-[color:var(--accgk-blue)]/60 to-transparent"></div>*/}
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <div className="inline-block bg-[color:var(--accgk-pink)] text-white text-sm font-bold px-3 py-1 rounded-full">
                   Certified Excellence
