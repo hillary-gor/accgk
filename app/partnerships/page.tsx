@@ -348,7 +348,7 @@ export default function PartnershipsPage() {
           </div>
         </section>
 
-        <section className="space-y-6">
+       {/* <section className="space-y-6">
           <h2 className="text-2xl font-bold tracking-tight">Our Current Partners</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {currentPartners.map((partner) => (
@@ -370,7 +370,7 @@ export default function PartnershipsPage() {
               </Card>
             ))}
           </div>
-        </section>
+        </section>*/}
 
         <Tabs defaultValue="partnerships" className="space-y-8">
           <TabsList className="mx-auto">
