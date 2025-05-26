@@ -71,7 +71,7 @@ export default function Contact() {
                 <Phone className="w-6 h-6 text-[color:var(--accgk-pink)] mr-4 mt-1" />
                 <div>
                   <h4 className="font-medium mb-1">Phone</h4>
-                  <p className="text-gray-600">+254 700 000000</p>
+                  <p className="text-gray-600">+254 116 443443</p>
                 </div>
               </div>
 
@@ -79,7 +79,7 @@ export default function Contact() {
                 <Mail className="w-6 h-6 text-[color:var(--accgk-pink)] mr-4 mt-1" />
                 <div>
                   <h4 className="font-medium mb-1">Email</h4>
-                  <p className="text-gray-600">info@accgk.org</p>
+                  <p className="text-gray-600">info@accgk.co.ke</p>
                 </div>
               </div>
             </div>

@@ -31,7 +31,7 @@ const faqCategories = [
       {
         question: "How can I contact ACCK for support?",
         answer:
-          "You can contact ACCK through various channels: Email us at info@acck.org, call our support line at +254 700 000000, visit our office in Nairobi, or use the contact form on our website. Our support team is available Monday through Friday, 8:00 AM to 5:00 PM.",
+          "You can contact ACCK through various channels: Email us at info@accgk.co.ke, call our support line at +254 116 443443, visit our office in Nairobi, or use the contact form on our website. Our support team is available Monday through Friday, 8:00 AM to 5:00 PM.",
       },
     ],
   },

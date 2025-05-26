@@ -62,13 +62,13 @@ const partnershipPackages = [
     id: 1,
     name: "Strategic Partner",
     description:
-      "Comprehensive partnership for organizations seeking deep integration with ACCK's mission and programs.",
+      "Comprehensive partnership for organizations seeking deep integration with ACCGK's mission and programs.",
     benefits: [
       "Co-development of certification programs and standards",
       "Joint research initiatives and publications",
       "Preferred access to certified caregivers for employment",
-      "Co-branding opportunities on all ACCK materials",
-      "VIP participation in all ACCK events and conferences",
+      "Co-branding opportunities on all ACCGK materials",
+      "VIP participation in all ACCGK events and conferences",
       "Dedicated relationship manager and quarterly strategy meetings",
       "Customized training programs for your organization",
     ],
@@ -77,14 +77,14 @@ const partnershipPackages = [
   {
     id: 2,
     name: "Education Partner",
-    description: "Ideal for educational institutions and training providers looking to align with ACCK standards.",
+    description: "Ideal for educational institutions and training providers looking to align with ACCGK standards.",
     benefits: [
-      "Curriculum alignment with ACCK certification requirements",
+      "Curriculum alignment with ACCGK certification requirements",
       "Faculty development and train-the-trainer programs",
-      "Student pathways to ACCK certification",
+      "Student pathways to ACCGK certification",
       "Co-hosted educational events and workshops",
       "Recognition as an approved training provider",
-      "Access to ACCK learning resources and materials",
+      "Access to ACCGK learning resources and materials",
       "Participation in education advisory committees",
     ],
     investment: "KSh 250,000+ annually",
@@ -94,7 +94,7 @@ const partnershipPackages = [
     name: "Industry Partner",
     description: "For healthcare facilities and employers seeking qualified caregivers and quality improvement.",
     benefits: [
-      "Priority access to ACCK's certified caregiver database",
+      "Priority access to ACCGK's certified caregiver database",
       "Staff training and certification at preferential rates",
       "Quality improvement consultations and assessments",
       "Recognition as an employer of choice for certified caregivers",
@@ -112,7 +112,7 @@ const sponsorshipOpportunities = [
     id: 1,
     name: "Annual Conference Sponsor",
     description:
-      "Support ACCK's flagship annual conference bringing together caregivers, educators, and healthcare leaders from across Kenya.",
+      "Support ACCGK's flagship annual conference bringing together caregivers, educators, and healthcare leaders from across Kenya.",
     benefits: [
       "Prominent branding throughout the conference venue",
       "Speaking opportunity during opening or closing ceremony",
@@ -134,12 +134,12 @@ const sponsorshipOpportunities = [
     description:
       "Enable aspiring caregivers from underserved communities to access certification programs through scholarship support.",
     benefits: [
-      "Recognition as a scholarship provider on the ACCK website",
+      "Recognition as a scholarship provider on the ACCGK website",
       "Opportunity to present certificates to scholarship recipients",
       "Impact reports on scholarship outcomes and success stories",
       "Branding on scholarship application materials",
       "Recognition at certification ceremonies",
-      "Feature in ACCK newsletter and social media",
+      "Feature in ACCGK newsletter and social media",
       "Tax benefits for charitable contribution",
     ],
     levels: [
@@ -152,7 +152,7 @@ const sponsorshipOpportunities = [
     id: 3,
     name: "Digital Learning Platform Sponsor",
     description:
-      "Support the development and maintenance of ACCK's digital learning platform, expanding access to caregiver education across Kenya.",
+      "Support the development and maintenance of ACCGK's digital learning platform, expanding access to caregiver education across Kenya.",
     benefits: [
       "Branded learning module or course section",
       "Logo visibility on the platform login page",
@@ -174,13 +174,13 @@ export default function PartnershipsPage() {
   return (
     <PageLayout
       title="Partnerships & Sponsorships"
-      description="Explore opportunities to partner with the Association of Certified Caregivers Kenya (ACCK) and support our mission to elevate caregiving standards."
+      description="Explore opportunities to partner with the Association of Certified Caregivers Kenya (ACCGK) and support our mission to elevate caregiving standards."
     >
       <div className="space-y-12">
         <section className="space-y-6">
-          <h2 className="text-2xl font-bold tracking-tight">Why Partner with ACCK?</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Why Partner with ACCGK?</h2>
           <p className="text-lg text-muted-foreground">
-            Partnering with the Association of Certified Caregivers Kenya (ACCK) offers organizations the opportunity to
+            Partnering with the Association of Certified Caregivers Kenya (ACCGK) offers organizations the opportunity to
             contribute to the advancement of caregiving standards while achieving their own strategic objectives. Our
             partners play a crucial role in shaping the future of caregiving in Kenya through collaborative initiatives,
             resource sharing, and joint advocacy.
@@ -286,7 +286,7 @@ export default function PartnershipsPage() {
                 </div>
                 <h3 className="text-xl font-bold mb-2">Brand Association</h3>
                 <p className="text-muted-foreground">
-                  Align your brand with ACCK's reputation for excellence in caregiving, demonstrating your commitment to
+                  Align your brand with ACCGK's reputation for excellence in caregiving, demonstrating your commitment to
                   quality and professional standards.
                 </p>
               </CardContent>
@@ -315,7 +315,7 @@ export default function PartnershipsPage() {
                 <h3 className="text-xl font-bold mb-2">Networking</h3>
                 <p className="text-muted-foreground">
                   Connect with other healthcare organizations, educational institutions, and industry leaders through
-                  ACCK's extensive network and events.
+                  ACCGK's extensive network and events.
                 </p>
               </CardContent>
             </Card>
@@ -380,7 +380,7 @@ export default function PartnershipsPage() {
 
           <TabsContent value="partnerships" className="space-y-8">
             <p className="text-lg text-muted-foreground">
-              ACCK offers various partnership packages designed to meet the needs and objectives of different
+              ACCGK offers various partnership packages designed to meet the needs and objectives of different
               organizations. Each partnership is customized to create mutual value and advance our shared mission of
               elevating caregiving standards.
             </p>
@@ -419,7 +419,7 @@ export default function PartnershipsPage() {
 
           <TabsContent value="sponsorships" className="space-y-8">
             <p className="text-lg text-muted-foreground">
-              Sponsorship opportunities allow organizations to support specific ACCK initiatives, events, or programs
+              Sponsorship opportunities allow organizations to support specific ACCGK initiatives, events, or programs
               while gaining visibility and demonstrating their commitment to quality caregiving.
             </p>
 
@@ -470,9 +470,9 @@ export default function PartnershipsPage() {
         </Tabs>
 
         <section className="bg-muted/50 p-8 rounded-lg text-center">
-          <h2 className="text-2xl font-bold tracking-tight mb-4">Interested in Partnering with ACCK?</h2>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">Interested in Partnering with ACCGK?</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
-            We welcome the opportunity to discuss how a partnership with ACCK can benefit your organization while
+            We welcome the opportunity to discuss how a partnership with ACCGK can benefit your organization while
             advancing our shared commitment to excellence in caregiving.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
