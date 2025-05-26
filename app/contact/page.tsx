@@ -37,13 +37,13 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form and Info */}
-      <section className="py-24 px-4 md:px-6 bg-black">
+      <section className="py-24 px-4 md:px-6 bg-white">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div>
               <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
-              <p className="text-gray-300 mb-8">
+              <p className="text-gray-600 mb-8">
                 Fill out the form below and we'll get back to you as soon as
                 possible.
               </p>
@@ -57,7 +57,7 @@ export default function ContactPage() {
                     <Input
                       id="name"
                       placeholder="Your name"
-                      className="bg-gray-900/50 border-gray-800 focus:border-white/50"
+                      className="bg-white border-[#3f96e6] focus:border-white/50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -68,7 +68,7 @@ export default function ContactPage() {
                       id="email"
                       type="email"
                       placeholder="Your email"
-                      className="bg-gray-900/50 border-gray-800 focus:border-white/50"
+                      className="bg-white border-[#3f96e6] focus:border-white/50"
                     />
                   </div>
                 </div>
@@ -81,7 +81,7 @@ export default function ContactPage() {
                     <Input
                       id="phone"
                       placeholder="Your phone number"
-                      className="bg-gray-900/50 border-gray-800 focus:border-white/50"
+                      className="bg-white border-[#3f96e6] focus:border-white/50"
                     />
                   </div>
                   <div className="space-y-2">
@@ -91,7 +91,7 @@ export default function ContactPage() {
                     <Input
                       id="company"
                       placeholder="Your company"
-                      className="bg-gray-900/50 border-gray-800 focus:border-white/50"
+                      className="bg-white border-[#3f96e6] focus:border-white/50"
                     />
                   </div>
                 </div>
@@ -103,7 +103,7 @@ export default function ContactPage() {
                   <Input
                     id="subject"
                     placeholder="What's this about?"
-                    className="bg-gray-900/50 border-gray-800 focus:border-white/50"
+                    className="bg-white border-[#3f96e6] focus:border-white/50"
                   />
                 </div>
 
@@ -115,7 +115,7 @@ export default function ContactPage() {
                     id="message"
                     placeholder="Tell us about your project or inquiry"
                     rows={6}
-                    className="bg-gray-900/50 border-gray-800 focus:border-white/50 resize-none"
+                    className="bg-white border-[#3f96e6] focus:border-white/50 resize-none"
                   />
                 </div>
 
@@ -128,12 +128,12 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div>
               <h2 className="text-3xl font-bold mb-6">Contact Information</h2>
-              <p className="text-gray-300 mb-8">
+              <p className="text-gray-600 mb-8">
                 Prefer to reach out directly? Here's how you can contact us.
               </p>
 
               <div className="space-y-8">
-                <Card className="bg-gray-900/50 border-gray-800">
+                <Card className="bg-white border-[#3f96e6]">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 p-3 rounded-full">
@@ -141,12 +141,12 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-bold text-lg mb-1">Email Us</h3>
-                        <p className="text-gray-400 mb-2">
+                        <p className="text-gray-500 mb-2">
                           For general inquiries and support
                         </p>
                         <Link
                           href="mailto:info@accgk.co.ke"
-                          className="text-white hover:text-blue-400"
+                          className="text-blue-400 hover:text-blue-500"
                         >
                           info@accgk.co.ke
                         </Link>
@@ -155,29 +155,29 @@ export default function ContactPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-gray-900/50 border-gray-800">
+                <Card className="bg-white border-[#3f96e6]">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 p-3 rounded-full">
-                        <Phone className="h-6 w-6 text-green-400" />
+                        <Phone className="h-6 w-6 text-blue-400" />
                       </div>
                       <div>
                         <h3 className="font-bold text-lg mb-1">Call Us</h3>
-                        <p className="text-gray-400 mb-2">
+                        <p className="text-gray-500 mb-2">
                           Monday to Friday, 9am - 6pm EST
                         </p>
                         <Link
                           href="tel:+1234567890"
-                          className="text-white hover:text-green-400"
+                          className="text-blue-400 hover:text-blue-500"
                         >
-                          +1 (234) 567-890
+                          +254 116 443443
                         </Link>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-gray-900/50 border-gray-800">
+                <Card className="bg-white border-[#3f96e6]">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 p-3 rounded-full">
@@ -185,8 +185,8 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <h3 className="font-bold text-lg mb-1">Visit Us</h3>
-                        <p className="text-gray-400 mb-2">Our headquarters</p>
-                        <address className="not-italic text-white">
+                        <p className="text-gray-500 mb-2">Our headquarters</p>
+                        <address className="not-italic text-blue-400">
                           00100 Nairobi
                           <br />
                           Kilimani, CA 94107
@@ -198,7 +198,7 @@ export default function ContactPage() {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-gray-900/50 border-gray-800">
+                <Card className="bg-white border-[#3f96e6]">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="bg-gradient-to-br from-yellow-500/20 to-amber-500/20 p-3 rounded-full">
@@ -208,10 +208,10 @@ export default function ContactPage() {
                         <h3 className="font-bold text-lg mb-1">
                           Business Hours
                         </h3>
-                        <p className="text-gray-400 mb-2">
+                        <p className="text-gray-500 mb-2">
                           When we're available
                         </p>
-                        <div className="space-y-1 text-white">
+                        <div className="space-y-1 text-blue-400">
                           <p>Monday - Friday: 9:00 AM - 6:00 PM EST</p>
                           <p>Saturday: Closed</p>
                           <p>Sunday: Closed</p>
@@ -227,13 +227,13 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section */}
-      <section className="py-24 px-4 md:px-6 bg-gradient-to-b from-black to-gray-900">
+      <section className="py-24 px-4 md:px-6 bg-gradient-to-b from-white to-white">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Our Location
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-500 max-w-2xl mx-auto">
               Visit our headquarters in the heart of Nairobi's office district
             </p>
           </div>
@@ -246,7 +246,7 @@ export default function ContactPage() {
               className="object-cover"
             />
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="bg-black/70 p-6 rounded-lg max-w-md text-center">
+              <div className="bg-[#3f96e6] p-6 rounded-lg max-w-md text-center">
                 <h3 className="text-xl font-bold mb-2">ACCGK HQ</h3>
                 <p className="text-gray-300 mb-4">
                   Nairobi Kenya, Kilimani, CA 94107
@@ -277,7 +277,7 @@ export default function ContactPage() {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Frequently Asked Questions
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-500 max-w-2xl mx-auto">
               Quick answers to common questions about working with us
             </p>
           </div>
@@ -306,10 +306,10 @@ export default function ContactPage() {
                   "Absolutely. Our team is experienced in a wide range of technologies and can adapt to your existing stack. We can also provide recommendations for technology upgrades if needed.",
               },
             ].map((faq, index) => (
-              <Card key={index} className="bg-gray-900/50 border-gray-800">
+              <Card key={index} className="bg-white border-[#3f96e6]">
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-3">{faq.question}</h3>
-                  <p className="text-gray-400">{faq.answer}</p>
+                  <p className="text-gray-500">{faq.answer}</p>
                 </CardContent>
               </Card>
             ))}
