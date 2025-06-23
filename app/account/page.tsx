@@ -16,27 +16,59 @@ export default async function AccountPage() {
   const { data: fetchedProfile, error } = await supabase
     .from("profiles")
     .select(
-      "first_name, last_name, phone, gender, date_of_birth, location, role, onboarded" // Removed avatar_url
+      "first_name, last_name, phone, gender, date_of_birth, location, role, onboarded"
     )
     .eq("id", user.id)
     .maybeSingle();
 
-  if (error && error.code !== 'PGRST116') {
-    console.error("[Supabase Error] AccountPage: ", error.message);
+  if (error && error.code !== 'No rows found') {
     redirect("/auth/signin?error=profile-fetch-failed");
   }
 
   const profileExists = !!fetchedProfile;
 
-  const isCommonDataComplete = profileExists &&
+  // Determine if the common profile data (AccountForm data) is complete.
+  // This is separate from the 'onboarded' flag, which indicates total onboarding completion.
+  const isCommonProfileDataComplete = profileExists &&
     !!fetchedProfile.first_name &&
     !!fetchedProfile.last_name &&
     !!fetchedProfile.phone &&
     !!fetchedProfile.gender &&
     !!fetchedProfile.date_of_birth &&
-    !!fetchedProfile.location; // Removed !!fetchedProfile.avatar_url
+    !!fetchedProfile.location &&
+    !!fetchedProfile.role;
 
-  if (profileExists && isCommonDataComplete && fetchedProfile.onboarded) {
+  // If the common profile is complete AND the user is not yet fully onboarded,
+  // redirect them to their role-specific form.
+  if (isCommonProfileDataComplete && fetchedProfile && !fetchedProfile.onboarded) {
+    if (fetchedProfile.role === "caregiver") {
+      // Check if caregiver profile is already created. If not, redirect to caregiver form.
+      const { data: caregiverSpecificProfile } = await supabase
+        .from('caregivers')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (!caregiverSpecificProfile) {
+        redirect("/account/caregiver");
+      }
+    } else if (fetchedProfile.role === "institution") {
+      // Check if institution profile is already created. If not, redirect to institution form.
+      const { data: institutionSpecificProfile } = await supabase
+        .from('institutions')
+        .select('id')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (!institutionSpecificProfile) {
+        redirect("/account/institution");
+      }
+    }
+  }
+
+  // If the user is fully onboarded (common profile + role-specific form complete, if applicable),
+  // redirect them to their respective dashboards.
+  if (profileExists && fetchedProfile.onboarded) {
     switch (fetchedProfile.role) {
       case "admin":
         redirect("/dashboard/admin");
@@ -47,12 +79,14 @@ export default async function AccountPage() {
       case "caregiver":
         redirect("/dashboard/caregiver");
       case "institution":
-        redirect("/dashboard/institution");
+        redirect("/dashboard/packages");
       default:
         redirect("/dashboard");
     }
   }
 
+  // If none of the above redirects happen, it means the common profile is not complete,
+  // so render the AccountForm for them to complete it.
   const defaultFormValues = {
     first_name: fetchedProfile?.first_name || '',
     last_name: fetchedProfile?.last_name || '',

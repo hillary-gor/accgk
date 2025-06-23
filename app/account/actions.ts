@@ -34,13 +34,13 @@ export async function updateUserProfile(userId: string, data: unknown) {
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user || user.id !== userId) {
-    console.error("[Unauthorized Update Attempt]", userId, user?.id);
+    // In production, log this unauthorized access attempt to a secure logging service.
     redirect("/account?error=unauthorized");
   }
 
   const parsed = updateSchema.safeParse(data);
   if (!parsed.success) {
-    console.error("[Zod Validation Error]", parsed.error.flatten().fieldErrors);
+    // In production, log validation errors for debugging, but avoid exposing sensitive details.
     return {
       error: "Validation failed. Please check your inputs.",
       fieldErrors: parsed.error.flatten().fieldErrors,
@@ -48,6 +48,11 @@ export async function updateUserProfile(userId: string, data: unknown) {
   }
 
   const payload: ProfilePayload = parsed.data;
+
+  // Determine if 'onboarded' should be set to true at this stage.
+  // For 'caregiver' and 'institution', 'onboarded' will be set to true
+  // only after their specific profile forms are completed.
+  const shouldMarkOnboarded = !['caregiver', 'institution'].includes(payload.role);
 
   const updateData = {
     id: userId,
@@ -58,7 +63,8 @@ export async function updateUserProfile(userId: string, data: unknown) {
     date_of_birth: payload.date_of_birth,
     location: payload.location,
     role: payload.role,
-    onboarded: true,
+    // Set onboarded based on whether further role-specific forms are required
+    onboarded: shouldMarkOnboarded,
     updated_at: new Date().toISOString(),
   };
 
@@ -67,22 +73,27 @@ export async function updateUserProfile(userId: string, data: unknown) {
     .upsert(updateData, { onConflict: 'id' });
 
   if (error) {
-    console.error("[Upsert Error]", error.message);
+    // In production, log database errors to a secure logging service.
     return { error: `Profile update/insert failed: ${error.message}` };
   }
 
-  switch (payload.role) {
-    case "admin":
-      redirect("/dashboard/admin");
-    case "assessor":
-      redirect("/dashboard/assessor");
-    case "trainer":
-      redirect("/dashboard/trainer");
-    case "caregiver":
-      redirect("/dashboard/caregiver");
-    case "institution":
-      redirect("/dashboard/institution");
-    default:
-      redirect("/dashboard");
+  // Redirect based on role
+  if (payload.role === "caregiver") {
+    redirect("/account/caregiver"); // Redirect to caregiver-specific form
+  } else if (payload.role === "institution") {
+    redirect("/account/institution"); // Redirect to institution-specific form
+  } else {
+    // For other roles, they are fully onboarded after this form, redirect to their dashboard
+    switch (payload.role) {
+      case "admin":
+        redirect("/dashboard/admin");
+      case "assessor":
+        redirect("/dashboard/assessor");
+      case "trainer":
+        redirect("/dashboard/trainer");
+      default:
+        // Fallback or error if role is unexpected after `shouldMarkOnboarded` logic
+        redirect("/dashboard");
+    }
   }
 }
