@@ -24,9 +24,31 @@ export function AdminDashboard() {
     totalPayments: 0,
     revenueTotal: 0,
   })
-  const [recentUsers, setRecentUsers] = useState<unknown[]>([])
-  const [pendingLicenses, setPendingLicenses] = useState<unknown[]>([])
-  const [pendingCertifications, setPendingCertifications] = useState<unknown[]>([])
+  type RecentUser = {
+    id: string
+    email: string
+    role: string
+    profiles?: { first_name?: string; last_name?: string }[]
+  }
+  const [recentUsers, setRecentUsers] = useState<RecentUser[]>([])
+  type PendingLicense = {
+    id: string
+    license_number?: string
+    user?: {
+      email?: string
+      profiles?: { first_name?: string; last_name?: string }[]
+    }
+  }
+  const [pendingLicenses, setPendingLicenses] = useState<PendingLicense[]>([])
+  type PendingCertification = {
+    id: string
+    certification_type?: string
+    user?: {
+      email?: string
+      profiles?: { first_name?: string; last_name?: string }[]
+    }
+  }
+  const [pendingCertifications, setPendingCertifications] = useState<PendingCertification[]>([])
   const [revenueData, setRevenueData] = useState<unknown[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -249,12 +271,12 @@ export function AdminDashboard() {
         <Card>
           <CardHeader>
             <CardTitle>Recent Users</CardTitle>
-            <CardDescription>New users that have joined the platform</CardDescription>
+            <CardDescription>Newest users registered on the platform</CardDescription>
           </CardHeader>
           <CardContent>
             {recentUsers.length > 0 ? (
               <div className="space-y-4">
-                {recentUsers.map((user) => (
+                {recentUsers.map((user: RecentUser) => (
                   <div key={user.id} className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">
@@ -284,7 +306,7 @@ export function AdminDashboard() {
           <CardContent>
             {pendingLicenses.length > 0 ? (
               <div className="space-y-4">
-                {pendingLicenses.map((license) => (
+                {pendingLicenses.map((license: PendingLicense) => (
                   <div key={license.id} className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">
@@ -315,7 +337,7 @@ export function AdminDashboard() {
           <CardContent>
             {pendingCertifications.length > 0 ? (
               <div className="space-y-4">
-                {pendingCertifications.map((cert) => (
+                {pendingCertifications.map((cert: PendingCertification) => (
                   <div key={cert.id} className="flex items-center justify-between">
                     <div>
                       <p className="font-medium">

@@ -1,9 +1,10 @@
+// components/account/account-form.tsx
 'use client'
 
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useEffect } from 'react' // Added useEffect
 import { updateUserProfile } from './actions'
 import { createClient } from '@/utils/supabase/client'
 import Image from 'next/image'
@@ -11,6 +12,12 @@ import Cropper, { Area } from 'react-easy-crop'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import getCroppedImg from '@/lib/cropImage'
+
+// Importing Database types to use the correct Enums
+import { Database } from '@/types/supabase' // Adjust this path as needed
+
+// Use the actual enum from your database types
+type MemberRole = Database['public']['Enums']['member_role'];
 
 const schema = z
   .object({
@@ -21,18 +28,20 @@ const schema = z
     }),
     dob: z.string().min(1, 'Date of birth is required'),
     location: z.string().min(2, 'Location is required'),
-    role: z.enum(['student', 'admin', 'lecturer'], {
+    // Updated role enum to match your database types
+    role: z.enum(['caregiver', 'institution', 'admin', 'assessor', 'trainer'], {
       required_error: 'Role is required',
     }),
-    user_id: z.string().optional(),
+    user_id: z.string().optional(), // This can be used for staff IDs for specific roles
     avatar_url: z.string().optional(),
   })
   .superRefine((data, ctx) => {
-    if ((data.role === 'admin' || data.role === 'lecturer') && !data.user_id) {
+    // Logic for user_id based on new roles
+    if ((data.role === 'admin' || data.role === 'assessor' || data.role === 'trainer') && !data.user_id) {
       ctx.addIssue({
         path: ['user_id'],
         code: z.ZodIssueCode.custom,
-        message: 'User ID is required for Admin or Lecturer',
+        message: 'Staff ID is required for Admin, Assessor, or Trainer roles',
       })
     }
   })
@@ -52,7 +61,21 @@ const countries = [
   'Malawi',
 ]
 
-export function AccountForm({ userId }: { userId: string }) {
+interface AccountFormProps {
+  userId: string;
+  defaultValues: { // Add default values from the fetched profile
+    full_name?: string | null;
+    phone?: string | null;
+    gender?: 'Male' | 'Female' | 'Other' | null; // Ensure this matches the enum values
+    dob?: string | null; // Date in YYYY-MM-DD format
+    location?: string | null;
+    role?: MemberRole | null;
+    user_id?: string | null;
+    avatar_url?: string | null;
+  }
+}
+
+export function AccountForm({ userId, defaultValues }: AccountFormProps) {
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null)
   const [imageSrc, setImageSrc] = useState<string | null>(null)
   const [cropDialogOpen, setCropDialogOpen] = useState(false)
@@ -67,12 +90,39 @@ export function AccountForm({ userId }: { userId: string }) {
     setValue,
     control,
     formState: { errors },
+    reset, // Added reset to set default values
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      role: 'student',
+    defaultValues: { // Set default values from props
+      full_name: defaultValues.full_name || '',
+      phone: defaultValues.phone || '',
+      gender: defaultValues.gender ?? undefined,
+      dob: defaultValues.dob || '',
+      location: defaultValues.location || '',
+      role: defaultValues.role || 'caregiver', // Default to caregiver if not set
+      user_id: defaultValues.user_id || '',
+      avatar_url: defaultValues.avatar_url || '',
     },
   })
+
+  // Set avatar preview if default avatar_url exists
+  useEffect(() => {
+    if (defaultValues.avatar_url) {
+      setAvatarPreview(defaultValues.avatar_url);
+    }
+    // Reset form with default values when they change (e.g., on initial load)
+    reset({
+      full_name: defaultValues.full_name || '',
+      phone: defaultValues.phone || '',
+      gender: defaultValues.gender ?? undefined,
+      dob: defaultValues.dob || '',
+      location: defaultValues.location || '',
+      role: defaultValues.role || 'caregiver',
+      user_id: defaultValues.user_id || '',
+      avatar_url: defaultValues.avatar_url || '',
+    });
+  }, [defaultValues, reset]);
+
 
   const role = useWatch({ control, name: 'role' })
   const supabase = createClient()
@@ -165,7 +215,7 @@ export function AccountForm({ userId }: { userId: string }) {
             {errors.dob && <p className="text-red-500">{errors.dob.message}</p>}
           </div>
 
-          {/* Country */}
+          {/* Country (Location) */}
           <div>
             <label className="font-semibold">Country</label>
             <select {...register('location')} className="input">
@@ -185,17 +235,19 @@ export function AccountForm({ userId }: { userId: string }) {
           <div>
             <label className="font-semibold">Role</label>
             <select {...register('role')} className="input">
-              <option value="student">Student</option>
-              <option value="lecturer">Lecturer</option>
+              <option value="caregiver">Caregiver</option>
+              <option value="institution">Institution</option>
               <option value="admin">Admin</option>
+              <option value="assessor">Assessor</option>
+              <option value="trainer">Trainer</option>
             </select>
             {errors.role && (
               <p className="text-red-500">{errors.role.message}</p>
             )}
           </div>
 
-          {/* User ID */}
-          {(role === 'admin' || role === 'lecturer') && (
+          {/* User ID (Staff ID) - Conditional for certain roles */}
+          {(role === 'admin' || role === 'assessor' || role === 'trainer') && (
             <div>
               <label className="font-semibold">User ID (Staff ID)</label>
               <input {...register('user_id')} className="input" />
