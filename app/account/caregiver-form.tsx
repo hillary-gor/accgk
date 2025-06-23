@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useState, useTransition, useEffect, useCallback } from 'react'
-import { upsertCaregiverProfile } from '../account/caregiver/actions'
+import { upsertCaregiverProfile } from '@/app/account/caregiver/actions' // Corrected path assumption
 import { uploadFile } from '@/app/account/upload-actions'
 import { Database } from '@/types/supabase'
 import { Button } from '@/components/ui/button'
@@ -24,6 +24,32 @@ const GENDER_OPTIONS = ['Male', 'Female', 'Other'] as const;
 const PREFERRED_WORK_TYPE_OPTIONS = ['Full-time', 'Part-time', 'Contract', 'Temporary', 'Live-in', 'Hourly'] as const;
 const CERTIFICATION_LEVEL_OPTIONS = ['CNA', 'HHA', 'RN', 'LPN', 'Other'] as const;
 
+// NEW: Define options for Specialty, Profession, Country, and Emergency Contact Relationship
+const SPECIALTY_OPTIONS = [
+  'Pediatric Care', 'Geriatric Care', 'Dementia Care', 'Post-operative Care',
+  'Special Needs Care', 'Palliative Care', 'Home Health', 'Companion Care', 'Respite Care', 'Other'
+] as const;
+
+const PROFESSION_OPTIONS = [
+  "Registered Nurse (RN)", "Licensed Practical Nurse (LPN)", "Certified Nursing Assistant (CNA)",
+  "Home Health Aide (HHA)", "Personal Care Assistant (PCA)", "Therapist (Physical/Occupational/Speech)",
+  "Medical Assistant", "Care Coordinator", "Social Worker", "Geriatric Care Manager", "Other"
+] as const;
+
+// Comprehensive list of countries for 'current_country_of_residence'
+const COUNTRY_OPTIONS_WORLDWIDE = [
+  "United States", "Canada", "Mexico", "Brazil", "Argentina", "Colombia", "Chile", // Americas
+  "United Kingdom", "Germany", "France", "Italy", "Spain", "Netherlands", "Sweden", "Poland", "Belgium", "Switzerland", "Austria", // Europe
+  "China", "India", "Japan", "South Korea", "Indonesia", "Philippines", "Vietnam", "Thailand", "Malaysia", "Singapore", "Australia", "New Zealand", // Asia-Pacific
+  "South Africa", "Nigeria", "Kenya", "Egypt", "Morocco", "Ghana", "Ethiopia", "Tanzania", "Uganda", "Rwanda", "Algeria", // Africa, including East Africa
+  "Saudi Arabia", "United Arab Emirates", "Turkey", "Israel", // Middle East
+  "Other" // Fallback for any country not listed
+] as const;
+
+const RELATIONSHIP_OPTIONS = [
+  "Parent", "Spouse", "Child", "Sibling", "Friend", "Other Family Member", "Legal Guardian", "Employer", "Other"
+] as const;
+
 // Define specific schemas for JSON parsing and runtime type validation
 const availabilityObjectSchema = z.record(z.string()); // e.g., { "monday": "9AM-5PM" }
 const emergencyContactObjectSchema = z.object({
@@ -34,12 +60,11 @@ const emergencyContactObjectSchema = z.object({
 const emergencyContactsArraySchema = z.array(emergencyContactObjectSchema);
 
 // Define the Zod schema for caregiver profile validation
-// Note: Fields like 'availability' and 'emergency_contacts' are validated as strings first,
-// and then parsed to JSON objects/arrays in the onSubmit handler.
+// Updated 'profession', 'specialty', 'country' (renamed to country_of_residence), and 'emergency_contact_relationship'
 const caregiverProfileSchema = z.object({
-  profession: z.string().min(2, "Profession is required"),
+  profession: z.enum(PROFESSION_OPTIONS, { required_error: "Profession is required" }), // Changed to z.enum
   bio: z.string().min(10, "Bio is required"),
-  specialty: z.string().min(2, "Specialty is required"),
+  specialty: z.enum(SPECIALTY_OPTIONS, { required_error: "Specialty is required" }), // Already z.enum from previous turn, confirmed
   experience_year: z.number({ invalid_type_error: "Experience year must be a number" }).min(0, "Experience year must be a non-negative number"),
   gender: z.enum(GENDER_OPTIONS, { required_error: "Gender is required" }),
   date_of_birth: z.string().refine(val => {
@@ -50,13 +75,12 @@ const caregiverProfileSchema = z.object({
   license_number: z.string().min(1, "License number is required"),
   address: z.string().min(1, "Address is required"),
   city: z.string().min(1, "City is required"),
-  country: z.string().min(1, "Country is required"),
+  country_of_residence: z.enum(COUNTRY_OPTIONS_WORLDWIDE, { required_error: "Country of residence is required" }), // Renamed and changed to z.enum
   preferred_work_type: z.enum(PREFERRED_WORK_TYPE_OPTIONS, { required_error: "Preferred work type is required" }),
   availability: z.string().min(1, "Availability is required").refine(
     (val) => {
       try {
         const parsed = JSON.parse(val);
-        // Also validate the parsed structure
         availabilityObjectSchema.parse(parsed);
         return true;
       } catch {
@@ -67,13 +91,12 @@ const caregiverProfileSchema = z.object({
   ),
   emergency_contact_name: z.string().min(1, "Emergency contact name is required"),
   emergency_contact_phone: z.string().min(1, "Emergency contact phone is required"),
-  emergency_contact_relationship: z.string().min(1, "Emergency contact relationship is required"),
+  emergency_contact_relationship: z.enum(RELATIONSHIP_OPTIONS, { required_error: "Emergency contact relationship is required" }), // Changed to z.enum
   emergency_contacts: z.string().optional().refine(
     (val) => {
       if (!val) return true;
       try {
         const parsed = JSON.parse(val);
-        // Also validate the parsed structure
         emergencyContactsArraySchema.parse(parsed);
         return true;
       } catch {
@@ -92,10 +115,12 @@ const caregiverProfileSchema = z.object({
 type CaregiverFormValues = z.infer<typeof caregiverProfileSchema>;
 
 // Define the type for the payload sent to the server action (after JSON parsing)
-type CaregiverServerPayload = Omit<CaregiverFormValues, 'availability' | 'emergency_contacts'> & {
+type CaregiverServerPayload = Omit<CaregiverFormValues, 'availability' | 'emergency_contacts' | 'country_of_residence'> & {
   availability: Record<string, string>;
   emergency_contacts?: z.infer<typeof emergencyContactsArraySchema>;
+  country: CaregiverFormValues['country_of_residence']; // Map to 'country' column in DB
 };
+
 
 interface CaregiverFormProps {
   userId: string;
@@ -108,14 +133,7 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
   const [success, setSuccess] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    formState: { errors },
-    getValues
-  } = useForm<CaregiverFormValues>({
+  const form = useForm<CaregiverFormValues>({
     resolver: zodResolver(caregiverProfileSchema),
     defaultValues: {
       address: defaultValues.address || '',
@@ -124,23 +142,25 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
       certification_level: defaultValues.certification_level as typeof CERTIFICATION_LEVEL_OPTIONS[number] || undefined,
       certifications_url: (defaultValues.certifications_url || []) as string[],
       city: defaultValues.city || '',
-      country: defaultValues.country || '',
+      country_of_residence: (defaultValues.country as typeof COUNTRY_OPTIONS_WORLDWIDE[number]) || undefined, // Mapped from defaultValues.country
       date_of_birth: defaultValues.date_of_birth || '',
       emergency_contact_name: defaultValues.emergency_contact_name || '',
       emergency_contact_phone: defaultValues.emergency_contact_phone || '',
-      emergency_contact_relationship: defaultValues.emergency_contact_relationship || '',
+      emergency_contact_relationship: (defaultValues.emergency_contact_relationship as typeof RELATIONSHIP_OPTIONS[number]) || undefined, // Updated type
       emergency_contacts: defaultValues.emergency_contacts ? JSON.stringify(defaultValues.emergency_contacts, null, 2) : '',
       experience_year: defaultValues.experience_year || 0,
       gender: defaultValues.gender as typeof GENDER_OPTIONS[number] || undefined,
       government_id_url: defaultValues.government_id_url || '',
       license_number: defaultValues.license_number || '',
       preferred_work_type: defaultValues.preferred_work_type as typeof PREFERRED_WORK_TYPE_OPTIONS[number] || undefined,
-      profession: defaultValues.profession || '',
+      profession: (defaultValues.profession as typeof PROFESSION_OPTIONS[number]) || undefined, // Updated type
       profile_picture_url: defaultValues.profile_picture_url || '',
       resume_url: defaultValues.resume_url || '',
-      specialty: defaultValues.specialty || '',
+      specialty: (defaultValues.specialty as typeof SPECIALTY_OPTIONS[number]) || undefined,
     },
   });
+
+  const { register, handleSubmit, setValue, reset, formState: { errors }, getValues } = form; // Removed 'control' as it's not strictly necessary for simple register/setValue use cases unless using <FormField> components directly
 
   useEffect(() => {
     reset({
@@ -150,21 +170,21 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
       certification_level: defaultValues.certification_level as typeof CERTIFICATION_LEVEL_OPTIONS[number] || undefined,
       certifications_url: (defaultValues.certifications_url || []) as string[],
       city: defaultValues.city || '',
-      country: defaultValues.country || '',
+      country_of_residence: (defaultValues.country as typeof COUNTRY_OPTIONS_WORLDWIDE[number]) || undefined, // Mapped from defaultValues.country
       date_of_birth: defaultValues.date_of_birth || '',
       emergency_contact_name: defaultValues.emergency_contact_name || '',
       emergency_contact_phone: defaultValues.emergency_contact_phone || '',
-      emergency_contact_relationship: defaultValues.emergency_contact_relationship || '',
+      emergency_contact_relationship: (defaultValues.emergency_contact_relationship as typeof RELATIONSHIP_OPTIONS[number]) || undefined, // Updated type
       emergency_contacts: defaultValues.emergency_contacts ? JSON.stringify(defaultValues.emergency_contacts, null, 2) : '',
       experience_year: defaultValues.experience_year || 0,
       gender: defaultValues.gender as typeof GENDER_OPTIONS[number] || undefined,
       government_id_url: defaultValues.government_id_url || '',
       license_number: defaultValues.license_number || '',
       preferred_work_type: defaultValues.preferred_work_type as typeof PREFERRED_WORK_TYPE_OPTIONS[number] || undefined,
-      profession: defaultValues.profession || '',
+      profession: (defaultValues.profession as typeof PROFESSION_OPTIONS[number]) || undefined, // Updated type
       profile_picture_url: defaultValues.profile_picture_url || '',
       resume_url: defaultValues.resume_url || '',
-      specialty: defaultValues.specialty || '',
+      specialty: (defaultValues.specialty as typeof SPECIALTY_OPTIONS[number]) || undefined,
     });
   }, [defaultValues, reset]);
 
@@ -199,7 +219,7 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
           setValue(fieldName, uploadedUrls[0] as string, { shouldValidate: true, shouldDirty: true });
         }
         setSuccess("File(s) uploaded successfully!");
-      } catch (err: unknown) { // Renamed 'e' to 'err' to avoid ESLint warning if it reappears
+      } catch (err: unknown) {
         console.error("File upload handler error:", err);
         if (err instanceof Error) {
           setError(`An unexpected error occurred during upload: ${err.message}`);
@@ -217,20 +237,46 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
       title: "Personal & Professional Information",
       fields: ['profession', 'bio', 'specialty', 'experience_year', 'gender', 'date_of_birth', 'certification_level', 'license_number'] as const,
       render: () => (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
+          {/* Profession field now uses Select */}
           <div>
             <Label htmlFor="profession">Profession<span className="text-red-500">*</span></Label>
-            <Input id="profession" {...register('profession')} placeholder="e.g., Registered Nurse, Certified Nursing Assistant" />
+            <Select
+              onValueChange={(value: (typeof PROFESSION_OPTIONS)[number]) => setValue('profession', value, { shouldValidate: true })}
+              value={getValues('profession') || ''}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select your profession" />
+              </SelectTrigger>
+              <SelectContent>
+                {PROFESSION_OPTIONS.map(option => (
+                  <SelectItem key={option} value={option}>{option}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {errors.profession && <p className="text-red-500 text-xs mt-1">{errors.profession.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Bio takes full width */}
             <Label htmlFor="bio">Bio<span className="text-red-500">*</span></Label>
             <Textarea id="bio" {...register('bio')} rows={4} placeholder="Tell us about your experience and qualifications..." />
             {errors.bio && <p className="text-red-500 text-xs mt-1">{errors.bio.message}</p>}
           </div>
+          {/* Specialty field (already Select, confirmed) */}
           <div>
             <Label htmlFor="specialty">Specialty<span className="text-red-500">*</span></Label>
-            <Input id="specialty" {...register('specialty')} placeholder="e.g., Pediatric Care, Geriatric Care, Post-operative Care" />
+            <Select
+              onValueChange={(value: (typeof SPECIALTY_OPTIONS)[number]) => setValue('specialty', value, { shouldValidate: true })}
+              value={getValues('specialty') || ''}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select your primary specialty" />
+              </SelectTrigger>
+              <SelectContent>
+                {SPECIALTY_OPTIONS.map(option => (
+                  <SelectItem key={option} value={option}>{option}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {errors.specialty && <p className="text-red-500 text-xs mt-1">{errors.specialty.message}</p>}
           </div>
           <div>
@@ -282,15 +328,15 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
             <Input id="license_number" {...register('license_number')} placeholder="Your professional license number" />
             {errors.license_number && <p className="text-red-500 text-xs mt-1">{errors.license_number.message}</p>}
           </div>
-        </>
+        </div>
       ),
     },
     {
       title: "Contact & Preferences",
-      fields: ['address', 'city', 'country', 'preferred_work_type', 'availability'] as const,
+      fields: ['address', 'city', 'country_of_residence', 'preferred_work_type', 'availability'] as const, // Updated field name
       render: () => (
-        <>
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
+          <div className="col-span-full"> {/* Address takes full width */}
             <Label htmlFor="address">Address<span className="text-red-500">*</span></Label>
             <Input id="address" {...register('address')} placeholder="Street address" />
             {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
@@ -300,10 +346,23 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
             <Input id="city" {...register('city')} placeholder="City" />
             {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
           </div>
+          {/* Country of Residence field now uses Select */}
           <div>
-            <Label htmlFor="country">Country<span className="text-red-500">*</span></Label>
-            <Input id="country" {...register('country')} placeholder="Country" />
-            {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>}
+            <Label htmlFor="country_of_residence">Current Country of Residence<span className="text-red-500">*</span></Label>
+            <Select
+              onValueChange={(value: (typeof COUNTRY_OPTIONS_WORLDWIDE)[number]) => setValue('country_of_residence', value, { shouldValidate: true })}
+              value={getValues('country_of_residence') || ''}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select your country of residence" />
+              </SelectTrigger>
+              <SelectContent>
+                {COUNTRY_OPTIONS_WORLDWIDE.map(option => (
+                  <SelectItem key={option} value={option}>{option}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors.country_of_residence && <p className="text-red-500 text-xs mt-1">{errors.country_of_residence.message}</p>}
           </div>
           <div>
             <Label htmlFor="preferred_work_type">Preferred Work Type<span className="text-red-500">*</span></Label>
@@ -322,21 +381,21 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
             </Select>
             {errors.preferred_work_type && <p className="text-red-500 text-xs mt-1">{errors.preferred_work_type.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Availability takes full width */}
             <Label htmlFor="availability">Availability (JSON Format)<span className="text-red-500">*</span></Label>
             <Textarea id="availability" {...register('availability')} rows={6}
               placeholder={`e.g.,\n{\n  "monday": "9AM-5PM",\n  "tuesday": "9AM-5PM"\n}`}
             />
             {errors.availability && <p className="text-red-500 text-xs mt-1">{errors.availability.message}</p>}
           </div>
-        </>
+        </div>
       ),
     },
     {
       title: "Emergency Information & Documents",
       fields: ['emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship', 'emergency_contacts', 'profile_picture_url', 'government_id_url', 'resume_url', 'certifications_url'] as const,
       render: () => (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
           <div>
             <Label htmlFor="emergency_contact_name">Emergency Contact Name<span className="text-red-500">*</span></Label>
             <Input id="emergency_contact_name" {...register('emergency_contact_name')} placeholder="Full name of emergency contact" />
@@ -347,12 +406,25 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
             <Input id="emergency_contact_phone" type="tel" {...register('emergency_contact_phone')} placeholder="+1234567890" />
             {errors.emergency_contact_phone && <p className="text-red-500 text-xs mt-1">{errors.emergency_contact_phone.message}</p>}
           </div>
+          {/* Emergency Contact Relationship now uses Select */}
           <div>
             <Label htmlFor="emergency_contact_relationship">Emergency Contact Relationship<span className="text-red-500">*</span></Label>
-            <Input id="emergency_contact_relationship" {...register('emergency_contact_relationship')} placeholder="e.g., Parent, Spouse, Sibling" />
+            <Select
+              onValueChange={(value: (typeof RELATIONSHIP_OPTIONS)[number]) => setValue('emergency_contact_relationship', value, { shouldValidate: true })}
+              value={getValues('emergency_contact_relationship') || ''}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select relationship" />
+              </SelectTrigger>
+              <SelectContent>
+                {RELATIONSHIP_OPTIONS.map(option => (
+                  <SelectItem key={option} value={option}>{option}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             {errors.emergency_contact_relationship && <p className="text-red-500 text-xs mt-1">{errors.emergency_contact_relationship.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Additional Emergency Contacts takes full width */}
             <Label htmlFor="emergency_contacts">Additional Emergency Contacts (JSON Array)</Label>
             <Textarea id="emergency_contacts" {...register('emergency_contacts')} rows={6}
               placeholder={`e.g.,\n[\n  {"name": "Jane Doe", "phone": "0987654321", "relationship": "Sister"}\n]`}
@@ -395,7 +467,7 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
             )}
             {errors.certifications_url && <p className="text-red-500 text-xs mt-1">{errors.certifications_url.message}</p>}
           </div>
-        </>
+        </div>
       ),
     },
   ];
@@ -404,7 +476,6 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
     setError(null);
     setSuccess(null);
 
-    // Manually parse JSON fields after client-side string validation, before sending to server action
     let parsedAvailability: Record<string, string>;
     try {
       parsedAvailability = JSON.parse(formData.availability);
@@ -425,10 +496,12 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
       }
     }
 
+    // Prepare payload for server action, mapping 'country_of_residence' back to 'country'
     const payload: CaregiverServerPayload = {
       ...formData,
       availability: parsedAvailability,
       emergency_contacts: parsedEmergencyContacts,
+      country: formData.country_of_residence, // Map country_of_residence to 'country' for DB
     };
 
     startTransition(async () => {
@@ -473,7 +546,7 @@ export function CaregiverForm({ userId, defaultValues }: CaregiverFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl mx-auto p-4 border rounded-lg shadow-md bg-white dark:bg-gray-800">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full px-8 py-6">
       {(error || success) && (
         <Alert variant={error ? "destructive" : "default"} className={success ? "border-green-500 text-green-700 dark:text-green-300" : ""}>
           <Terminal className="h-4 w-4" />

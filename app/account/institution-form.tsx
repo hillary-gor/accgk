@@ -31,7 +31,7 @@ export const institutionProfileSchema = z.object({
     "Home Care Agency",
     "Other"
   ], { required_error: "Institution type is required" }),
-  years_in_operation: z.number().min(0, "Years in operation is required"),
+  years_in_operation: z.number({ invalid_type_error: "Years in operation must be a number" }).min(0, "Years in operation is required"),
   bio: z.string().min(10, "Bio is required"),
   status: z.enum([
     "Active",
@@ -48,13 +48,36 @@ export const institutionProfileSchema = z.object({
   city: z.string().min(2, "City is required"),
   county: z.string().min(2, "County is required"),
   postal_code: z.string().min(2, "Postal code is required"),
-  location: z.string().optional().nullable(),
+  location: z.string().optional().nullable().refine(
+    (val) => {
+      if (!val) return true;
+      try {
+        const parsed = JSON.parse(val);
+        // Minimal validation for latitude/longitude presence
+        return typeof parsed.latitude === 'number' && typeof parsed.longitude === 'number';
+      } catch {
+        return false;
+      }
+    },
+    { message: "Location must be valid JSON object with latitude and longitude (e.g., {\"latitude\": 34.0522, \"longitude\": -118.2437})" }
+  ),
   institution_logo_url: z.string().url("Logo URL is required"),
   registration_certificate_url: z.string().url("Registration certificate URL is required"),
   license_number: z.string().min(2, "License number is required"),
-  license_documents_url: z.array(z.string().url()).min(1, "At least one license document is required"),
-  accreditation_files_url: z.array(z.string().url()).min(1, "At least one accreditation file is required"),
-  details: z.string().optional().nullable(),
+  license_documents_url: z.array(z.string().url("Each license document must have a valid URL")).min(1, "At least one license document is required"),
+  accreditation_files_url: z.array(z.string().url("Each accreditation file must have a valid URL")).min(1, "At least one accreditation file is required"),
+  details: z.string().optional().nullable().refine(
+    (val) => {
+      if (!val) return true;
+      try {
+        JSON.parse(val); // Just check if it's valid JSON
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    { message: "Additional details must be valid JSON format" }
+  ),
 });
 
 const INSTITUTION_TYPE_OPTIONS = ['Hospital', 'Clinic', 'Rehabilitation Center', 'Nursing Home', 'Home Care Agency', 'Other'] as const;
@@ -199,7 +222,7 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
       title: "Basic Information",
       fields: ['institution_name', 'institution_type', 'years_in_operation', 'bio', 'status', 'rating'] as const,
       render: () => (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
           <div>
             <Label htmlFor="institution_name">Institution Name<span className="text-red-500">*</span></Label>
             <Input id="institution_name" {...register('institution_name')} placeholder="e.g., General Hospital" />
@@ -227,7 +250,7 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             <Input id="years_in_operation" type="number" {...register('years_in_operation', { valueAsNumber: true })} placeholder="e.g., 10" />
             {errors.years_in_operation && <p className="text-red-500 text-xs mt-1">{errors.years_in_operation.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Bio takes full width */}
             <Label htmlFor="bio">Bio / Mission Statement<span className="text-red-500">*</span></Label>
             <Textarea id="bio" {...register('bio')} rows={4} placeholder="Describe your institution's mission and services..." />
             {errors.bio && <p className="text-red-500 text-xs mt-1">{errors.bio.message}</p>}
@@ -254,14 +277,14 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             <Input id="rating" type="number" step="0.1" min="0" max="5" {...register('rating', { valueAsNumber: true })} placeholder="e.g., 4.5" />
             {errors.rating && <p className="text-red-500 text-xs mt-1">{errors.rating.message}</p>}
           </div>
-        </>
+        </div>
       ),
     },
     {
       title: "Contact & Location",
       fields: ['contact_person_name', 'contact_person_phone', 'website', 'linkedin_profile', 'physical_address', 'city', 'county', 'postal_code', 'location'] as const,
       render: () => (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
           <div>
             <Label htmlFor="contact_person_name">Contact Person Name<span className="text-red-500">*</span></Label>
             <Input id="contact_person_name" {...register('contact_person_name')} placeholder="Full name of primary contact" />
@@ -282,7 +305,7 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             <Input id="linkedin_profile" type="url" {...register('linkedin_profile')} placeholder="https://linkedin.com/company/yourinstitution" />
             {errors.linkedin_profile && <p className="text-red-500 text-xs mt-1">{errors.linkedin_profile.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Physical Address takes full width */}
             <Label htmlFor="physical_address">Physical Address<span className="text-red-500">*</span></Label>
             <Input id="physical_address" {...register('physical_address')} placeholder="Street address of your institution" />
             {errors.physical_address && <p className="text-red-500 text-xs mt-1">{errors.physical_address.message}</p>}
@@ -302,21 +325,21 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             <Input id="postal_code" {...register('postal_code')} placeholder="e.g., 12345" />
             {errors.postal_code && <p className="text-red-500 text-xs mt-1">{errors.postal_code.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Location takes full width */}
             <Label htmlFor="location">Location Coordinates (JSON Format)</Label>
             <Textarea id="location" {...register('location')} rows={6}
               placeholder={`e.g.,\n{\n  "latitude": 34.0522,\n  "longitude": -118.2437\n}`}
             />
             {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
           </div>
-        </>
+        </div>
       ),
     },
     {
       title: "Licensing & Documents",
       fields: ['institution_logo_url', 'registration_certificate_url', 'license_number', 'license_documents_url', 'accreditation_files_url', 'details'] as const,
       render: () => (
-        <>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8">
           <div>
             <Label htmlFor="institution_logo_url">Institution Logo<span className="text-red-500">*</span></Label>
             <Input id="institution_logo_url" type="file" accept="image/*" onChange={(e) => handleFileUpload(e, 'institution_logo_url')} />
@@ -338,7 +361,7 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             <Input id="license_number" {...register('license_number')} placeholder="Your institution's license number" />
             {errors.license_number && <p className="text-red-500 text-xs mt-1">{errors.license_number.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* License Documents takes full width */}
             <Label htmlFor="license_documents_url">License Documents (Multiple Files)<span className="text-red-500">*</span></Label>
             <Input id="license_documents_url" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => handleFileUpload(e, 'license_documents_url', true)} />
             {getValues('license_documents_url')?.length > 0 && (
@@ -350,7 +373,7 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             )}
             {errors.license_documents_url && <p className="text-red-500 text-xs mt-1">{errors.license_documents_url.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Accreditation Files takes full width */}
             <Label htmlFor="accreditation_files_url">Accreditation Files (Multiple Files)<span className="text-red-500">*</span></Label>
             <Input id="accreditation_files_url" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => handleFileUpload(e, 'accreditation_files_url', true)} />
             {getValues('accreditation_files_url')?.length > 0 && (
@@ -362,14 +385,14 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
             )}
             {errors.accreditation_files_url && <p className="text-red-500 text-xs mt-1">{errors.accreditation_files_url.message}</p>}
           </div>
-          <div>
+          <div className="col-span-full"> {/* Additional Details takes full width */}
             <Label htmlFor="details">Additional Details (JSON Format)</Label>
             <Textarea id="details" {...register('details')} rows={6}
               placeholder={`e.g.,\n{\n  "operating_hours": "Mon-Fri 8AM-6PM",\n  "services_offered": ["Elderly Care", "Rehabilitation"]\n}`}
             />
             {errors.details && <p className="text-red-500 text-xs mt-1">{errors.details.message}</p>}
           </div>
-        </>
+        </div>
       ),
     },
   ];
@@ -439,7 +462,7 @@ export function InstitutionForm({ userId, defaultValues }: InstitutionFormProps)
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-2xl mx-auto p-4 border rounded-lg shadow-md bg-white dark:bg-gray-800">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 w-full px-8 py-6">
       {(error || success) && (
         <Alert variant={error ? "destructive" : "default"} className={success ? "border-green-500 text-green-700 dark:text-green-300" : ""}>
           <Terminal className="h-4 w-4" />

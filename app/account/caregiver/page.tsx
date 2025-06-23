@@ -58,7 +58,7 @@ export default async function CaregiverAccountPage() {
   };
 
   return (
-    <div className="container mx-auto p-4 py-8">
+    <div className="container mx-auto p-4 py-8 md:max-w-4xl lg:max-w-5xl">
       <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-900 dark:text-white">Complete Your Caregiver Profile</h1>
       <CaregiverForm userId={user.id} defaultValues={defaultValues} />
     </div>
