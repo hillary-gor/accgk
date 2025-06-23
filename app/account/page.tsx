@@ -9,31 +9,39 @@ export default async function AccountPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) redirect("/auth/signin"); // Redirect to signin if no user
+  if (!user) {
+    redirect("/auth/signin");
+  }
 
   const { data: profile, error } = await supabase
     .from("users")
     .select(
-      // Ensure all fields used in the form and for completion check are selected
-      "full_name, phone, gender, date_of_birth, location, avatar_url, role, user_id, onboarded"
+      "full_name, phone, gender, dob, location, avatar_url, role, user_id, onboarded"
     )
     .eq("id", user.id)
     .single();
 
   if (error || !profile) {
-    console.error("[Supabase Error]", error?.message || "No profile found");
-    // If no profile found, it might be a new user, so redirect to account setup without error
-    // Or you might want to create a default profile record via a trigger on auth.users insert
-    // For now, we proceed to the form to let them fill it
+    console.error("[Supabase Error] AccountPage: ", error?.message || "No profile found");
+    redirect("/auth/signin?error=profile-load-failed");
   }
 
-  // Determine if the profile is "complete" for the purpose of redirecting away from this page
-  // A profile is complete if it's explicitly marked as onboarded, or if critical fields are filled.
-  // The 'onboarded' flag is the most reliable.
-  const isProfileComplete = profile?.onboarded === true;
+  const rolesRequiringUserId = ["admin", "assessor", "trainer"];
 
-  if (isProfileComplete) {
-    // If the profile is complete, redirect to the appropriate dashboard based on role
+  const isCommonComplete =
+    !!profile.full_name &&
+    !!profile.phone &&
+    !!profile.gender &&
+    !!profile.dob &&
+    !!profile.location &&
+    !!profile.avatar_url;
+
+  const requiresUserId =
+    rolesRequiringUserId.includes(profile.role) && !profile.user_id;
+
+  const isProfileDataComplete = isCommonComplete && !requiresUserId;
+
+  if (isProfileDataComplete && profile.onboarded) {
     switch (profile.role) {
       case "admin":
         redirect("/dashboard/admin");
@@ -46,24 +54,30 @@ export default async function AccountPage() {
       case "institution":
         redirect("/dashboard/institution");
       default:
-        redirect("/dashboard"); // Fallback for undefined roles
+        redirect("/dashboard");
     }
   }
 
-  // Pass existing profile data as default values to the form
-  const defaultValues = {
-    full_name: profile?.full_name,
-    phone: profile?.phone, // Assuming 'phone' column exists
-    gender: profile?.gender,
-    // Format date_of_birth to 'YYYY-MM-DD' for input type="date"
-    dob: profile?.date_of_birth ? profile.date_of_birth.split('T')[0] : '',
-    location: profile?.location as string, // Cast as string if stored as text
-    role: profile?.role,
-    user_id: profile?.user_id, // Assuming 'user_id' column exists
-    avatar_url: profile?.avatar_url,
-  };
+  const formattedDob = profile.dob ? new Date(profile.dob).toISOString().split('T')[0] : '';
 
   return (
-    <AccountForm userId={user.id} defaultValues={defaultValues} />
+    <div className="container mx-auto p-4 py-8">
+      <h1 className="text-2xl font-bold mb-6 text-center">Complete Your Profile</h1>
+      <AccountForm
+        userId={user.id}
+        defaultValues={{
+          full_name: profile.full_name,
+          phone: profile.phone,
+          gender: profile.gender as "Male" | "Female" | "Other" | null,
+          dob: formattedDob,
+          location: profile.location,
+          role: ["admin", "assessor", "trainer", "caregiver", "institution"].includes(profile.role)
+            ? (profile.role as "admin" | "assessor" | "trainer" | "caregiver" | "institution")
+            : null,
+          user_id: profile.user_id,
+          avatar_url: profile.avatar_url,
+        }}
+      />
+    </div>
   );
 }
