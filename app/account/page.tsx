@@ -13,36 +13,31 @@ export default async function AccountPage() {
     redirect("/auth/signin");
   }
 
-  const { data: profile, error } = await supabase
-    .from("users")
+  const { data: fetchedProfile, error } = await supabase
+    .from("profiles")
     .select(
-      "full_name, phone, gender, dob, location, avatar_url, role, user_id, onboarded"
+      "first_name, last_name, phone, gender, date_of_birth, location, role, onboarded" // Removed avatar_url
     )
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
-  if (error || !profile) {
-    console.error("[Supabase Error] AccountPage: ", error?.message || "No profile found");
-    redirect("/auth/signin?error=profile-load-failed");
+  if (error && error.code !== 'PGRST116') {
+    console.error("[Supabase Error] AccountPage: ", error.message);
+    redirect("/auth/signin?error=profile-fetch-failed");
   }
 
-  const rolesRequiringUserId = ["admin", "assessor", "trainer"];
+  const profileExists = !!fetchedProfile;
 
-  const isCommonComplete =
-    !!profile.full_name &&
-    !!profile.phone &&
-    !!profile.gender &&
-    !!profile.dob &&
-    !!profile.location &&
-    !!profile.avatar_url;
+  const isCommonDataComplete = profileExists &&
+    !!fetchedProfile.first_name &&
+    !!fetchedProfile.last_name &&
+    !!fetchedProfile.phone &&
+    !!fetchedProfile.gender &&
+    !!fetchedProfile.date_of_birth &&
+    !!fetchedProfile.location; // Removed !!fetchedProfile.avatar_url
 
-  const requiresUserId =
-    rolesRequiringUserId.includes(profile.role) && !profile.user_id;
-
-  const isProfileDataComplete = isCommonComplete && !requiresUserId;
-
-  if (isProfileDataComplete && profile.onboarded) {
-    switch (profile.role) {
+  if (profileExists && isCommonDataComplete && fetchedProfile.onboarded) {
+    switch (fetchedProfile.role) {
       case "admin":
         redirect("/dashboard/admin");
       case "assessor":
@@ -58,25 +53,22 @@ export default async function AccountPage() {
     }
   }
 
-  const formattedDob = profile.dob ? new Date(profile.dob).toISOString().split('T')[0] : '';
+  const defaultFormValues = {
+    first_name: fetchedProfile?.first_name || '',
+    last_name: fetchedProfile?.last_name || '',
+    phone: fetchedProfile?.phone || '',
+    gender: fetchedProfile?.gender as "Male" | "Female" | "Other" | null || undefined,
+    date_of_birth: fetchedProfile?.date_of_birth ? new Date(fetchedProfile.date_of_birth).toISOString().split('T')[0] : '',
+    location: fetchedProfile?.location || '',
+    role: fetchedProfile?.role || undefined,
+  };
 
   return (
     <div className="container mx-auto p-4 py-8">
       <h1 className="text-2xl font-bold mb-6 text-center">Complete Your Profile</h1>
       <AccountForm
         userId={user.id}
-        defaultValues={{
-          full_name: profile.full_name,
-          phone: profile.phone,
-          gender: profile.gender as "Male" | "Female" | "Other" | null,
-          dob: formattedDob,
-          location: profile.location,
-          role: ["admin", "assessor", "trainer", "caregiver", "institution"].includes(profile.role)
-            ? (profile.role as "admin" | "assessor" | "trainer" | "caregiver" | "institution")
-            : null,
-          user_id: profile.user_id,
-          avatar_url: profile.avatar_url,
-        }}
+        defaultValues={defaultFormValues}
       />
     </div>
   );

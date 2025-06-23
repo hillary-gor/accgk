@@ -158,7 +158,11 @@ export default function SignUpPage() {
 
           {/* Social Auth */}
           <div className="flex items-center justify-center gap-4">
-            <form action={loginWithGoogle}>
+            <form
+              action={async () => {
+                await loginWithGoogle();
+              }}
+            >
               <Button variant="outline" size="icon" aria-label="Sign up with Google">
                 <FaGoogle className="w-4 h-4" />
               </Button>

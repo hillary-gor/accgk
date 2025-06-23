@@ -1,16 +1,11 @@
-// components/account/account-form.tsx
 'use client'
 
 import { useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useState, useTransition, useEffect, useCallback } from 'react'
-import { updateUserProfile, uploadAvatar } from '@/app/account/actions'
-import Image from 'next/image'
-import Cropper, { Area } from 'react-easy-crop'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { useState, useTransition, useEffect } from 'react'
+import { updateUserProfile } from '@/app/account/actions'
 import { Button } from '@/components/ui/button'
-import getCroppedImg from '@/lib/cropImage'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -24,37 +19,21 @@ import { Terminal } from "lucide-react";
 const memberRoles = [
   "caregiver",
   "institution",
-  "admin",
-  "assessor",
-  "trainer",
 ] as const;
 
 const schema = z
   .object({
-    full_name: z.string().min(2, 'Full name is required'),
+    first_name: z.string().min(2, 'First name is required'),
+    last_name: z.string().min(2, 'Last name is required'),
     phone: z.string().min(10, 'Phone number must be at least 10 digits'),
     gender: z.enum(['Male', 'Female', 'Other'], {
       required_error: 'Gender is required',
     }),
-    dob: z.string().min(1, 'Date of birth is required'),
+    date_of_birth: z.string().min(1, 'Date of birth is required'),
     location: z.string().min(2, 'Location is required'),
     role: z.enum(memberRoles, {
       required_error: 'Role is required',
     }),
-    user_id: z.string().optional(),
-    avatar_url: z.string().optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (
-      (data.role === 'admin' || data.role === 'assessor' || data.role === 'trainer') &&
-      !data.user_id
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Staff ID is required for this role',
-        path: ['user_id'],
-      })
-    }
   });
 
 type AccountFormValues = z.infer<typeof schema>;
@@ -62,14 +41,13 @@ type AccountFormValues = z.infer<typeof schema>;
 interface AccountFormProps {
   userId: string;
   defaultValues: {
-    full_name?: string | null;
+    first_name?: string | null;
+    last_name?: string | null;
     phone?: string | null;
     gender?: 'Male' | 'Female' | 'Other' | null;
-    dob?: string | null;
+    date_of_birth?: string | null;
     location?: string | null;
     role?: (typeof memberRoles)[number] | null;
-    user_id?: string | null;
-    avatar_url?: string | null;
   };
 }
 
@@ -77,13 +55,6 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [cropDialogOpen, setCropDialogOpen] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
-  const [avatarPreviewUrl, setAvatarPreviewUrl] = useState<string | null>(defaultValues.avatar_url || null);
-
 
   const {
     register,
@@ -95,14 +66,13 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
   } = useForm<AccountFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      full_name: defaultValues.full_name || '',
+      first_name: defaultValues.first_name || '',
+      last_name: defaultValues.last_name || '',
       phone: defaultValues.phone || '',
       gender: defaultValues.gender || undefined,
-      dob: defaultValues.dob || '',
+      date_of_birth: defaultValues.date_of_birth || '',
       location: defaultValues.location || '',
       role: defaultValues.role || undefined,
-      user_id: defaultValues.user_id || '',
-      avatar_url: defaultValues.avatar_url || '',
     },
   });
 
@@ -110,66 +80,16 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
 
   useEffect(() => {
     reset({
-      full_name: defaultValues.full_name || '',
+      first_name: defaultValues.first_name || '',
+      last_name: defaultValues.last_name || '',
       phone: defaultValues.phone || '',
       gender: defaultValues.gender || undefined,
-      dob: defaultValues.dob || '',
+      date_of_birth: defaultValues.date_of_birth || '',
       location: defaultValues.location || '',
       role: defaultValues.role || undefined,
-      user_id: defaultValues.user_id || '',
-      avatar_url: defaultValues.avatar_url || '',
     });
-    setAvatarPreviewUrl(defaultValues.avatar_url || null);
   }, [defaultValues, reset]);
 
-
-  const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
-    setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImageSrc(reader.result as string);
-        setCropDialogOpen(true);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleCropConfirm = async () => {
-    if (!imageSrc || !croppedAreaPixels) return;
-
-    try {
-      const croppedImageBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
-      const croppedImageFile = new File([croppedImageBlob], `avatar-${userId}.png`, {
-        type: 'image/png',
-      });
-
-      startTransition(async () => {
-        const { data, error: uploadErr } = await uploadAvatar(userId, croppedImageFile);
-        if (uploadErr) {
-          setError(uploadErr);
-          setSuccess(null);
-        } else if (data?.path) {
-          setValue('avatar_url', data.path);
-          setAvatarPreviewUrl(data.path);
-          setSuccess("Avatar uploaded successfully!");
-          setError(null);
-        }
-        setCropDialogOpen(false);
-      });
-    } catch (cropError: unknown) {
-      if (cropError instanceof Error) {
-        setError(`Image cropping failed: ${cropError.message}`);
-      } else {
-        setError('Image cropping failed due to an unknown error.');
-      }
-      setSuccess(null);
-    }
-  };
 
   const onSubmit = async (formData: AccountFormValues) => {
     setError(null);
@@ -202,40 +122,19 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
         </Alert>
       )}
 
-      <div className="flex flex-col items-center gap-4">
-        <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-gray-300 dark:border-gray-700">
-          {avatarPreviewUrl ? (
-            <Image
-              src={avatarPreviewUrl}
-              alt="Avatar"
-              fill
-              className="object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 text-xs">
-              No Avatar
-            </div>
-          )}
-        </div>
-        <Label htmlFor="avatar-upload" className="cursor-pointer">
-          <Button type="button" variant="outline" size="sm">
-            Change Avatar
-          </Button>
-          <Input
-            id="avatar-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </Label>
+      <div>
+        <Label htmlFor="first_name">First Name</Label>
+        <Input id="first_name" {...register('first_name')} />
+        {errors.first_name && (
+          <p className="text-red-500 text-xs mt-1">{errors.first_name.message}</p>
+        )}
       </div>
 
       <div>
-        <Label htmlFor="full_name">Full Name</Label>
-        <Input id="full_name" {...register('full_name')} />
-        {errors.full_name && (
-          <p className="text-red-500 text-xs mt-1">{errors.full_name.message}</p>
+        <Label htmlFor="last_name">Last Name</Label>
+        <Input id="last_name" {...register('last_name')} />
+        {errors.last_name && (
+          <p className="text-red-500 text-xs mt-1">{errors.last_name.message}</p>
         )}
       </div>
 
@@ -251,7 +150,7 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
         <Label htmlFor="gender">Gender</Label>
         <Select
           onValueChange={(value: "Male" | "Female" | "Other") => setValue('gender', value, { shouldValidate: true })}
-          value={watchedRole ? (defaultValues.gender || 'Male') : undefined}
+          value={defaultValues.gender || 'Male'}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select Gender" />
@@ -268,10 +167,10 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
       </div>
 
       <div>
-        <Label htmlFor="dob">Date of Birth</Label>
-        <Input id="dob" type="date" {...register('dob')} />
-        {errors.dob && (
-          <p className="text-red-500 text-xs mt-1">{errors.dob.message}</p>
+        <Label htmlFor="date_of_birth">Date of Birth</Label>
+        <Input id="date_of_birth" type="date" {...register('date_of_birth')} />
+        {errors.date_of_birth && (
+          <p className="text-red-500 text-xs mt-1">{errors.date_of_birth.message}</p>
         )}
       </div>
 
@@ -305,76 +204,9 @@ export function AccountForm({ userId, defaultValues }: AccountFormProps) {
         )}
       </div>
 
-      {(watchedRole === 'admin' || watchedRole === 'assessor' || watchedRole === 'trainer') && (
-        <div>
-          <Label htmlFor="user_id">Staff ID</Label>
-          <Input id="user_id" {...register('user_id')} />
-          {errors.user_id && (
-            <p className="text-red-500 text-xs mt-1">{errors.user_id.message}</p>
-          )}
-        </div>
-      )}
-
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? 'Saving...' : 'Save Profile'}
       </Button>
-
-      <Dialog open={cropDialogOpen} onOpenChange={setCropDialogOpen}>
-        <DialogContent className="p-0 overflow-hidden max-w-md w-[90vw] sm:w-full">
-          <div className="relative w-full h-[min(80vw,400px)] bg-black">
-            {imageSrc && (
-              <Cropper
-                image={imageSrc}
-                crop={crop}
-                zoom={zoom}
-                aspect={1}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-                cropShape="round"
-                showGrid={false}
-                objectFit="horizontal-cover"
-              />
-            )}
-          </div>
-
-          <div className="px-4 py-3 bg-background">
-            <Label htmlFor="zoom" className="text-sm font-medium block mb-1">
-              Zoom
-            </Label>
-            <Input
-              type="range"
-              min={1}
-              max={3}
-              step={0.01}
-              value={zoom}
-              onChange={(e) => setZoom(Number(e.target.value))}
-              className="w-full accent-blue-500"
-            />
-          </div>
-
-          <div className="flex justify-between gap-2 p-4 border-t bg-background">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setCropDialogOpen(false)}
-              className="flex-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              onClick={handleCropConfirm}
-              className="flex-1"
-              disabled={isPending}
-            >
-              {isPending ? 'Uploading...' : 'Crop & Upload'}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </form>
   );
 }

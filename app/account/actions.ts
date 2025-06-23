@@ -1,7 +1,7 @@
 // app/account/actions.ts
 "use server";
 
-import { createClient } from "@/utils/supabase/client";
+import { getSupabaseServer } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -14,24 +14,23 @@ const memberRoles = [
 ] as const;
 
 const updateSchema = z.object({
-  full_name: z.string().min(2, "Full name is required"),
+  first_name: z.string().min(2, "First name is required"),
+  last_name: z.string().min(2, "Last name is required"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   gender: z.enum(["Male", "Female", "Other"], {
     required_error: "Gender is required",
   }),
-  dob: z.string().min(1, "Date of birth is required"),
+  date_of_birth: z.string().min(1, "Date of birth is required"),
   location: z.string().min(2, "Location is required"),
   role: z.enum(memberRoles, {
     required_error: "Role is required",
   }),
-  user_id: z.string().optional(),
-  avatar_url: z.string().optional(),
 });
 
 type ProfilePayload = z.infer<typeof updateSchema>;
 
 export async function updateUserProfile(userId: string, data: unknown) {
-  const supabase = await createClient();
+  const supabase = await getSupabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user || user.id !== userId) {
@@ -50,30 +49,26 @@ export async function updateUserProfile(userId: string, data: unknown) {
 
   const payload: ProfilePayload = parsed.data;
 
-  const updateData: Partial<ProfilePayload> & { onboarded: boolean; updated_at: string; } = {
-    full_name: payload.full_name,
+  const updateData = {
+    id: userId,
+    first_name: payload.first_name,
+    last_name: payload.last_name,
     phone: payload.phone,
     gender: payload.gender,
-    dob: payload.dob,
+    date_of_birth: payload.date_of_birth,
     location: payload.location,
     role: payload.role,
-    avatar_url: payload.avatar_url,
     onboarded: true,
     updated_at: new Date().toISOString(),
   };
 
-  if (payload.user_id) {
-    updateData.user_id = payload.user_id;
-  }
-
   const { error } = await supabase
-    .from("users")
-    .update(updateData)
-    .eq("id", userId);
+    .from("profiles")
+    .upsert(updateData, { onConflict: 'id' });
 
   if (error) {
-    console.error("[Update Error]", error.message);
-    return { error: `Profile update failed: ${error.message}` };
+    console.error("[Upsert Error]", error.message);
+    return { error: `Profile update/insert failed: ${error.message}` };
   }
 
   switch (payload.role) {
@@ -90,59 +85,4 @@ export async function updateUserProfile(userId: string, data: unknown) {
     default:
       redirect("/dashboard");
   }
-}
-
-export async function uploadAvatar(
-  userId: string,
-  file: File,
-  bucketName: string = "avatars"
-): Promise<{ data?: { path: string }; error?: string }> {
-  const supabase = await createClient();
-
-  if (!file) {
-    return { error: "No file provided for upload." };
-  }
-  if (!file.type.startsWith("image/")) {
-    return { error: "Only image files are allowed." };
-  }
-  if (file.size > 5 * 1024 * 1024) {
-    return { error: "File size exceeds 5MB limit." };
-  }
-
-  const fileExt = file.name.split(".").pop();
-  const fileName = `${userId}-${Math.random()}.${fileExt}`;
-  const filePath = `${fileName}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from(bucketName)
-    .upload(filePath, file, {
-      cacheControl: "3600",
-      upsert: true,
-    });
-
-  if (uploadError) {
-    console.error("[Avatar Upload Error]", uploadError.message);
-    return { error: `Failed to upload avatar: ${uploadError.message}` };
-  }
-
-  const { data: publicUrlData } = supabase.storage
-    .from(bucketName)
-    .getPublicUrl(filePath);
-
-  if (!publicUrlData) {
-    console.error("[Get Public URL Error]", "No public URL returned after upload");
-    return { error: "Failed to get public URL for avatar." };
-  }
-
-  const { error: dbUpdateError } = await supabase
-    .from("users")
-    .update({ avatar_url: publicUrlData.publicUrl })
-    .eq("id", userId);
-
-  if (dbUpdateError) {
-    console.error("[Avatar DB Update Error]", dbUpdateError.message);
-    return { error: `Failed to update avatar URL in database: ${dbUpdateError.message}` };
-  }
-
-  return { data: { path: publicUrlData.publicUrl } };
 }
