@@ -22,7 +22,7 @@ export default function Home() {
       <VideoSection />
       <CallToAction />
       <TestimonialsCarousel />
-      <BlogSection />
+{/*       <BlogSection /> */}
       <FaqSection />
       <Contact />
     </main>
