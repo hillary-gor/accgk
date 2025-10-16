@@ -1,6 +1,6 @@
+// app/auth/login/page.tsx
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { FaGoogle, FaGithub, FaLinkedin } from "react-icons/fa";
@@ -13,15 +13,13 @@ import {
 } from "./actions";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 
-const logoUrl =
-  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png";
-const illustrationUrl =
-  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-akinyi-illustration.JPG";
+const logoUrl = "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png";
+const illustrationUrl = "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-akinyi-illustration.JPG";
 
-// Spinner button helper
 function Spinner({ text }: { text: string }) {
   return (
     <span className="flex items-center justify-center gap-2">
@@ -69,8 +67,7 @@ function SubmitButton({
   );
 }
 
-// 👇 Wrapped component that safely uses useSearchParams()
-function LoginPageContent() {
+export default function LoginPageContent() {
   const searchParams = useSearchParams();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -80,18 +77,12 @@ function LoginPageContent() {
     const statusParam = searchParams.get("status");
 
     if (errorParam) {
-      let displayMessage =
-        "An unexpected error occurred. Please try again.";
-      if (errorParam === "auth")
-        displayMessage = "Invalid email or password. Please try again.";
-      if (errorParam === "magic-link")
-        displayMessage = "Failed to send magic link. Please check your email.";
-      if (errorParam === "oauth")
-        displayMessage = "Failed to sign in with social provider. Please try again.";
-      if (errorParam === "validation")
-        displayMessage = "Login failed due to invalid input. Please check your details.";
-      if (errorParam === "invalid-email")
-        displayMessage = "Please enter a valid email address.";
+      let displayMessage = "An unexpected error occurred. Please try again.";
+      if (errorParam === 'auth') displayMessage = "Invalid email or password. Please try again.";
+      if (errorParam === 'magic-link') displayMessage = "Failed to send magic link. Please check your email.";
+      if (errorParam === 'oauth') displayMessage = "Failed to sign in with social provider. Please try again.";
+      if (errorParam === 'validation') displayMessage = "Login failed due to invalid input. Please check your details.";
+      if (errorParam === 'invalid-email') displayMessage = "Please enter a valid email address.";
 
       setErrorMessage(displayMessage);
     } else if (statusParam === "magic-link-sent") {
@@ -99,18 +90,23 @@ function LoginPageContent() {
     }
   }, [searchParams]);
 
-  const handleActionResponse =
-    (action: (formData: FormData) => Promise<{ error?: string; success?: string; redirectTo?: string }>) =>
-    async (formData: FormData) => {
-      setErrorMessage(null);
-      setSuccessMessage(null);
+  const handleActionResponse = (
+    action: (formData: FormData) => Promise<{ error?: string; success?: string; redirectTo?: string; }>
+  ) => async (formData: FormData) => {
+    setErrorMessage(null);
+    setSuccessMessage(null);
 
-      const result = await action(formData);
+    const result = await action(formData);
 
-      if (result?.error) setErrorMessage(result.error);
-      else if (result?.success) setSuccessMessage(result.success);
-      else if (result?.redirectTo) window.location.href = result.redirectTo;
-    };
+    if (result?.error) {
+      setErrorMessage(result.error);
+    } else if (result?.success) {
+      setSuccessMessage(result.success);
+    } else if (result?.redirectTo) {
+      window.location.href = result.redirectTo;
+    }
+  };
+
 
   return (
     <main className="min-h-screen flex flex-col md:flex-row bg-gray-50 dark:bg-background">
@@ -167,11 +163,7 @@ function LoginPageContent() {
             </Alert>
           )}
 
-          {/* Email/Password Login */}
-          <form
-            className="space-y-4"
-            action={handleActionResponse(loginWithEmailPassword)}
-          >
+          <form className="space-y-4" action={handleActionResponse(loginWithEmailPassword)}>
             <div className="space-y-2">
               <label htmlFor="email" className="block text-sm font-medium">
                 Email
@@ -180,8 +172,9 @@ function LoginPageContent() {
                 id="email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
-                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-[#3F96E6]"
+                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3F96E6] focus:border-[#3F96E6]"
               />
             </div>
 
@@ -193,8 +186,9 @@ function LoginPageContent() {
                 id="password"
                 name="password"
                 type="password"
+                autoComplete="current-password"
                 required
-                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-[#3F96E6]"
+                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3F96E6] focus:border-[#3F96E6]"
               />
             </div>
 
@@ -212,21 +206,30 @@ function LoginPageContent() {
             </div>
           </form>
 
-          {/* Magic link login */}
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white dark:bg-zinc-900 px-2 text-muted-foreground">
+              Or
+            </span>
+          </div>
+
           <form
             className="space-y-4 pt-6 border-t border-gray-200 dark:border-zinc-800"
             action={handleActionResponse(loginWithMagicLink)}
           >
             <div className="space-y-2">
-              <label htmlFor="magic-email" className="block text-sm font-medium">
+              <label
+                htmlFor="magic-email"
+                className="block text-sm font-medium"
+              >
                 Log in via magic link
               </label>
               <input
                 id="magic-email"
                 name="email"
                 type="email"
+                autoComplete="email"
                 required
-                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-[#3F96E6]"
+                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3F96E6] focus:border-[#3F96E6]"
               />
             </div>
 
@@ -239,7 +242,6 @@ function LoginPageContent() {
             </SubmitButton>
           </form>
 
-          {/* OAuth logins */}
           <div className="flex items-center justify-center gap-4 pt-6 border-t border-gray-200 dark:border-zinc-800">
             <form action={handleActionResponse(loginWithGoogle)}>
               <button
@@ -274,14 +276,5 @@ function LoginPageContent() {
         </div>
       </div>
     </main>
-  );
-}
-
-// ✅ Wrap in Suspense (required for useSearchParams)
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading...</div>}>
-      <LoginPageContent />
-    </Suspense>
   );
 }
