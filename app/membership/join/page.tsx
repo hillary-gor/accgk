@@ -88,7 +88,7 @@ export default function MembershipJoinPage() {
                 </li>
               </ul>
               <p className="text-sm text-muted-foreground mb-4">
-                Annual Membership Fee: <span className="font-semibold">KES 100,000</span>
+                Annual Membership Fee: <span className="font-semibold">KES 50,000</span>
               </p>
             </CardContent>
             <CardFooter>
