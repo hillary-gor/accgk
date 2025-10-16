@@ -96,7 +96,7 @@ export default function RegisterEmployerPage() {
               {/* Fees */}
               <div className="border-t pt-4 text-center text-gray-700">
                 <p className="text-sm">
-                  <strong>Annual Membership Fee:</strong> KES 30,000
+                  <strong>Annual Membership Fee:</strong> KES 10,000
                 </p>
                 <p className="text-xs text-muted-foreground mt-1">
                   Payment instructions will be provided after form submission.
