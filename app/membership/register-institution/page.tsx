@@ -267,7 +267,7 @@ export default function RegisterInstitutionPage() {
                   <h3 className="text-lg font-semibold mb-4">Complete Your Payment</h3>
                   <p className="mb-4">
                     To finalize your application, please pay the institutional membership fee of{" "}
-                    <strong>KES 100,000</strong> via MPesa or bank transfer.
+                    <strong>KES 50,000</strong> via MPesa or bank transfer.
                   </p>
                   <div className="grid grid-cols-2 gap-4">
                     <Button onClick={initiatePayment} className="w-full bg-primary hover:bg-primary/90">
@@ -294,13 +294,13 @@ export default function RegisterInstitutionPage() {
                         <li>Select "Lipa na M-PESA"</li>
                         <li>Select "Pay Bill"</li>
                         <li>
-                          Enter Business Number: <strong>522522</strong>
+                          Enter Business Number: <strong>880100</strong>
                         </li>
                         <li>
                           Enter Account Number: <strong>ACCGK-{formData.registrationNumber}</strong>
                         </li>
                         <li>
-                          Enter Amount: <strong>100,000</strong>
+                          Enter Amount: <strong>50,000</strong>
                         </li>
                         <li>Enter your M-PESA PIN and confirm</li>
                       </ol>
@@ -317,7 +317,7 @@ export default function RegisterInstitutionPage() {
                           <strong>Account Name:</strong> Association of Certified Caregivers Kenya
                         </p>
                         <p>
-                          <strong>Account Number:</strong> 1234567890
+                          <strong>Account Number:</strong> 123321
                         </p>
                         <p>
                           <strong>Branch:</strong> Nairobi Main
