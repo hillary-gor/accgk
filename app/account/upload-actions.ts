@@ -8,14 +8,6 @@ interface UploadResult {
   error?: string;
 }
 
-/**
- * Uploads a file to a specified Supabase storage bucket.
- *
- * @param file The file to upload.
- * @param bucketName The name of the Supabase storage bucket.
- * @param userId The ID of the user uploading the file, used for unique file naming.
- * @returns An object containing the public URL of the uploaded file on success, or an error message on failure.
- */
 export async function uploadFile(file: File, bucketName: string, userId: string): Promise<UploadResult> {
   const supabase = await getSupabaseServer();
 
@@ -23,12 +15,10 @@ export async function uploadFile(file: File, bucketName: string, userId: string)
     return { error: "No file provided for upload." };
   }
 
-  // Basic file size validation (5MB limit)
-  if (file.size > 5 * 1024 * 1024) {
+  if (file.size > 5 * 1024 * 1024) { // 5MB limit
     return { error: "File size exceeds 5MB limit. Maximum allowed is 5MB." };
   }
 
-  // Generate a unique file name
   const fileExt = file.name.split(".").pop();
   const fileName = `${userId}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
   const filePath = `${fileName}`;

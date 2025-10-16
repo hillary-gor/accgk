@@ -1,14 +1,9 @@
 // app/account/institution/page.tsx
 import { getSupabaseServer } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { InstitutionForm } from "../institution-form";
+import { InstitutionForm } from "./institution-form";
 import { Database } from "@/types/supabase";
-/**
- * Server component for the Institution Account Profile page.
- * Fetches user and institution-specific data from Supabase.
- * Redirects unauthenticated users or if data loading fails.
- * Passes fetched data as default values to the client-side form.
- */
+
 export default async function InstitutionAccountPage() {
   const supabase = await getSupabaseServer();
   const {
@@ -26,30 +21,33 @@ export default async function InstitutionAccountPage() {
     .eq("id", user.id)
     .maybeSingle();
 
-  if (institutionError && institutionError.code !== 'No rows found') {
+  // Handle errors other than 'No rows found' (which means profile doesn't exist yet)
+  if (institutionError && institutionError.code !== 'PGRST116') { // PGRST116 is the error code for "No rows found" in Supabase PostgREST
     console.error("[Supabase Error] InstitutionAccountPage: Failed to load institution profile: ", institutionError.message);
     redirect("/account?error=institution-profile-load-failed");
   }
 
   const defaultValues: Partial<Database['public']['Tables']['institutions']['Row']> = {
-    accreditation_files_url: institutionProfile?.accreditation_files_url || [],
+    // Removed accreditation_files_url
     bio: institutionProfile?.bio || '',
     city: institutionProfile?.city || '',
     contact_person_name: institutionProfile?.contact_person_name || '',
     contact_person_phone: institutionProfile?.contact_person_phone || '',
     county: institutionProfile?.county || '',
-    details: institutionProfile?.details || null,
-    institution_logo_url: institutionProfile?.institution_logo_url || '',
+    // Ensure details defaults to empty string if null/undefined
+    details: (institutionProfile?.details as string) || '',
+    // Removed institution_logo_url
     institution_name: institutionProfile?.institution_name || '',
     institution_type: institutionProfile?.institution_type || '',
-    license_documents_url: institutionProfile?.license_documents_url || [],
+    // Removed license_documents_url
     license_number: institutionProfile?.license_number || '',
     linkedin_profile: institutionProfile?.linkedin_profile || '',
-    location: institutionProfile?.location || null,
+    // Ensure location defaults to empty string if null/undefined
+    location: (institutionProfile?.location as string) || '',
     physical_address: institutionProfile?.physical_address || '',
     postal_code: institutionProfile?.postal_code || '',
     rating: institutionProfile?.rating || null,
-    registration_certificate_url: institutionProfile?.registration_certificate_url || '',
+    // Removed registration_certificate_url
     status: institutionProfile?.status || '',
     website: institutionProfile?.website || '',
     years_in_operation: institutionProfile?.years_in_operation || 0,

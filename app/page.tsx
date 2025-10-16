@@ -6,7 +6,7 @@ import Contact from "@/components/contact"
 import ServiceTiles from "@/components/service-tiles"
 import AnimatedStats from "@/components/animated-stats"
 import VideoSection from "@/components/video-section"
-import BlogSection from "@/components/blog-section"
+// import BlogSection from "@/components/blog-section"
 import TestimonialsCarousel from "@/components/testimonials-carousel"
 import FaqSection from "@/components/faq-section"
 
@@ -22,7 +22,7 @@ export default function Home() {
       <VideoSection />
       <CallToAction />
       <TestimonialsCarousel />
-      <BlogSection />
+      {/* <BlogSection /> */}
       <FaqSection />
       <Contact />
     </main>

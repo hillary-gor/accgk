@@ -26,6 +26,16 @@ const nextConfig: NextConfig = {
         hostname: "rzprmsavgqeghpnmparg.supabase.co",
         pathname: "/storage/v1/object/public/assets/**",
       },
+      {
+        protocol: "https",
+        hostname: "rzprmsavgqeghpnmparg.supabase.co",
+        pathname: "/storage/v1/object/public/caregiver-documents/**",
+      },
+      {
+        protocol: "https",
+        hostname: "rzprmsavgqeghpnmparg.supabase.co",
+        pathname: "/storage/v1/object/public/institution-documents/**",
+      },
     ],
   },
 };
