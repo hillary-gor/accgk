@@ -205,7 +205,7 @@ export default function RegisterInstitutionPage() {
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold">Membership Fee Payment</h3>
                   <p className="text-sm text-muted-foreground">
-                    The annual membership fee for institutions is <strong>KES 100,000</strong>. You will be directed to
+                    The annual membership fee for institutions is <strong>KES 50,000</strong>. You will be directed to
                     make payment after submitting your application.
                   </p>
 
