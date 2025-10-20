@@ -1,287 +1,207 @@
+// app/auth/signin/page.tsx
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
-import { useFormStatus } from "react-dom";
-import { Button } from "@/components/ui/button";
-import { FaGoogle, FaGithub, FaLinkedin } from "react-icons/fa";
-import {
-  loginWithEmailPassword,
-  loginWithMagicLink,
-  loginWithGoogle,
-  loginWithGitHub,
-  loginWithLinkedIn,
-} from "./actions";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Terminal } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { AlertCircle, Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
+import { login } from "./signin-actions";
+import { createClient } from "@/utils/supabase/client";
+import Image from "next/image";
 
-const logoUrl =
-  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png";
-const illustrationUrl =
-  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-akinyi-illustration.JPG";
+// create supabase client instance
+const supabase = createClient();
 
-// Spinner button helper
-function Spinner({ text }: { text: string }) {
-  return (
-    <span className="flex items-center justify-center gap-2">
-      <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        />
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v8z"
-        />
-      </svg>
-      {text}
-    </span>
-  );
+// Google sign-in handler
+async function handleGoogleSignIn() {
+  await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: `${window.location.origin}/auth/callback`,
+    },
+  });
 }
 
-function SubmitButton({
-  children,
-  className,
-  variant,
-  loadingText = "Processing...",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  variant?: "outline" | "ghost";
-  loadingText?: string;
-}) {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      type="submit"
-      className={className}
-      variant={variant}
-      disabled={pending}
-    >
-      {pending ? <Spinner text={loadingText} /> : children}
-    </Button>
-  );
-}
-
-// 👇 Wrapped component that safely uses useSearchParams()
-function LoginPageContent() {
+// handle the dialog
+function CheckEmailDialog() {
   const searchParams = useSearchParams();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
-    const errorParam = searchParams.get("error");
-    const statusParam = searchParams.get("status");
+    if (searchParams.get("message") === "check-email") {
+      setOpen(true);
+      const timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
 
-    if (errorParam) {
-      let displayMessage =
-        "An unexpected error occurred. Please try again.";
-      if (errorParam === "auth")
-        displayMessage = "Invalid email or password. Please try again.";
-      if (errorParam === "magic-link")
-        displayMessage = "Failed to send magic link. Please check your email.";
-      if (errorParam === "oauth")
-        displayMessage = "Failed to sign in with social provider. Please try again.";
-      if (errorParam === "validation")
-        displayMessage = "Login failed due to invalid input. Please check your details.";
-      if (errorParam === "invalid-email")
-        displayMessage = "Please enter a valid email address.";
+      const redirectTimer = setTimeout(() => {
+        setOpen(false);
+        window.history.replaceState(null, "", window.location.pathname);
+      }, 5000);
 
-      setErrorMessage(displayMessage);
-    } else if (statusParam === "magic-link-sent") {
-      setSuccessMessage("Magic link sent! Check your email to complete login.");
+      return () => {
+        clearInterval(timer);
+        clearTimeout(redirectTimer);
+      };
     }
   }, [searchParams]);
 
-  const handleActionResponse =
-    (action: (formData: FormData) => Promise<{ error?: string; success?: string; redirectTo?: string }>) =>
-    async (formData: FormData) => {
-      setErrorMessage(null);
-      setSuccessMessage(null);
-
-      const result = await action(formData);
-
-      if (result?.error) setErrorMessage(result.error);
-      else if (result?.success) setSuccessMessage(result.success);
-      else if (result?.redirectTo) window.location.href = result.redirectTo;
-    };
-
   return (
-    <main className="min-h-screen flex flex-col md:flex-row bg-gray-50 dark:bg-background">
-      <div className="hidden md:block md:w-1/2 relative">
-        <Image
-          src={illustrationUrl}
-          alt="Login Illustration"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 relative">
-        <div className="absolute top-4 right-4 flex items-center gap-1 text-sm">
-          <span className="text-gray-600 dark:text-gray-300">
-            Don’t have an account?
-          </span>
-          <a href="/auth/signup">
-            <Button variant="link" size="sm" className="text-[#3F96E6] px-0">
-              Sign up
-            </Button>
-          </a>
+    <Dialog open={open}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Email Verification Required</DialogTitle>
+          <DialogDescription>
+            A verification link has been sent to your email address. Please
+            click the link to confirm your account.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col items-center justify-center space-y-2">
+          <AlertCircle className="h-10 w-10 text-primary" />
+          <p className="text-center text-sm text-muted-foreground">
+            You will be redirected in {countdown} seconds.
+          </p>
         </div>
-
-        <div className="w-full max-w-sm space-y-6 bg-white dark:bg-zinc-900 shadow-xl p-6 rounded-2xl border border-gray-200 dark:border-zinc-800">
-          <div className="flex justify-center">
-            <Image
-              src={logoUrl}
-              alt="ACCGK Logo"
-              width={200}
-              height={200}
-              className="object-contain"
-              priority
-            />
-          </div>
-
-          <div className="text-center text-lg font-bold text-[#3F96E6] dark:text-white">
-            ACCGK Member Portal
-          </div>
-
-          {errorMessage && (
-            <Alert variant="destructive">
-              <Terminal className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{errorMessage}</AlertDescription>
-            </Alert>
-          )}
-          {successMessage && (
-            <Alert>
-              <Terminal className="h-4 w-4" />
-              <AlertTitle>Success</AlertTitle>
-              <AlertDescription>{successMessage}</AlertDescription>
-            </Alert>
-          )}
-
-          {/* Email/Password Login */}
-          <form
-            className="space-y-4"
-            action={handleActionResponse(loginWithEmailPassword)}
-          >
-            <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-[#3F96E6]"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm font-medium">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-[#3F96E6]"
-              />
-            </div>
-
-            <SubmitButton
-              className="w-full bg-gradient-to-r from-[#3F96E6] to-[#AB056A] hover:opacity-90 text-white"
-              loadingText="Logging in..."
-            >
-              Sign In
-            </SubmitButton>
-
-            <div className="text-right text-sm">
-              <a href="/auth/forgot-password" className="text-[#3F96E6] hover:underline">
-                Forgot Password?
-              </a>
-            </div>
-          </form>
-
-          {/* Magic link login */}
-          <form
-            className="space-y-4 pt-6 border-t border-gray-200 dark:border-zinc-800"
-            action={handleActionResponse(loginWithMagicLink)}
-          >
-            <div className="space-y-2">
-              <label htmlFor="magic-email" className="block text-sm font-medium">
-                Log in via magic link
-              </label>
-              <input
-                id="magic-email"
-                name="email"
-                type="email"
-                required
-                className="w-full rounded-md border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-3 py-2 text-sm text-gray-900 dark:text-white focus:ring-2 focus:ring-[#3F96E6]"
-              />
-            </div>
-
-            <SubmitButton
-              variant="outline"
-              className="w-full border-[#3F96E6] text-[#3F96E6] hover:bg-[#3F96E6]/10"
-              loadingText="Sending link..."
-            >
-              Send Magic Link
-            </SubmitButton>
-          </form>
-
-          {/* OAuth logins */}
-          <div className="flex items-center justify-center gap-4 pt-6 border-t border-gray-200 dark:border-zinc-800">
-            <form action={handleActionResponse(loginWithGoogle)}>
-              <button
-                type="submit"
-                aria-label="Sign in with Google"
-                className="p-2 rounded-full border hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600"
-              >
-                <FaGoogle className="w-5 h-5" />
-              </button>
-            </form>
-
-            <form action={handleActionResponse(loginWithGitHub)}>
-              <button
-                type="submit"
-                aria-label="Sign in with GitHub"
-                className="p-2 rounded-full border hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600"
-              >
-                <FaGithub className="w-5 h-5" />
-              </button>
-            </form>
-
-            <form action={handleActionResponse(loginWithLinkedIn)}>
-              <button
-                type="submit"
-                aria-label="Sign in with LinkedIn"
-                className="p-2 rounded-full border hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-gray-600"
-              >
-                <FaLinkedin className="w-5 h-5" />
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </main>
+        <DialogFooter>
+          <Button onClick={() => setOpen(false)}>Close</Button>
+          <Link href="/auth/signup" passHref>
+            <Button>Go to Login</Button>
+          </Link>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
-// ✅ Wrap in Suspense (required for useSearchParams)
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading...</div>}>
-      <LoginPageContent />
-    </Suspense>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-white to-white dark:from-neutral-900 dark:to-neutral-950 p-4">
+      <CheckEmailDialog />
+      <div className="w-full max-w-md rounded-2xl bg-card/80 backdrop-blur-md shadow-xl p-6 md:p-8 space-y-6">
+        {/* Logo / Header */}
+        <div className="text-center space-y-2">
+          <div className="flex justify-center">
+            <Image
+              src="/logo/surge-rectandular-logo.png"
+              alt="Surge Innovations Logo"
+              width={100}
+              height={100}
+              className="rounded-md"
+            />
+          </div>
+          <p className="text-muted-foreground">
+            Sign in to continue your journey
+          </p>
+        </div>
+
+        {/* Form */}
+        <form action={login} className="space-y-4">
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              required
+              name="email"
+              className="transition focus:ring-2 focus:ring-rose-500"
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                required
+                name="password"
+                className="transition focus:ring-2 focus:ring-rose-500 pr-10"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Extras */}
+          <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2">
+              <input type="checkbox" className="rounded border-gray-300" />{" "}
+              Remember me
+            </label>
+            <Link
+              href="/auth/reset-password"
+              className="text-rose-700 hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
+
+          <Button type="submit" className="w-full">
+            Sign In
+          </Button>
+        </form>
+
+        {/* Divider */}
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground">
+              or continue with
+            </span>
+          </div>
+        </div>
+
+        {/* Social logins */}
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleGoogleSignIn}
+          >
+            Google
+          </Button>
+          <Button variant="outline" className="w-full">
+            Apple
+          </Button>
+        </div>
+
+        {/* Signup CTA */}
+        <p className="text-center text-sm text-muted-foreground">
+          Don’t have an account?{" "}
+          <Link
+            href="/auth/signup"
+            className="font-medium text-rose-700 hover:underline"
+          >
+            Sign up
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }

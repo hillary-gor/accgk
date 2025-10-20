@@ -72,13 +72,8 @@ export async function GET(request: Request) {
       .eq("id", user.id)
       .single();
 
-    if (profileError) {
-      console.error("Profile fetch error:", profileError.message);
-      return redirect("/auth/complete-profile");
-    }
-
-    if (!member?.full_name) {
-      return redirect("/auth/complete-profile");
+    if (profileError || !member?.full_name) {
+      return redirect("/account");
     }
 
     // Role-based redirect logic
