@@ -20,8 +20,12 @@ import { login } from "./signin-actions";
 import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
 
-// create supabase client instance
+// Supabase client
 const supabase = createClient();
+
+// Remote assets
+const logoUrl =
+  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png";
 
 // Google sign-in handler
 async function handleGoogleSignIn() {
@@ -33,7 +37,7 @@ async function handleGoogleSignIn() {
   });
 }
 
-// handle the dialog
+// Email verification dialog
 function CheckEmailDialog() {
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -42,10 +46,7 @@ function CheckEmailDialog() {
   useEffect(() => {
     if (searchParams.get("message") === "check-email") {
       setOpen(true);
-      const timer = setInterval(() => {
-        setCountdown((prev) => prev - 1);
-      }, 1000);
-
+      const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
       const redirectTimer = setTimeout(() => {
         setOpen(false);
         window.history.replaceState(null, "", window.location.pathname);
@@ -96,11 +97,12 @@ export default function LoginPage() {
         <div className="text-center space-y-2">
           <div className="flex justify-center">
             <Image
-              src="/logo/surge-rectandular-logo.png"
-              alt="Surge Innovations Logo"
-              width={100}
-              height={100}
+              src={logoUrl}
+              alt="ACCGK Official Logo"
+              width={120}
+              height={120}
               className="rounded-md"
+              priority
             />
           </div>
           <p className="text-muted-foreground">
