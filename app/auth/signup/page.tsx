@@ -1,227 +1,222 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useFormStatus } from "react-dom";
-import { signUpWithEmailPassword } from "./actions";
-import { loginWithGoogle } from "@/app/auth/signin/actions";
+import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Dialog } from "@headlessui/react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Eye, EyeOff } from "lucide-react";
+import { signup } from "./signup-actions";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { CheckCircle } from "lucide-react";
-import { FaGoogle, FaGithub, FaLinkedin } from "react-icons/fa";
 
+// Remote assets
 const logoUrl =
-  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png";
-
-const illustrationUrl =
-  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets//shanice-akinyi-illustration.JPG";
-
-function Spinner({ text }: { text: string }) {
-  return (
-    <span className="flex items-center gap-2">
-      <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        />
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v8z"
-        />
-      </svg>
-      {text}
-    </span>
-  );
-}
-
-function SubmitButton({
-  children,
-  className,
-  variant,
-  loadingText = "Processing...",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  variant?: "outline" | "ghost" | "default";
-  loadingText?: string;
-}) {
-  const { pending } = useFormStatus();
-  return (
-    <Button
-      type="submit"
-      className={className}
-      variant={variant}
-      disabled={pending}
-    >
-      {pending ? <Spinner text={loadingText} /> : children}
-    </Button>
-  );
-}
+  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png";
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [error, setError] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (formData: FormData) => {
-    startTransition(async () => {
-      const result = await signUpWithEmailPassword(formData);
-      if (result?.success) {
-        setEmail(result.email);
-        setShowModal(true);
-        setError("");
-      } else {
-        setError(result?.error || "Something went wrong");
-      }
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+    if (!agreedToTerms) {
+      setError("Please agree to the terms and conditions");
+      return;
+    }
+
+    setIsLoading(true);
+    const form = new FormData();
+    form.append("full_name", formData.name);
+    form.append("email", formData.email);
+    form.append("password", formData.password);
+
+    try {
+      await signup(form);
+    } catch (err) {
+      setError(
+        "Failed to create account. " +
+          (err instanceof Error ? err.message : "Please try again.")
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-muted px-4 py-12">
-      <div className="flex flex-col md:flex-row w-full max-w-5xl bg-background shadow-xl rounded-2xl overflow-hidden border border-border">
-        {/* Left Illustration */}
-        <div className="hidden md:block md:w-1/2 relative">
-          <Image
-            src={illustrationUrl}
-            alt="Signup Illustration"
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-
-        {/* Right Form */}
-        <div className="w-full md:w-1/2 p-8 sm:p-10 space-y-6">
-          {/* Logo */}
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-white to-white dark:from-neutral-900 dark:to-neutral-950 p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md rounded-2xl bg-card/80 backdrop-blur-md shadow-xl p-6 md:p-8 space-y-6"
+      >
+        {/* Logo / Header */}
+        <div className="text-center space-y-2">
           <div className="flex justify-center">
             <Image
               src={logoUrl}
-              alt="CBMTI Logo"
-              width={140}
-              height={140}
-              className="object-contain"
+              alt="ACCGK Official Logo"
+              width={120}
+              height={120}
+              className="rounded-md"
               priority
             />
           </div>
+          <p className="text-muted-foreground">
+            Create account to continue.
+          </p>
+        </div>
 
-          {/* Heading */}
-          <div className="text-center text-xl font-semibold text-foreground">
-            Create your account
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <Alert variant="destructive" className="animate-fade-in">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="name">Full Name</Label>
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Enter your full name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
           </div>
 
-          {/* Form */}
-          <form action={handleSubmit} className="space-y-4">
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                />
-              </div>
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
 
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                />
-              </div>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Create a password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+                className="pr-10 transition focus:ring-2 focus:ring-rose-500"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
             </div>
+          </div>
 
-            <SubmitButton className="w-full" loadingText="Signing up...">
-              Sign Up
-            </SubmitButton>
-
-            {error && (
-              <p className="text-sm text-destructive mt-2">{error}</p>
-            )}
-          </form>
-
-          {/* Separator */}
-          <Separator className="my-4" />
-
-          {/* Social Auth */}
-          <div className="flex items-center justify-center gap-4">
-            <form
-              action={async () => {
-                await loginWithGoogle();
-              }}
-            >
-              <Button variant="outline" size="icon" aria-label="Sign up with Google">
-                <FaGoogle className="w-4 h-4" />
-              </Button>
-            </form>
-            <Button asChild variant="outline" size="icon" aria-label="GitHub">
-              <a
-                href="https://github.com/your-profile"
-                target="_blank"
-                rel="noopener noreferrer"
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                required
+                className="pr-10 transition focus:ring-2 focus:ring-rose-500"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                <FaGithub className="w-4 h-4" />
-              </a>
-            </Button>
-            <Button asChild variant="outline" size="icon" aria-label="LinkedIn">
-              <a
-                href="https://linkedin.com/in/your-profile"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaLinkedin className="w-4 h-4" />
-              </a>
-            </Button>
+                {showConfirmPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Footer */}
-          <div className="pt-4 text-center text-sm text-muted-foreground">
-            Already have an account?{" "}
-            <a href="/login" className="text-primary hover:underline">
-              Log In
-            </a>
+          <div className="flex items-center space-x-2 text-sm">
+            <Checkbox
+              id="terms"
+              checked={agreedToTerms}
+              onCheckedChange={(checked) =>
+                setAgreedToTerms(checked as boolean)
+              }
+            />
+            <Label htmlFor="terms">
+              I agree to the{" "}
+              <Link href="/terms" className="text-primary hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="text-primary hover:underline">
+                Privacy Policy
+              </Link>
+            </Label>
           </div>
-        </div>
-      </div>
 
-      {/* Confirmation Modal */}
-      <Dialog
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        className="relative z-50"
-      >
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center px-4">
-          <div className="bg-background rounded-xl p-6 w-full max-w-sm text-center border border-border shadow-lg">
-            <CheckCircle className="mx-auto text-green-500 h-10 w-10 mb-2" />
-            <h2 className="text-lg font-semibold mb-1">Check your email</h2>
-            <p className="text-sm text-muted-foreground">
-              A confirmation link has been sent to <strong>{email}</strong>.
-              <br />
-              Click the link to verify your email and activate your account.
-            </p>
-            <Button
-              variant="ghost"
-              onClick={() => setShowModal(false)}
-              className="mt-4 w-full"
-            >
-              Back to Login
-            </Button>
-          </div>
-        </div>
-      </Dialog>
-    </main>
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Creating account..." : "Create Account"}
+          </Button>
+        </form>
+
+        {/* Signup / Signin Link */}
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link
+            href="/auth/signin"
+            className="font-medium text-rose-600 hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+      </motion.div>
+    </div>
   );
 }
