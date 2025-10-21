@@ -40,7 +40,7 @@ async function handleGoogleSignIn() {
 function CheckEmailDialogInner() {
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(15);
 
   useEffect(() => {
     if (searchParams.get("message") === "check-email") {
@@ -49,7 +49,7 @@ function CheckEmailDialogInner() {
       const redirectTimer = setTimeout(() => {
         setOpen(false);
         window.history.replaceState(null, "", window.location.pathname);
-      }, 5000);
+      }, 15000);
 
       return () => {
         clearInterval(timer);
