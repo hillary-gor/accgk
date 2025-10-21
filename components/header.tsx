@@ -40,7 +40,7 @@ export default function Header() {
   ];
 
   const accgkLogo = {
-    url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos//accgk%20official%20logo.png?height=40&width=40",
+    url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png?height=40&width=40",
     alt: "Association of certified caregivers kenya",
   };
 
@@ -100,7 +100,7 @@ export default function Header() {
             Sign In
           </Link>
 
-          <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90">
+          <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90" asChild>
             <Link href="/membership" className="text-white">
               Register
             </Link>
@@ -170,13 +170,15 @@ export default function Header() {
                 >
                   Sign In
                 </Link>
+
                 <Button
+                  asChild
                   className="w-full bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90"
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   <Link
                     href="/membership"
                     className="text-white w-full text-center"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     Register
                   </Link>
