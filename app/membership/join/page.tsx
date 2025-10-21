@@ -1,5 +1,7 @@
+// app/membership/join/page.tsx
 import PageLayout from "@/components/page-layout";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -10,8 +12,54 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { UserPlus, Building, Briefcase } from "lucide-react";
+import { getSupabaseServer } from "@/utils/supabase/server"; // your SSR Supabase client
 
-export default function MembershipJoinPage() {
+// Helper: centralized role-based redirect
+async function getRedirectByRole(userId: string) {
+  const supabase = await getSupabaseServer();
+  const { data: profile, error } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .single();
+
+  if (error || !profile?.role) return "/unauthorized";
+
+  switch (profile.role) {
+    case "guest":
+      return "/dashboard/guest";
+    case "caregiver":
+      return "/dashboard/caregiver";
+    case "institution":
+      return "/dashboard/institution";
+    case "admin":
+      return "/dashboard/admin";
+    case "assessor":
+      return "/dashboard/assessor";
+    case "trainer":
+      return "/dashboard/trainer";
+    case "employer":
+      return "/dashboard/employer";
+    default:
+      return "/unauthorized";
+  }
+}
+
+export default async function MembershipJoinPage() {
+  const supabase = await getSupabaseServer();
+
+  // Get session from Supabase
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  // If logged in, redirect based on role
+  if (session?.user?.id) {
+    const dashboard = await getRedirectByRole(session.user.id);
+    return redirect(dashboard);
+  }
+
+  // If no session, render the join page
   return (
     <PageLayout
       title="Become a Member"
@@ -24,9 +72,9 @@ export default function MembershipJoinPage() {
           <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <UserPlus className="h-8 w-8 text-[color:var(--accgk-blue)]" />
+                <UserPlus className="h-8 w-8 text-(--accgk-blue)" />
               </div>
-              <CardTitle className="text-2xl font-bold text-[color:var(--accgk-blue)]">
+              <CardTitle className="text-2xl font-bold text-(--accgk-blue)">
                 Caregiver Membership
               </CardTitle>
               <CardDescription className="text-base">
@@ -38,20 +86,20 @@ export default function MembershipJoinPage() {
             <CardContent className="text-center">
               <ul className="text-left space-y-2 mb-6">
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
+                  <span className="text-(--accgk-blue) mr-2">•</span>
                   Professional certification and recognition
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Access to continuing education and training
+                  <span className="text-(--accgk-blue) mr-2">•</span>Access to
+                  continuing education and training
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Networking with fellow caregivers
+                  <span className="text-(--accgk-blue) mr-2">•</span>Networking
+                  with fellow caregivers
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Career advancement opportunities
+                  <span className="text-(--accgk-blue) mr-2">•</span>Career
+                  advancement opportunities
                 </li>
               </ul>
 
@@ -60,7 +108,6 @@ export default function MembershipJoinPage() {
                 <br />
                 First Time Application:{" "}
                 <span className="font-semibold">KES 10,000</span>
-                <br />
               </p>
               <p>
                 <strong>
@@ -82,9 +129,9 @@ export default function MembershipJoinPage() {
           <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Building className="h-8 w-8 text-[color:var(--accgk-blue)]" />
+                <Building className="h-8 w-8 text-(--accgk-blue)" />
               </div>
-              <CardTitle className="text-2xl font-bold text-[color:var(--accgk-blue)]">
+              <CardTitle className="text-2xl font-bold text-(--accgk-blue)">
                 Institutional Membership
               </CardTitle>
               <CardDescription className="text-base">
@@ -96,19 +143,19 @@ export default function MembershipJoinPage() {
             <CardContent className="text-center">
               <ul className="text-left space-y-2 mb-6">
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
+                  <span className="text-(--accgk-blue) mr-2">•</span>
                   Institutional accreditation and recognition
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Access to certified caregivers database
+                  <span className="text-(--accgk-blue) mr-2">•</span>Access to
+                  certified caregivers database
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Discounted group certification for staff
+                  <span className="text-(--accgk-blue) mr-2">•</span>Discounted
+                  group certification for staff
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
+                  <span className="text-(--accgk-blue) mr-2">•</span>
                   Participation in setting industry standards
                 </li>
               </ul>
@@ -127,13 +174,13 @@ export default function MembershipJoinPage() {
             </CardFooter>
           </Card>
 
-          {/* Employer / Recruitment Partner Membership */}
+          {/* Employer Membership */}
           <Card className="border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
             <CardHeader className="text-center">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Briefcase className="h-8 w-8 text-[color:var(--accgk-blue)]" />
+                <Briefcase className="h-8 w-8 text-(--accgk-blue)" />
               </div>
-              <CardTitle className="text-2xl font-bold text-[color:var(--accgk-blue)]">
+              <CardTitle className="text-2xl font-bold text-(--accgk-blue)">
                 Employer / Recruitment Partner
               </CardTitle>
               <CardDescription className="text-base">
@@ -145,20 +192,20 @@ export default function MembershipJoinPage() {
             <CardContent className="text-center">
               <ul className="text-left space-y-2 mb-6">
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Access to verified caregiver profiles
+                  <span className="text-(--accgk-blue) mr-2">•</span>Access to
+                  verified caregiver profiles
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Post job openings directly on the ACCGK portal
+                  <span className="text-(--accgk-blue) mr-2">•</span>Post job
+                  openings directly on the ACCGK portal
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Employer dashboard for managing applicants
+                  <span className="text-(--accgk-blue) mr-2">•</span>Employer
+                  dashboard for managing applicants
                 </li>
                 <li>
-                  <span className="text-[color:var(--accgk-blue)] mr-2">•</span>
-                  Brand visibility and recruitment support
+                  <span className="text-(--accgk-blue) mr-2">•</span>Brand
+                  visibility and recruitment support
                 </li>
               </ul>
 
