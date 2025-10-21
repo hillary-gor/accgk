@@ -28,13 +28,11 @@ export async function login(formData: FormData) {
     .eq("id", user.id)
     .single();
 
-  if (profileError || !profile || !profile.role) {
+  if (profileError || !profile?.role) {
     return redirect("/account");
   }
 
-  const userRole = profile.role;
-
-  switch (userRole) {
+  switch (profile.role) {
     case "guest":
       return redirect("/dashboard/guest");
     case "caregiver":

@@ -1,8 +1,11 @@
-// app/auth/signin/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { login } from "./signin-actions";
+import { createClient } from "@/utils/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -15,15 +18,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
-import Link from "next/link";
-import { login } from "./signin-actions";
-import { createClient } from "@/utils/supabase/client";
-import Image from "next/image";
 
-// Supabase client
+// Supabase client (browser)
 const supabase = createClient();
 
-// Remote assets
+// Logo URL
 const logoUrl =
   "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png";
 
@@ -37,8 +36,8 @@ async function handleGoogleSignIn() {
   });
 }
 
-// Email verification dialog
-function CheckEmailDialog() {
+// --- Email verification dialog (wrapped in suspense) ---
+function CheckEmailDialogInner() {
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const [countdown, setCountdown] = useState(5);
@@ -65,14 +64,14 @@ function CheckEmailDialog() {
         <DialogHeader>
           <DialogTitle>Email Verification Required</DialogTitle>
           <DialogDescription>
-            A verification link has been sent to your email address. Please
-            click the link to confirm your account.
+            A verification link has been sent to your email. Please click it to
+            confirm your account.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center justify-center space-y-2">
           <AlertCircle className="h-10 w-10 text-primary" />
           <p className="text-center text-sm text-muted-foreground">
-            You will be redirected in {countdown} seconds.
+            Redirecting in {countdown} seconds…
           </p>
         </div>
         <DialogFooter>
@@ -86,12 +85,22 @@ function CheckEmailDialog() {
   );
 }
 
+function CheckEmailDialog() {
+  return (
+    <Suspense fallback={null}>
+      <CheckEmailDialogInner />
+    </Suspense>
+  );
+}
+
+// --- Login page ---
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-white to-white dark:from-neutral-900 dark:to-neutral-950 p-4">
       <CheckEmailDialog />
+
       <div className="w-full max-w-md rounded-2xl bg-card/80 backdrop-blur-md shadow-xl p-6 md:p-8 space-y-6">
         {/* Logo / Header */}
         <div className="text-center space-y-2">
@@ -110,16 +119,16 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Form */}
+        {/* Login Form */}
         <form action={login} className="space-y-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="name@example.com"
               required
-              name="email"
               className="transition focus:ring-2 focus:ring-rose-500"
             />
           </div>
@@ -129,15 +138,15 @@ export default function LoginPage() {
             <div className="relative">
               <Input
                 id="password"
+                name="password"
                 type={showPassword ? "text" : "password"}
                 required
-                name="password"
                 className="transition focus:ring-2 focus:ring-rose-500 pr-10"
               />
               <button
                 type="button"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? (
                   <EyeOff className="h-4 w-4" />
