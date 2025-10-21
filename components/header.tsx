@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
+import { AuthHeader } from "@/components/layout/AuthHeader";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,13 +40,14 @@ export default function Header() {
   ];
 
   const accgkLogo = {
-    url: "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png?height=40&width=40",
-    alt: "Association of certified caregivers kenya",
+    url:
+      "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png?height=40&width=40",
+    alt: "Association of Certified Caregivers Kenya",
   };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white shadow-sm">
-      <div className="container mx-auto px-4 py-1 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
           <Image
@@ -54,10 +55,10 @@ export default function Header() {
             alt={accgkLogo.alt}
             width={50}
             height={50}
-            className="object-cover w-auto h-15"
+            className="object-cover w-auto h-12"
             unoptimized
           />
-          <span className="font-bold text-xl text-[color:var(--accgk-blue)] hidden sm:inline-block">
+          <span className="font-bold text-xl text-(--accgk-blue) hidden sm:inline-block">
             ACCGK
           </span>
         </Link>
@@ -71,14 +72,15 @@ export default function Header() {
           ))}
 
           {/* More Dropdown */}
-          <div className="relative group">
+          <div className="relative">
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
-              onBlur={() => setTimeout(() => setIsMoreOpen(false), 100)}
-              className="text-gray-700 hover:text-[color:var(--accgk-blue)] font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-colors duration-200"
+              onBlur={() => setTimeout(() => setIsMoreOpen(false), 150)}
+              className="text-gray-700 hover:text-(--accgk-blue) font-medium flex items-center gap-1 px-2 py-1 rounded-md transition-colors duration-200"
             >
               More <ChevronDown className="w-4 h-4" />
             </button>
+
             {isMoreOpen && (
               <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md z-50">
                 <div className="flex flex-col py-2">
@@ -92,19 +94,8 @@ export default function Header() {
             )}
           </div>
 
-          {/* Sign In & Register */}
-          <Link
-            href="/auth/signin"
-            className="text-blue-500 font-medium px-2 py-1 rounded-md hover:text-[color:var(--accgk-blue)] transition-colors"
-          >
-            Sign In
-          </Link>
-
-          <Button className="bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90" asChild>
-            <Link href="/membership" className="text-white">
-              Register
-            </Link>
-          </Button>
+          {/* Auth / Profile */}
+          <AuthHeader />
         </nav>
 
         {/* Mobile Menu Button */}
@@ -124,7 +115,7 @@ export default function Header() {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             className="fixed inset-0 bg-white z-50 p-6 md:hidden flex flex-col"
           >
             {/* Close Button */}
@@ -162,27 +153,9 @@ export default function Header() {
                 ))}
               </div>
 
-              <div className="pt-4 space-y-2">
-                <Link
-                  href="/auth/signin"
-                  className="block text-lg text-gray-800"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Sign In
-                </Link>
-
-                <Button
-                  asChild
-                  className="w-full bg-[color:var(--accgk-blue)] hover:bg-[color:var(--accgk-blue)]/90"
-                >
-                  <Link
-                    href="/membership"
-                    className="text-white w-full text-center"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Register
-                  </Link>
-                </Button>
+              {/* Mobile Auth / Profile */}
+              <div className="pt-4 flex justify-center">
+                <AuthHeader />
               </div>
             </div>
           </motion.div>
