@@ -98,7 +98,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-white to-white dark:from-neutral-900 dark:to-neutral-950 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-white to-white dark:from-neutral-900 dark:to-neutral-950 p-4">
       <CheckEmailDialog />
 
       <div className="w-full max-w-md rounded-2xl bg-card/80 backdrop-blur-md shadow-xl p-6 md:p-8 space-y-6">
