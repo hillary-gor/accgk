@@ -19,6 +19,7 @@ import {
 import { Loader2, Trash2, Edit3, Plus } from "lucide-react";
 import Image from "next/image";
 import { useDeleteStorageFile } from "@/hooks/useDeleteStorageFile";
+import { toast } from "sonner";
 
 interface MembershipCategory {
   id: string;
@@ -40,48 +41,74 @@ export default function MembershipCategoriesPage() {
   const [editing, setEditing] = useState<MembershipCategory | null>(null);
   const { deleteFile } = useDeleteStorageFile("assets");
 
+  // Fetch categories
   const fetchCategories = async () => {
-    setLoading(true);
-    const res = await fetch("/api/admin/membership-categories");
-    const data = await res.json();
-    setCategories(data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await fetch("/api/admin/membership-categories");
+      const data = await res.json();
+      setCategories(data);
+    } catch {
+      toast.error("Failed to fetch membership categories.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchCategories();
   }, []);
 
+  // Handle create / update
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
+
     const formData = new FormData(e.currentTarget);
+    const actionFn = editing
+      ? updateMembershipCategory(editing.id, formData)
+      : createMembershipCategory(formData);
 
-    const res = editing
-      ? await updateMembershipCategory(editing.id, formData)
-      : await createMembershipCategory(formData);
+    toast.promise(actionFn, {
+      loading: editing ? "Updating category..." : "Saving category...",
+      success: (res) => {
+        if (res.success) {
+          (e.target as HTMLFormElement).reset();
+          setEditing(null);
+          fetchCategories();
+        }
+        return res.message || "Saved successfully!";
+      },
+      error: (err) =>
+        err?.message || "Something went wrong while saving category.",
+    });
 
-    alert(res.message);
     setSaving(false);
-
-    if (res.success) {
-      (e.target as HTMLFormElement).reset();
-      setEditing(null);
-      await fetchCategories();
-    }
   };
 
+  // Handle delete
   const handleDelete = async (id: string, imageUrl?: string) => {
-    if (confirm("Delete this category?")) {
-      const res = await deleteMembershipCategory(id);
-      alert(res.message);
-
-      if (res.success && imageUrl) {
-        await deleteFile(imageUrl);
-      }
-
-      if (res.success) fetchCategories();
-    }
+    toast("Confirm deletion", {
+      description: "This action cannot be undone.",
+      action: {
+        label: "Confirm",
+        onClick: async () => {
+          toast.promise(
+            (async () => {
+              const res = await deleteMembershipCategory(id);
+              if (res.success && imageUrl) await deleteFile(imageUrl);
+              if (res.success) fetchCategories();
+              return res;
+            })(),
+            {
+              loading: "Deleting category...",
+              success: (res) => res.message || "Deleted successfully.",
+              error: (err) => err?.message || "Failed to delete category.",
+            }
+          );
+        },
+      },
+    });
   };
 
   return (
