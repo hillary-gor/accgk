@@ -1,11 +1,11 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Fira_Code } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/auth-context";
-import { Toaster } from "@/components/ui/toaster";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import { Toaster } from "sonner";
+import { Suspense } from "react";
 
 // Fonts
 const inter = Inter({
@@ -94,9 +94,10 @@ export default function RootLayout({
       <head />
       <body className="min-h-screen flex flex-col antialiased bg-white text-gray-900">
         <AuthProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <Suspense fallback={null}>
+            <main>{children}</main>
+          </Suspense>
+          <Analytics />
           <Toaster richColors position="top-right" />
         </AuthProvider>
       </body>

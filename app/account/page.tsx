@@ -2,6 +2,8 @@
 import { getSupabaseServer } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { AccountForm } from "./account-form";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default async function AccountPage() {
   const supabase = await getSupabaseServer();
@@ -108,10 +110,12 @@ export default async function AccountPage() {
 
   return (
     <div className="container mx-auto p-4 py-8">
+      <Header />
       <h1 className="text-2xl font-bold mb-6 text-center">
         Complete Your Profile
       </h1>
       <AccountForm userId={user.id} defaultValues={defaultFormValues} />
+      <Footer />
     </div>
   );
 }

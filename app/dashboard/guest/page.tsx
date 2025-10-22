@@ -1,78 +1,83 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { PreviewDialog } from "./components/preview-dialog/";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 interface MembershipInfo {
+  id: string;
   title: string;
-  image: string;
+  image_url: string;
   description: string[];
-  feeDetails: string[];
-  actionLabel: string;
+  detailed_description?: string;
+  fee_details: string[];
+  action_label: string | null;
 }
 
-const memberships: MembershipInfo[] = [
-  {
-    title: "For Caregivers",
-    image:
-      "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/neema-mbuno-baby-manikin.JPG",
-    description: [
-      "Professional recognition through ACCGK certification",
-      "Access to continuing professional development opportunities",
-      "Networking with fellow caregivers and healthcare professionals",
-      "Career advancement and job placement assistance",
-      "Representation in policy discussions and advocacy",
-      "Discounted rates for workshops, conferences, and training",
-    ],
-    feeDetails: [
-      "Annual Fee: KES 6,000",
-      "First Time Application: KES 10,000",
-      "Total: KES 16,000",
-    ],
-    actionLabel: "Register as a Caregiver",
-  },
-  {
-    title: "For Institutions",
-    image:
-      "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/IMG_0297.JPG",
-    description: [
-      "Enhanced credibility through ACCGK institutional accreditation",
-      "Access to a database of certified caregivers for recruitment",
-      "Participation in setting industry standards and best practices",
-      "Discounted group certification for staff members",
-      "Visibility through ACCGK's network and marketing channels",
-      "Collaborative research and development opportunities",
-    ],
-    feeDetails: ["Annual Fee: KES 50,000"],
-    actionLabel: "Register Your Institution",
-  },
-  {
-    title: "For Employers / Recruitment Partners",
-    image:
-      "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/assets/IMG_0312.JPG",
-    description: [
-      "Access to verified and certified caregivers for recruitment",
-      "Post job openings directly through the ACCGK employer dashboard",
-      "Streamlined hiring with candidate matching and shortlisting tools",
-      "Brand visibility through ACCGK’s employer network",
-      "Participation in national caregiver recruitment fairs and events",
-      "Accreditation as a trusted employer partner in the caregiving sector",
-    ],
-    feeDetails: ["Annual Fee: KES 10,000"],
-    actionLabel: "Register as an Employer",
-  },
-];
-
 export default function GuestDashboard() {
+  const router = useRouter();
+  const [memberships, setMemberships] = useState<MembershipInfo[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<MembershipInfo | null>(null);
 
+  useEffect(() => {
+    async function fetchMemberships() {
+      try {
+        const res = await fetch("/api/membership-categories");
+
+        if (!res.ok) {
+          throw new Error(`Server responded with ${res.status}`);
+        }
+
+        const data: MembershipInfo[] = await res.json();
+        setMemberships(data);
+
+        toast.success("Memberships loaded successfully");
+      } catch (error) {
+        console.error("Failed to fetch memberships:", error);
+
+        const message =
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred while loading memberships.";
+
+        toast.error("Failed to load membership categories", {
+          description: message,
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMemberships();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500 text-lg">Loading memberships...</p>
+      </div>
+    );
+  }
+
   return (
-    <main className="min-h-screen bg-white py-16 px-6">
+    <main className="min-h-screen bg-white py-16 px-6 relative">
+      {/* Close button - top right */}
+      <div className="absolute top-6 right-6">
+        <Button
+          onClick={() => router.push("/")}
+          variant="ghost"
+          className="rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all"
+        >
+          ✕ Close
+        </Button>
+      </div>
+
       <section className="text-center mb-12">
         <h1 className="text-3xl md:text-4xl font-semibold mb-3 text-gray-800">
           Join Us Today
@@ -85,9 +90,9 @@ export default function GuestDashboard() {
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {memberships.map((item, index) => (
+        {memberships.map((item) => (
           <motion.div
-            key={index}
+            key={item.id}
             whileHover={{ scale: 1.03 }}
             className="cursor-pointer"
             onClick={() => setSelected(item)}
@@ -95,10 +100,10 @@ export default function GuestDashboard() {
             <Card className="overflow-hidden rounded-2xl border hover:shadow-lg transition-all bg-white p-4">
               <div className="relative w-full aspect-square">
                 <Image
-                  src={item.image}
-                  alt={item.title}
+                  src={item.image_url || "/placeholder.svg"}
+                  alt={item.title || "Category Image"}
                   fill
-                  className="object-cover rounded-2xl border"
+                  className="object-cover"
                 />
               </div>
               <CardHeader className="text-center p-5">
@@ -118,7 +123,7 @@ export default function GuestDashboard() {
             {/* Left: Image */}
             <div className="relative w-full md:w-1/2 aspect-square overflow-hidden bg-gray-100">
               <Image
-                src={selected.image}
+                src={selected.image_url || "/placeholder.svg"}
                 alt={selected.title}
                 fill
                 className="object-cover rounded-none md:rounded-l-2xl"
@@ -128,12 +133,10 @@ export default function GuestDashboard() {
             {/* Right: Details */}
             <div className="w-full md:w-1/2 p-8 flex flex-col justify-between bg-white">
               <div>
-                {/* Title */}
                 <h2 className="text-3xl font-semibold text-gray-900 mb-4">
                   {selected.title}
                 </h2>
 
-                {/* Description */}
                 <ul className="space-y-2 mb-6 text-gray-700 leading-relaxed text-[15px]">
                   {selected.description.map((point, i) => (
                     <li key={i} className="flex gap-2 items-start">
@@ -143,12 +146,11 @@ export default function GuestDashboard() {
                   ))}
                 </ul>
 
-                {/* Fee Box */}
                 <div className="bg-linear-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-xl p-4 mb-6">
                   <h3 className="text-base font-semibold text-blue-700 mb-2">
                     Membership Details
                   </h3>
-                  {selected.feeDetails.map((fee, i) => (
+                  {selected.fee_details.map((fee, i) => (
                     <p key={i} className="text-sm text-gray-700 leading-snug">
                       {fee}
                     </p>
@@ -156,15 +158,18 @@ export default function GuestDashboard() {
                 </div>
               </div>
 
-              {/* CTA */}
               <div className="mt-4 flex justify-end">
                 <Button
-                  onClick={() =>
-                    alert(`${selected.actionLabel} flow coming soon!`)
-                  }
+                  onClick={() => {
+                    toast.info("Coming soon!", {
+                      description: `${
+                        selected.action_label ?? "Registration"
+                      } flow is being prepared.`,
+                    });
+                  }}
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-2 text-sm font-medium shadow-md hover:shadow-lg transition-all"
                 >
-                  {selected.actionLabel}
+                  {selected.action_label ?? "Register"}
                 </Button>
               </div>
             </div>

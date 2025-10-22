@@ -1,19 +1,22 @@
-import Hero from "@/components/hero"
-import About from "@/components/about"
-import FocusAreas from "@/components/focus-areas"
-import CallToAction from "@/components/call-to-action"
-import Contact from "@/components/contact"
-import ServiceTiles from "@/components/service-tiles"
-import AnimatedStats from "@/components/animated-stats"
-import VideoSection from "@/components/video-section"
+import Hero from "@/components/hero";
+import About from "@/components/about";
+import FocusAreas from "@/components/focus-areas";
+import CallToAction from "@/components/call-to-action";
+import Contact from "@/components/contact";
+import ServiceTiles from "@/components/service-tiles";
+import AnimatedStats from "@/components/animated-stats";
+import VideoSection from "@/components/video-section";
 // import BlogSection from "@/components/blog-section"
-import TestimonialsCarousel from "@/components/testimonials-carousel"
-import FaqSection from "@/components/faq-section"
+import TestimonialsCarousel from "@/components/testimonials-carousel";
+import FaqSection from "@/components/faq-section";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       {/*<AnnouncementBar />*/}
+      <Header />
       <Hero />
       <ServiceTiles />
       <About />
@@ -25,6 +28,7 @@ export default function Home() {
       {/* <BlogSection /> */}
       <FaqSection />
       <Contact />
+      <Footer />
     </main>
-  )
+  );
 }
