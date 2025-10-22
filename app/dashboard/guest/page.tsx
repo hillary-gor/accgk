@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { PreviewDialog } from "./components/preview-dialog/";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { PreviewDialog } from "./components/preview-dialog/";
 
 interface MembershipInfo {
   id: string;
@@ -19,52 +19,98 @@ interface MembershipInfo {
   action_label: string | null;
 }
 
+// Logo URL
+const logoUrl =
+  "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png";
+
 export default function GuestDashboard() {
   const router = useRouter();
   const [memberships, setMemberships] = useState<MembershipInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showIntro, setShowIntro] = useState(true);
   const [selected, setSelected] = useState<MembershipInfo | null>(null);
 
   useEffect(() => {
     async function fetchMemberships() {
       try {
         const res = await fetch("/api/membership-categories");
-
-        if (!res.ok) {
-          throw new Error(`Server responded with ${res.status}`);
-        }
-
         const data: MembershipInfo[] = await res.json();
         setMemberships(data);
-
         toast.success("Memberships loaded successfully");
-      } catch (error) {
-        console.error("Failed to fetch memberships:", error);
-
-        const message =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred while loading memberships.";
-
-        toast.error("Failed to load membership categories", {
-          description: message,
-        });
+      } catch {
+        toast.error("Failed to load membership categories");
       } finally {
         setLoading(false);
       }
     }
 
     fetchMemberships();
+
+    // Keep intro visible for 5 seconds minimum
+    const introTimer = setTimeout(() => setShowIntro(false), 5000);
+    return () => clearTimeout(introTimer);
   }, []);
 
+  // Animated intro screen
+  if (showIntro) {
+    return (
+      <motion.div
+        key="intro"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1 }}
+        className="min-h-screen flex flex-col items-center justify-center bg-white"
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{
+            duration: 1,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="flex flex-col items-center"
+        >
+          <Image
+            src={logoUrl}
+            alt="ACCGK Logo"
+            width={100}
+            height={100}
+            className="mb-6 drop-shadow-md"
+          />
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-2xl font-semibold text-gray-800"
+          >
+            Welcome to ACCGK
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="text-gray-500 mt-2"
+          >
+            Preparing your membership experience...
+          </motion.p>
+        </motion.div>
+      </motion.div>
+    );
+  }
+
+  // While data is loading (after intro)
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500 text-lg">Loading memberships...</p>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <p className="text-gray-500 text-lg animate-pulse">
+          Loading memberships...
+        </p>
       </div>
     );
   }
 
+  // Main Content
   return (
     <main className="min-h-screen bg-white py-16 px-6 relative">
       {/* Close button - top right */}
@@ -83,7 +129,7 @@ export default function GuestDashboard() {
           Join Us Today
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Select how you&apos;d like to be part of the ACCGK community — whether
+          Select how you&apos;d like to be part of the ACCGK community, whether
           you’re a caregiver, institution, or employer, there’s a place for you!
         </p>
       </section>
@@ -103,7 +149,7 @@ export default function GuestDashboard() {
                   src={item.image_url || "/placeholder.svg"}
                   alt={item.title || "Category Image"}
                   fill
-                  className="object-cover"
+                  className="object-cover rounded-2xl"
                 />
               </div>
               <CardHeader className="text-center p-5">
@@ -126,7 +172,7 @@ export default function GuestDashboard() {
                 src={selected.image_url || "/placeholder.svg"}
                 alt={selected.title}
                 fill
-                className="object-cover rounded-none md:rounded-l-2xl"
+                className="object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none"
               />
             </div>
 
