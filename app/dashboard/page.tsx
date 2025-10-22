@@ -1,27 +1,27 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth-context"
-import { DashboardShell } from "@/components/dashboard-shell"
-import { CaregiverDashboard } from "@/app/dashboard/caregiver-dashboard"
-import { InstitutionDashboard } from "@/app/dashboard/institution-dashboard"
-import { AdminDashboard } from "@/app/dashboard/admin-dashboard"
-import { AssessorDashboard } from "@/app/dashboard/assessor-dashboard"
-import { TrainerDashboard } from "@/app/dashboard/trainer-dashboard"
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/auth-context";
+import { DashboardShell } from "@/components/dashboard-shell";
+import { CaregiverDashboard } from "@/app/dashboard/caregiver/caregiver-dashboard";
+import { InstitutionDashboard } from "@/app/dashboard/institution/institution-dashboard";
+import { AdminDashboard } from "@/app/dashboard/admin/components/admin-dashboard";
+import { AssessorDashboard } from "@/app/dashboard/assessor/assessor-dashboard";
+import { TrainerDashboard } from "@/app/dashboard/trainer/trainer-dashboard";
 
 export default function DashboardPage() {
-  const { user, isLoading } = useAuth()
-  const router = useRouter()
-  const [role, setRole] = useState<string | null>(null)
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push("/auth/signin")
+      router.push("/auth/signin");
     } else if (user) {
-      setRole(user.user_metadata?.role || null)
+      setRole(user.user_metadata?.role || null);
     }
-  }, [user, isLoading, router])
+  }, [user, isLoading, router]);
 
   if (isLoading) {
     return (
@@ -30,7 +30,7 @@ export default function DashboardPage() {
           <p>Loading...</p>
         </div>
       </DashboardShell>
-    )
+    );
   }
 
   return (
@@ -46,5 +46,5 @@ export default function DashboardPage() {
         </div>
       )}
     </DashboardShell>
-  )
+  );
 }
