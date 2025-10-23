@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useState, useTransition, useEffect, useCallback } from 'react'
-import { upsertInstitutionProfile } from '@/app/account/institution/actions'
+import { upsertInstitutionProfile } from '@/app/dashboard/guest/institution/actions'
 import { uploadFile } from '@/app/account/upload-actions'
 import { Database } from '@/types/supabase'
 

@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition, useEffect } from 'react'
-import { upsertInstitutionProfile } from '@/app/account/institution/actions'
+import { upsertInstitutionProfile } from '@/app/dashboard/guest/institution/actions'
 import { Database } from '@/types/supabase'
 
 import { Button } from '@/components/ui/button'

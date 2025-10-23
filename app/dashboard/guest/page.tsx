@@ -186,7 +186,7 @@ export default function GuestDashboard() {
                 <ul className="space-y-2 mb-6 text-gray-700 leading-relaxed text-[15px]">
                   {selected.description.map((point, i) => (
                     <li key={i} className="flex gap-2 items-start">
-                      <span className="text-blue-500 text-sm mt-[2px]">•</span>
+                      <span className="text-blue-500 text-sm mt-0.5">•</span>
                       <span>{point}</span>
                     </li>
                   ))}
