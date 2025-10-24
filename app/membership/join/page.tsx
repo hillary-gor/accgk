@@ -126,7 +126,7 @@ export default async function MembershipJoinPage() {
                   asChild
                   className="w-full bg-primary hover:bg-primary/90"
                 >
-                  <Link href="/membership/register-caregiver">
+                  <Link href="/auth/signup">
                     Register as a Caregiver
                   </Link>
                 </Button>
@@ -178,7 +178,7 @@ export default async function MembershipJoinPage() {
                   asChild
                   className="w-full bg-primary hover:bg-primary/90"
                 >
-                  <Link href="/membership/register-institution">
+                  <Link href="/auth/signup">
                     Register Your Institution
                   </Link>
                 </Button>
@@ -230,7 +230,7 @@ export default async function MembershipJoinPage() {
                   asChild
                   className="w-full bg-primary hover:bg-primary/90"
                 >
-                  <Link href="/membership/register-employer">
+                  <Link href="/auth/signup">
                     Register as an Employer
                   </Link>
                 </Button>
