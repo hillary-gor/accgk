@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// Zod schema for validation
 export const caregiverSchema = z.object({
   national_id_number: z.string().min(5, "Enter valid ID number"),
   alt_id_type: z.string().optional(),
@@ -28,8 +29,8 @@ export const caregiverSchema = z.object({
   last_employer_name: z.string().nullable().optional(),
   last_job_title: z.string().nullable().optional(),
   work_experience_description: z.string().nullable().optional(),
-  specialized_skills: z.string().nullable().optional(),
-  language_proficiency: z.string().nullable().optional(),
+  specialized_skills: z.array(z.string()).nullable(),
+  language_proficiency: z.array(z.string()).nullable(),
   preferred_work_environment: z.string().nullable().optional(),
   willing_to_work_nights_or_weekends: z.boolean(),
   has_criminal_record: z.boolean(),
@@ -51,4 +52,5 @@ export const caregiverSchema = z.object({
   preferred_contact_method: z.string().nullable().optional(),
 });
 
+// Type inferred from schema
 export type CaregiverFormData = z.infer<typeof caregiverSchema>;

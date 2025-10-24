@@ -17,11 +17,18 @@ interface MembershipInfo {
   detailed_description?: string;
   fee_details: string[];
   action_label: string | null;
+  role: "caregiver" | "institution" | "employer";
 }
 
 // Logo URL
 const logoUrl =
   "https://rzprmsavgqeghpnmparg.supabase.co/storage/v1/object/public/institution-logos/accgk%20official%20logo.png";
+
+const roleRedirectMap: Record<string, string> = {
+  caregiver: "/dashboard/guest/caregiver-registration-form",
+  institution: "/dashboard/guest/institution-registration-form",
+  employer: "/dashboard/guest/employer-registration-form",
+};
 
 export default function GuestDashboard() {
   const router = useRouter();
@@ -206,12 +213,32 @@ export default function GuestDashboard() {
 
               <div className="mt-4 flex justify-end">
                 <Button
-                  onClick={() => {
-                    toast.info("Coming soon!", {
-                      description: `${
-                        selected.action_label ?? "Registration"
-                      } flow is being prepared.`,
-                    });
+                  onClick={async () => {
+                    if (!selected) return;
+
+                    try {
+                      // Upsert membership selection into the profile
+                      const res = await fetch("/api/upsert-membership", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ membership_id: selected.id }),
+                      });
+
+                      const data = await res.json();
+                      if (res.ok) {
+                        toast.success("Membership selection saved!");
+                        // Redirect to the appropriate registration form
+                        const path = roleRedirectMap[selected.role];
+                        if (path) router.push(path);
+                      } else {
+                        toast.error(
+                          data.error || "Failed to save membership selection."
+                        );
+                      }
+                    } catch (err) {
+                      console.error(err);
+                      toast.error("Something went wrong. Please try again.");
+                    }
                   }}
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-2 text-sm font-medium shadow-md hover:shadow-lg transition-all"
                 >

@@ -7,7 +7,17 @@ export async function GET() {
     const supabase = await getSupabaseServer();
     const { data, error } = await supabase
       .from("membership_categories")
-      .select("*")
+      .select(
+        `
+        id,
+        title,
+        image_url,
+        description,
+        detailed_description,
+        fee_details,
+        role
+      `
+      )
       .order("created_at", { ascending: false });
 
     if (error) {
