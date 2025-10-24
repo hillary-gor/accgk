@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { upsertCaregiverTraining, TrainingFormData } from "../actions"; // server action
+import { upsertCaregiverTraining, TrainingFormData } from "../actions";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
@@ -23,7 +23,7 @@ export default function CaregiverTrainingForm() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const { getCaregiverTraining } = await import("../actions"); // server action
+        const { getCaregiverTraining } = await import("../actions");
         const data = await getCaregiverTraining();
 
         if (!data) return;
