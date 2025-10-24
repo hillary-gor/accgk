@@ -201,7 +201,7 @@ export function AuthHeader() {
   return (
     <div className="flex items-center space-x-4">
       <Button variant="ghost" size="sm" asChild>
-        <Link href="/auth/login">Sign In</Link>
+        <Link href="/auth/signin">Sign In</Link>
       </Button>
       <Button size="sm" asChild>
         <Link href="/auth/signup">Register</Link>

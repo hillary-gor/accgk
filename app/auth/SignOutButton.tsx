@@ -1,4 +1,3 @@
-// app/auth/SignOutButton.tsx
 "use client";
 
 import {
@@ -18,6 +17,8 @@ import { useTransition, useState } from "react";
 import { LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
+import { toast } from "sonner";
+import { createClient } from "@/utils/supabase/client";
 
 interface SignOutButtonProps {
   isCollapsed?: boolean;
@@ -27,13 +28,28 @@ export function SignOutButton({ isCollapsed = false }: SignOutButtonProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
+  const supabase = createClient();
 
   const handleConfirm = () => {
     startTransition(async () => {
-      const res = await fetch("/auth/signout", { method: "POST" });
-      if (res.redirected) {
-        setOpen(false);
-        router.push(res.url);
+      try {
+        // 1️⃣ Client-side sign out first for instant UI update
+        await supabase.auth.signOut();
+
+        // 2️⃣ Server-side session clear + cache revalidation
+        const res = await fetch("/auth/signout", { method: "POST" });
+
+        // 3️⃣ Toast + redirect
+        if (res.redirected) {
+          toast.success("Signed out successfully");
+          setOpen(false);
+          router.push(res.url);
+        } else {
+          toast.error("Something went wrong while signing out.");
+        }
+      } catch (err) {
+        console.error("Sign-out error:", err);
+        toast.error("Failed to sign out. Please try again.");
       }
     });
   };
