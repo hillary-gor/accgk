@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { CaregiverDashboard } from "@/app/dashboard/caregiver/caregiver-dashboard";
+import { CaregiverDashboard } from "@/app/dashboard/caregiver/components/caregiver-dashboard";
 import { InstitutionDashboard } from "@/app/dashboard/institution/institution-dashboard";
 import { AdminDashboard } from "@/app/dashboard/admin/components/admin-dashboard";
 import { AssessorDashboard } from "@/app/dashboard/assessor/assessor-dashboard";

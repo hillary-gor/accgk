@@ -1,29 +1,42 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useAuth } from "@/contexts/auth-context"
-import { createClient } from "@/utils/supabase/client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle, Award, BookOpen, CreditCard, FileText } from "lucide-react"
-import Link from "next/link"
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/auth-context";
+import { createClient } from "@/utils/supabase/client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  AlertCircle,
+  Award,
+  BookOpen,
+  CreditCard,
+  FileText,
+} from "lucide-react";
+import Link from "next/link";
+import LoadingLogo from "@/components/loadinglogo";
 
 export function CaregiverDashboard() {
   const supabase = createClient();
-  const { user } = useAuth()
-  const [licenses, setLicenses] = useState<unknown[]>([])
-  const [certifications, setCertifications] = useState<unknown[]>([])
-  const [trainings, setTrainings] = useState<unknown[]>([])
-  const [payments, setPayments] = useState<unknown[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const { user } = useAuth();
+  const [licenses, setLicenses] = useState<unknown[]>([]);
+  const [certifications, setCertifications] = useState<unknown[]>([]);
+  const [trainings, setTrainings] = useState<unknown[]>([]);
+  const [payments, setPayments] = useState<unknown[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!user) return
+      if (!user) return;
 
-      setIsLoading(true)
+      setIsLoading(true);
 
       try {
         // Fetch licenses
@@ -32,10 +45,10 @@ export function CaregiverDashboard() {
           .select("*")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
-          .limit(5)
+          .limit(5);
 
-        if (licenseError) throw licenseError
-        setLicenses(licenseData || [])
+        if (licenseError) throw licenseError;
+        setLicenses(licenseData || []);
 
         // Fetch certifications
         const { data: certData, error: certError } = await supabase
@@ -43,27 +56,29 @@ export function CaregiverDashboard() {
           .select("*")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
-          .limit(5)
+          .limit(5);
 
-        if (certError) throw certError
-        setCertifications(certData || [])
+        if (certError) throw certError;
+        setCertifications(certData || []);
 
         // Fetch training enrollments
         const { data: trainingData, error: trainingError } = await supabase
           .from("training_enrollments")
-          .select(`
+          .select(
+            `
             *,
             training_programs:program_id (
               title,
               description
             )
-          `)
+          `
+          )
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
-          .limit(5)
+          .limit(5);
 
-        if (trainingError) throw trainingError
-        setTrainings(trainingData || [])
+        if (trainingError) throw trainingError;
+        setTrainings(trainingData || []);
 
         // Fetch payments
         const { data: paymentData, error: paymentError } = await supabase
@@ -71,38 +86,40 @@ export function CaregiverDashboard() {
           .select("*")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false })
-          .limit(5)
+          .limit(5);
 
-        if (paymentError) throw paymentError
-        setPayments(paymentData || [])
+        if (paymentError) throw paymentError;
+        setPayments(paymentData || []);
       } catch (error) {
-        console.error("Error fetching dashboard data:", error)
+        console.error("Error fetching dashboard data:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [supabase, user])
+    fetchData();
+  }, [supabase, user]);
 
   if (isLoading) {
-    return <div>Loading dashboard data...</div>
+    return <LoadingLogo message="Loading dashboard data..." />;
   }
 
   // Check if license is about to expire (within 30 days)
   const hasExpiringLicense = licenses.some((license) => {
-    if (!license.expiry_date) return false
-    const expiryDate = new Date(license.expiry_date)
-    const today = new Date()
-    const diffTime = expiryDate.getTime() - today.getTime()
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    return diffDays <= 30 && diffDays > 0
-  })
+    if (!license.expiry_date) return false;
+    const expiryDate = new Date(license.expiry_date);
+    const today = new Date();
+    const diffTime = expiryDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays <= 30 && diffDays > 0;
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Caregiver Dashboard</h2>
+        <h2 className="text-3xl font-bold tracking-tight">
+          Caregiver Dashboard
+        </h2>
         <div className="flex items-center gap-2">
           <Button asChild>
             <Link href="/licenses/apply">Apply for License</Link>
@@ -117,21 +134,31 @@ export function CaregiverDashboard() {
         >
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>License Expiring Soon</AlertTitle>
-          <AlertDescription>Your license is about to expire. Please renew it to continue practicing.</AlertDescription>
+          <AlertDescription>
+            Your license is about to expire. Please renew it to continue
+            practicing.
+          </AlertDescription>
         </Alert>
       )}
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">License Status</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              License Status
+            </CardTitle>
             <Award className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {licenses.length > 0 ? (
-                <Badge variant={licenses[0].status === "approved" ? "success" : "secondary"}>
-                  {licenses[0].status.charAt(0).toUpperCase() + licenses[0].status.slice(1)}
+                <Badge
+                  variant={
+                    licenses[0].status === "approved" ? "success" : "secondary"
+                  }
+                >
+                  {licenses[0].status.charAt(0).toUpperCase() +
+                    licenses[0].status.slice(1)}
                 </Badge>
               ) : (
                 "Not Applied"
@@ -147,23 +174,31 @@ export function CaregiverDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Certifications</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Certifications
+            </CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{certifications.length}</div>
-            <p className="text-xs text-muted-foreground">Active certifications</p>
+            <p className="text-xs text-muted-foreground">
+              Active certifications
+            </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Training Programs</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Training Programs
+            </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{trainings.length}</div>
-            <p className="text-xs text-muted-foreground">Enrolled training programs</p>
+            <p className="text-xs text-muted-foreground">
+              Enrolled training programs
+            </p>
           </CardContent>
         </Card>
 
@@ -173,7 +208,9 @@ export function CaregiverDashboard() {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{payments.filter((p) => p.status === "completed").length}</div>
+            <div className="text-2xl font-bold">
+              {payments.filter((p) => p.status === "completed").length}
+            </div>
             <p className="text-xs text-muted-foreground">Completed payments</p>
           </CardContent>
         </Card>
@@ -183,18 +220,27 @@ export function CaregiverDashboard() {
         <Card>
           <CardHeader>
             <CardTitle>Recent Licenses</CardTitle>
-            <CardDescription>Your license applications and status</CardDescription>
+            <CardDescription>
+              Your license applications and status
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {licenses.length > 0 ? (
               <div className="space-y-4">
                 {licenses.map((license) => (
-                  <div key={license.id} className="flex items-center justify-between">
+                  <div
+                    key={license.id}
+                    className="flex items-center justify-between"
+                  >
                     <div>
-                      <p className="font-medium">License #{license.license_number}</p>
+                      <p className="font-medium">
+                        License #{license.license_number}
+                      </p>
                       <p className="text-sm text-muted-foreground">
                         {license.issue_date
-                          ? `Issued: ${new Date(license.issue_date).toLocaleDateString()}`
+                          ? `Issued: ${new Date(
+                              license.issue_date
+                            ).toLocaleDateString()}`
                           : "Pending approval"}
                       </p>
                     </div>
@@ -203,20 +249,23 @@ export function CaregiverDashboard() {
                         license.status === "approved"
                           ? "success"
                           : license.status === "pending"
-                            ? "secondary"
-                            : license.status === "rejected"
-                              ? "destructive"
-                              : "outline"
+                          ? "secondary"
+                          : license.status === "rejected"
+                          ? "destructive"
+                          : "outline"
                       }
                     >
-                      {license.status.charAt(0).toUpperCase() + license.status.slice(1)}
+                      {license.status.charAt(0).toUpperCase() +
+                        license.status.slice(1)}
                     </Badge>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="text-center py-4">
-                <p className="text-muted-foreground">No license applications found</p>
+                <p className="text-muted-foreground">
+                  No license applications found
+                </p>
                 <Button className="mt-4" asChild>
                   <Link href="/licenses/apply">Apply for License</Link>
                 </Button>
@@ -234,11 +283,17 @@ export function CaregiverDashboard() {
             {trainings.length > 0 ? (
               <div className="space-y-4">
                 {trainings.map((training) => (
-                  <div key={training.id} className="flex items-center justify-between">
+                  <div
+                    key={training.id}
+                    className="flex items-center justify-between"
+                  >
                     <div>
-                      <p className="font-medium">{training.training_programs?.title || "Unknown Program"}</p>
+                      <p className="font-medium">
+                        {training.training_programs?.title || "Unknown Program"}
+                      </p>
                       <p className="text-sm text-muted-foreground">
-                        Enrolled: {new Date(training.created_at).toLocaleDateString()}
+                        Enrolled:{" "}
+                        {new Date(training.created_at).toLocaleDateString()}
                       </p>
                     </div>
                     <Badge
@@ -246,13 +301,15 @@ export function CaregiverDashboard() {
                         training.status === "completed"
                           ? "success"
                           : training.status === "in_progress"
-                            ? "secondary"
-                            : "outline"
+                          ? "secondary"
+                          : "outline"
                       }
                     >
                       {training.status
                         .split("_")
-                        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
                         .join(" ")}
                     </Badge>
                   </div>
@@ -260,7 +317,9 @@ export function CaregiverDashboard() {
               </div>
             ) : (
               <div className="text-center py-4">
-                <p className="text-muted-foreground">No training programs enrolled</p>
+                <p className="text-muted-foreground">
+                  No training programs enrolled
+                </p>
                 <Button className="mt-4" asChild>
                   <Link href="/training">Browse Programs</Link>
                 </Button>
@@ -270,5 +329,5 @@ export function CaregiverDashboard() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
