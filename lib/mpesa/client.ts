@@ -1,7 +1,16 @@
 import axios from "axios";
 
-const DARAJA_BASE_URL = "https://sandbox.safaricom.co.ke/mpesa";
+/**
+ * Base URL (auto switch between sandbox and live)
+ */
+const DARAJA_BASE_URL =
+  process.env.MPESA_ENV === "sandbox"
+    ? "https://sandbox.safaricom.co.ke"
+    : "https://api.safaricom.co.ke";
 
+/**
+ * Generate M-PESA access token
+ */
 async function getAccessToken(): Promise<string> {
   const key = process.env.MPESA_CONSUMER_KEY!;
   const secret = process.env.MPESA_CONSUMER_SECRET!;
@@ -19,6 +28,9 @@ async function getAccessToken(): Promise<string> {
   return res.data.access_token;
 }
 
+/**
+ * Interfaces
+ */
 export interface StkPushRequestParams {
   phone: string;
   amount: number;
@@ -34,49 +46,90 @@ export interface StkPushResponse {
   CustomerMessage: string;
 }
 
+export interface StkPushErrorResponse {
+  errorCode?: string;
+  errorMessage?: string;
+  requestId?: string;
+}
+
+/**
+ * STK Push Request
+ */
 export async function stkPushRequest({
   phone,
   amount,
   accountReference,
   transactionDesc = "Caregiver Application Payment",
 }: StkPushRequestParams): Promise<StkPushResponse> {
-  const token = await getAccessToken();
+  try {
+    const token = await getAccessToken();
 
-  const timestamp = new Date()
-    .toISOString()
-    .replace(/[-T:.Z]/g, "")
-    .slice(0, 14);
+    // Format timestamp correctly (yyyyMMddHHmmss)
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[-T:.Z]/g, "")
+      .slice(0, 14);
 
-  const shortcode = process.env.MPESA_SHORTCODE!;
-  const passkey = process.env.MPESA_PASSKEY!;
-  const password = Buffer.from(`${shortcode}${passkey}${timestamp}`).toString(
-    "base64"
-  );
+    const shortcode = process.env.MPESA_SHORTCODE!;
+    const passkey = process.env.MPESA_PASSKEY!;
+    const password = Buffer.from(`${shortcode}${passkey}${timestamp}`).toString(
+      "base64"
+    );
 
-  const payload = {
-    BusinessShortCode: shortcode,
-    Password: password,
-    Timestamp: timestamp,
-    TransactionType: "CustomerPayBillOnline",
-    Amount: amount,
-    PartyA: phone,
-    PartyB: shortcode,
-    PhoneNumber: phone,
-    CallBackURL: process.env.MPESA_CALLBACK_URL!,
-    AccountReference: accountReference,
-    TransactionDesc: transactionDesc,
-  };
-
-  const res = await axios.post<StkPushResponse>(
-    `${DARAJA_BASE_URL}/stkpush/v1/processrequest`,
-    payload,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+    // Validate callback URL
+    const callbackUrl = process.env.MPESA_CALLBACK_URL!;
+    if (!callbackUrl || !callbackUrl.startsWith("https://")) {
+      throw new Error(
+        `Invalid MPESA_CALLBACK_URL. Must be HTTPS. Current: ${callbackUrl}`
+      );
     }
-  );
 
-  return res.data;
+    console.log("Using callback URL:", callbackUrl);
+
+    const payload = {
+      BusinessShortCode: shortcode,
+      Password: password,
+      Timestamp: timestamp,
+      TransactionType: "CustomerPayBillOnline",
+      Amount: amount,
+      PartyA: phone,
+      PartyB: shortcode,
+      PhoneNumber: phone,
+      CallBackURL: callbackUrl,
+      AccountReference: accountReference,
+      TransactionDesc: transactionDesc,
+    };
+
+    // Ensure correct endpoint path (includes /mpesa/)
+    const res = await axios.post<StkPushResponse>(
+      `${DARAJA_BASE_URL}/mpesa/stkpush/v1/processrequest`,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!res.data.ResponseCode) {
+      throw new Error("Invalid Safaricom API response");
+    }
+
+    return res.data;
+  } catch (error) {
+    const isAxiosError = (
+      err: unknown
+    ): err is { response?: { data?: StkPushErrorResponse } } =>
+      typeof err === "object" && err !== null && "response" in err;
+
+    if (isAxiosError(error)) {
+      const apiError = error.response?.data;
+      console.error("STK Push API Error:", apiError || error);
+      throw new Error(apiError?.errorMessage || "Failed to initiate STK push");
+    }
+
+    console.error("Unexpected Error:", error);
+    throw new Error("Failed to initiate STK push");
+  }
 }

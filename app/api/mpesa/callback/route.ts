@@ -6,6 +6,8 @@ export async function POST(req: Request) {
     const supabase = await getSupabaseServer();
     const body = await req.json();
 
+    console.log("Received M-PESA Callback:", JSON.stringify(body, null, 2));
+
     const callback = body?.Body?.stkCallback;
     if (!callback) {
       console.warn("Invalid M-PESA callback payload:", body);
@@ -18,7 +20,7 @@ export async function POST(req: Request) {
     const { CheckoutRequestID, ResultCode, ResultDesc, CallbackMetadata } =
       callback;
 
-    // Find payment
+    // Lookup the payment record
     const { data: payment, error: findError } = await supabase
       .from("payments")
       .select("id")
@@ -26,19 +28,22 @@ export async function POST(req: Request) {
       .single();
 
     if (findError || !payment) {
-      console.warn("Payment not found:", CheckoutRequestID);
+      console.warn(
+        "Payment not found for CheckoutRequestID:",
+        CheckoutRequestID
+      );
       return NextResponse.json({ ok: true });
     }
 
-    // Extract MpesaReceiptNumber
+    // Extract MpesaReceiptNumber safely
     const receipt =
-      CallbackMetadata?.Item.find(
+      CallbackMetadata?.Item?.find(
         (i: { Name: string; Value?: string | number }) =>
           i.Name === "MpesaReceiptNumber"
       )?.Value ?? null;
 
-    // Update the payment
-    await supabase
+    // Update payment status in Supabase
+    const { error: updateError } = await supabase
       .from("payments")
       .update({
         status: ResultCode === 0 ? "success" : "failed",
@@ -49,13 +54,16 @@ export async function POST(req: Request) {
       })
       .eq("id", payment.id);
 
-    // Log event
+    if (updateError) console.error("Supabase update failed:", updateError);
+
+    // Log callback event
     await supabase.from("payment_events").insert({
       payment_id: payment.id,
       type: "callback",
       payload: body,
     });
 
+    console.log("Callback processed successfully:", CheckoutRequestID);
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Error processing callback:", error);

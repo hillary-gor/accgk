@@ -5,6 +5,14 @@ import { stkPushRequest } from "@/lib/mpesa/client";
 export async function POST(req: Request) {
   try {
     const { user_id, phone, amount } = await req.json();
+
+    if (!user_id || !phone || !amount) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
     const supabase = await getSupabaseServer();
 
     // Get M-PESA payment method
@@ -35,9 +43,15 @@ export async function POST(req: Request) {
       .select()
       .single();
 
-    if (insertError || !payment) throw insertError;
+    if (insertError || !payment) {
+      console.error("Insert error:", insertError);
+      return NextResponse.json(
+        { error: "Failed to create payment record" },
+        { status: 500 }
+      );
+    }
 
-    // Call M-PESA Daraja STK Push API
+    // Call M-PESA STK Push API
     const stkResponse = await stkPushRequest({
       phone,
       amount,
@@ -45,7 +59,15 @@ export async function POST(req: Request) {
       transactionDesc: "Caregiver Registration",
     });
 
-    // Update payment record with M-PESA request IDs
+    if (!stkResponse?.CheckoutRequestID) {
+      console.error("Invalid STK response:", stkResponse);
+      return NextResponse.json(
+        { error: "Invalid response from M-PESA" },
+        { status: 502 }
+      );
+    }
+
+    // Update payment record
     const { error: updateError } = await supabase
       .from("payments")
       .update({
@@ -54,24 +76,27 @@ export async function POST(req: Request) {
       })
       .eq("id", payment.id);
 
-    if (updateError) console.error("Error updating payment:", updateError);
+    if (updateError) console.error("Update error:", updateError);
 
-    // Log STK push event
+    // Log event
     await supabase.from("payment_events").insert({
       payment_id: payment.id,
       type: "stk_push",
       payload: stkResponse,
     });
 
+    // Return clean JSON always
     return NextResponse.json({
+      success: true,
       message: "STK Push initiated successfully",
       checkout_request_id: stkResponse.CheckoutRequestID,
       merchant_request_id: stkResponse.MerchantRequestID,
     });
   } catch (error) {
     console.error("STK Push Error:", error);
+
     return NextResponse.json(
-      { error: "Failed to initiate STK push" },
+      { error: "Failed to initiate STK push", details: String(error) },
       { status: 500 }
     );
   }
