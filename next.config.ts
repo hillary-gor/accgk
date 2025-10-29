@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   experimental: {
     // Force all routes to render dynamically (no static generation)
     serverActions: {
-      bodySizeLimit: "2mb",
+      bodySizeLimit: "10mb",
     },
     optimizeCss: false,
     optimizePackageImports: [],
