@@ -59,12 +59,11 @@ export default function InstitutionDetailsForm() {
         });
       } else {
         toast.success("Institution details saved successfully!", {
-          description:
-            "Proceed to upload qualification documents.",
+          description: "Proceed to upload qualification documents.",
         });
         setTimeout(() => {
           router.push(
-            "/dashboard/guest/institution-registration-form/institution-uploads"
+            "/dashboard/guest/institution-registration-form/institution-qualifications"
           );
         }, 1000);
       }
