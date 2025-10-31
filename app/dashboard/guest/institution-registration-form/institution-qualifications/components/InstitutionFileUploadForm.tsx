@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
-import { uploadInstitutionFile } from "../actions";
+import { useState, useEffect } from "react";
+import { uploadInstitutionFile, getUploadedInstitutionFiles } from "../actions";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
@@ -9,140 +9,203 @@ interface Props {
   onClose: () => void;
 }
 
-export default function InstitutionFileUploadForm({ onClose }: Props) {
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    document_type: "",
-    description: "",
-    issued_by: "",
-    issued_date: "",
-    file: null as File | null,
-  });
+const REQUIRED_FILES = [
+  {
+    key: "accreditation",
+    label: "Accreditation Certificate",
+    type: "Accreditation",
+  },
+  { key: "license", label: "Operating License", type: "License" },
+  {
+    key: "fireSafety",
+    label: "Fire Safety Certificate",
+    type: "Certification",
+  },
+  {
+    key: "healthReport",
+    label: "Public Health Inspection Report",
+    type: "Certification",
+  },
+  {
+    key: "curriculumApproval",
+    label: "Curriculum Approval Letter",
+    type: "Accreditation",
+  },
+  { key: "insurance", label: "Insurance Cover", type: "Certification" },
+  {
+    key: "principalID",
+    label: "Principal’s ID & Appointment Letter",
+    type: "Certification",
+  },
+  { key: "equipmentList", label: "Training Equipment List", type: "License" },
+];
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const target = e.target;
+export default function InstitutionMultiFileUploadForm({ onClose }: Props) {
+  const [completed, setCompleted] = useState<Record<string, boolean>>({});
+  const [loadingKey, setLoadingKey] = useState<string | null>(null);
+  const [loadingExisting, setLoadingExisting] = useState(true);
 
-    if (target instanceof HTMLInputElement && target.type === "file") {
-      const file = target.files?.[0];
-      if (!file) return;
-      if (file.type !== "application/pdf") {
-        toast.error("Only PDF files are allowed");
-        return;
+  // Load existing uploaded files when component mounts
+  useEffect(() => {
+    async function fetchUploadedFiles() {
+      try {
+        const uploaded = await getUploadedInstitutionFiles();
+        const completedMap: Record<string, boolean> = {};
+
+        // Type for the uploaded file rows
+        type InstitutionQualificationFile = {
+          id: string;
+          file_name: string;
+          file_url: string;
+          file_type: string | null;
+          file_size: number | null;
+          description: string | null;
+          document_type: string;
+          issued_by: string | null;
+          issued_date: string | null;
+          uploaded_at: string | null;
+          updated_at: string | null;
+          institution_id: string | null;
+          profile_id: string;
+        };
+
+        uploaded.forEach((file: InstitutionQualificationFile) => {
+          const found = REQUIRED_FILES.find(
+            (r) => r.label === file.description || r.type === file.document_type
+          );
+          if (found) completedMap[found.key] = true;
+        });
+
+        setCompleted(completedMap);
+      } catch (err) {
+        console.error("Failed to load uploaded files:", err);
+      } finally {
+        setLoadingExisting(false);
       }
-      setForm((prev) => ({ ...prev, file }));
-    } else {
-      setForm((prev) => ({ ...prev, [target.name]: target.value }));
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-
-    const { document_type, description, issued_by, issued_date, file } = form;
-
-    if (!document_type || !description || !issued_by || !issued_date || !file) {
-      toast.error("Please fill in all fields");
-      return;
     }
 
-    setLoading(true);
+    fetchUploadedFiles();
+  }, []);
+
+  async function handleSubmit(formData: FormData, key: string) {
+    setLoadingKey(key);
     try {
-      await uploadInstitutionFile({
-        document_type,
-        description,
-        issued_by,
-        issued_date,
-        file,
-      });
+      const res = await uploadInstitutionFile(formData);
 
-      toast.success("File uploaded successfully");
-      onClose();
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Upload failed");
+      if (res?.success) {
+        toast.success(
+          `${
+            REQUIRED_FILES.find((f) => f.key === key)?.label
+          } uploaded successfully.`
+        );
+        setCompleted((prev) => ({ ...prev, [key]: true }));
+      } else {
+        toast.error(res?.message || "Upload failed.");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      toast.error("Upload failed. Please try again.");
     } finally {
-      setLoading(false);
+      setLoadingKey(null);
     }
-  };
+  }
+
+  if (loadingExisting)
+    return (
+      <div className="text-center py-6 text-gray-500">
+        Checking uploaded files...
+      </div>
+    );
+
+  const nextIncompleteIndex = REQUIRED_FILES.findIndex(
+    (item) => !completed[item.key]
+  );
+  const allCompleted = nextIncompleteIndex === -1;
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-sm">
-      <h2 className="text-2xl font-semibold mb-4">Add Qualification File</h2>
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-2xl shadow-sm">
+      <h2 className="text-2xl font-semibold mb-4">
+        Institution Document Uploads
+      </h2>
+      <p className="text-sm text-gray-600 mb-6">
+        Upload each required document sequentially. Each field unlocks after the
+        previous upload succeeds.
+      </p>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-medium mb-1">Document Type</label>
-          <select
-            name="document_type"
-            value={form.document_type}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-          >
-            <option value="">-- Select Type --</option>
-            <option value="Accreditation">Accreditation</option>
-            <option value="License">License</option>
-            <option value="Certification">Certification</option>
-          </select>
-        </div>
+      <div className="space-y-5">
+        {REQUIRED_FILES.map((item, idx) => {
+          const isDisabled =
+            allCompleted || idx > nextIncompleteIndex || completed[item.key];
+          const isUploaded = completed[item.key];
+          const isUploading = loadingKey === item.key;
 
-        <div>
-          <label className="block font-medium mb-1">Description</label>
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-            rows={3}
-          />
-        </div>
+          return (
+            <form
+              key={item.key}
+              action={async (formData) =>
+                await handleSubmit(formData, item.key)
+              }
+              className={`border rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 ${
+                isDisabled ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
+              <div>
+                <label className="font-medium">{item.label}</label>
+                <p className="text-xs text-gray-500">{item.type}</p>
+              </div>
 
-        <div>
-          <label className="block font-medium mb-1">Issued By</label>
-          <input
-            type="text"
-            name="issued_by"
-            value={form.issued_by}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-          />
-        </div>
+              <div className="flex items-center gap-2">
+                {!isUploaded ? (
+                  <>
+                    <input
+                      type="hidden"
+                      name="document_type"
+                      value={item.type}
+                    />
+                    <input
+                      type="hidden"
+                      name="description"
+                      value={item.label}
+                    />
+                    <input type="hidden" name="issued_by" value="Institution" />
+                    <input
+                      type="hidden"
+                      name="issued_date"
+                      value={new Date().toISOString().split("T")[0]}
+                    />
+                    <input
+                      type="file"
+                      name="file"
+                      accept="application/pdf"
+                      required
+                      disabled={isDisabled}
+                      className="text-sm"
+                    />
+                    <Button
+                      type="submit"
+                      size="sm"
+                      disabled={isUploading || isDisabled}
+                    >
+                      {isUploading ? "Uploading..." : "Submit"}
+                    </Button>
+                  </>
+                ) : (
+                  <span className="text-green-600 font-medium">✔ Uploaded</span>
+                )}
+              </div>
+            </form>
+          );
+        })}
 
-        <div>
-          <label className="block font-medium mb-1">Issued Date</label>
-          <input
-            type="date"
-            name="issued_date"
-            value={form.issued_date}
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-          />
-        </div>
-
-        <div>
-          <label className="block font-medium mb-1">Upload PDF</label>
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={handleChange}
-            className="w-full border rounded-lg p-2"
-          />
-        </div>
-
-        <div className="flex justify-between">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Cancel
+        <div className="flex justify-between mt-6">
+          <Button type="button" variant="outline" onClick={onClose}>
+            Close
           </Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Uploading..." : "Submit"}
+          <Button type="button" disabled={!allCompleted}>
+            {allCompleted ? "All Files Uploaded" : "Incomplete"}
           </Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

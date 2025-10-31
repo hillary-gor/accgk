@@ -3,24 +3,19 @@
 import { getSupabaseServer } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-interface UploadInstitutionFileInput {
-  document_type: string;
-  description: string;
-  issued_by: string;
-  issued_date: string;
-  file: File;
-}
-
 // UPLOAD INSTITUTION QUALIFICATION FILE
-export async function uploadInstitutionFile({
-  document_type,
-  description,
-  issued_by,
-  issued_date,
-  file,
-}: UploadInstitutionFileInput) {
+export async function uploadInstitutionFile(formData: FormData) {
   try {
     const supabase = await getSupabaseServer();
+
+    // Extract from FormData (since form sends FormData)
+    const file = formData.get("file") as File | null;
+    const document_type = formData.get("document_type") as string;
+    const description = formData.get("description") as string;
+    const issued_by = formData.get("issued_by") as string;
+    const issued_date = formData.get("issued_date") as string;
+
+    if (!file) return { success: false, message: "No file selected." };
 
     // 1. Auth check
     const {
@@ -41,28 +36,39 @@ export async function uploadInstitutionFile({
     if (instError || !institution)
       return { success: false, message: "Institution not found." };
 
-    // 3. Prepare upload metadata
-    const bucket = "institution_qualification_files";
-    const filePath = `${institution.id}/${Date.now()}_${file.name}`;
+    // 3. Enforce PDF type
+    const mimeType = file.type || "application/pdf";
+    const ext = file.name.split(".").pop()?.toLowerCase() || "";
+    if (mimeType !== "application/pdf" && ext !== "pdf")
+      return { success: false, message: "Only PDF files are allowed." };
 
     // 4. Upload to storage
+    const bucket = "institution_qualification_files";
+    const filePath = `${institution.id}/${Date.now()}_${file.name.replace(
+      /\s+/g,
+      "_"
+    )}`;
+
     const { error: uploadError } = await supabase.storage
       .from(bucket)
       .upload(filePath, file, {
         cacheControl: "3600",
         upsert: false,
-        contentType: file.type || "application/pdf",
+        contentType: mimeType,
       });
 
     if (uploadError)
-      return { success: false, message: "File upload failed. Try again." };
+      return {
+        success: false,
+        message: `Upload failed: ${uploadError.message}`,
+      };
 
-    // 5. Get public URL
+    // 5. Public URL
     const {
       data: { publicUrl },
     } = supabase.storage.from(bucket).getPublicUrl(filePath);
 
-    // 6. Insert into DB
+    // 6. Insert record
     const { error: insertError } = await supabase
       .from("institution_qualification_files")
       .insert({
@@ -74,15 +80,19 @@ export async function uploadInstitutionFile({
         issued_date,
         file_url: publicUrl,
         file_name: file.name,
-        file_type: file.type || "application/pdf",
+        file_type: "pdf",
         file_size: file.size,
       });
 
     if (insertError)
-      return { success: false, message: "Could not save file record." };
+      return {
+        success: false,
+        message: `Could not save record: ${insertError.message}`,
+      };
 
-    // 7. Refresh UI
-    revalidatePath("/dashboard/guest/institution-qualifications");
+    revalidatePath(
+      "/dashboard/guest/institution-registration-form/institution-qualifications"
+    );
 
     return { success: true, message: "File uploaded successfully." };
   } catch (error: unknown) {
@@ -91,6 +101,42 @@ export async function uploadInstitutionFile({
     console.error("uploadInstitutionFile error:", message);
     return { success: false, message };
   }
+}
+
+export async function getUploadedInstitutionFiles() {
+  const supabase = await getSupabaseServer();
+
+  // Get authenticated user
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) throw new Error("Unauthorized: Please log in first.");
+
+  // Get institution linked to this user
+  const { data: institution, error: instError } = await supabase
+    .from("institutions")
+    .select("id")
+    .eq("profile_id", user.id)
+    .single();
+
+  if (instError || !institution)
+    throw new Error("Institution not found for current user.");
+
+  // Fetch uploaded files for this institution
+  const { data, error } = await supabase
+    .from("institution_qualification_files")
+    .select("*")
+    .eq("institution_id", institution.id)
+    .order("uploaded_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching institution files:", error);
+    throw new Error("Could not fetch uploaded files");
+  }
+
+  return data;
 }
 
 // FETCH INSTITUTION FILES
